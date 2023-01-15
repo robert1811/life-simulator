@@ -163,8 +163,9 @@ const jobAssigner = (characters) => {
         person.money.income = job.salary
         requirementsFiller(job, person)
     }
+    if(characters === player) return
     if(Array.isArray(characters))for(let person of characters){
-        if(person.age > 17 && person.job === 'none')
+        if(person.age > 17 && person.job === 'none' && person !== player)
             findJob(person)
     }
     else {
@@ -191,7 +192,7 @@ const customCharacter = () => {
 
     const name = inputName.value.trim() !== '' ? inputName.value.trim() : undefined;
     const surname = inputSurname.value.trim() !== '' ? inputSurname.value.trim() : undefined;
-    const age = inputAge.value >= 0 ? inputAge.value : 0;
+    const age = inputAge.value >= 0 ? parseInt(inputAge.value) : 0;
     const gender = selectGender.value || undefined;
     const nationality = selectNationality.value || undefined;
     const money = parseInt(inputMoney.value) || undefined;

@@ -52,6 +52,17 @@ const displayCustomization = () => {
     })
 }
 
+//called after dying
+const newLife = () => {
+    const deathScreen = document.getElementById('death-screen');
+    const characterScreen = document.getElementById('create-character-screen')
+    textContainer.innerHTML = ''
+
+
+    deathScreen.style.display = 'none'
+    characterScreen.style.display = 'block'
+}
+
 //related to events.js structure
 const optionsHandler = () => {
     for (let option of options) {

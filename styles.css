@@ -591,6 +591,7 @@ li{
     border-radius: 15px;
     overflow-y: auto;
     height: 80vh;
+    margin-bottom: 15px;
 }
 
 .relationships-container{
@@ -686,4 +687,16 @@ li{
 .btn img{
     width: 30px;
     height: 30px;
+}
+
+#new-life-btn{
+    margin: 0 auto;
+    color: #48c267;
+    width: 150px;
+    height: 60px;
+    border-radius: 5%;
+    font-size: 1.1em;
+    border: 2px solid var(--gray-line);
+    background-color: var(--background-color);
+    cursor: pointer;
 }
