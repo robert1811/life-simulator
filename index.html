@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- please dont look at the css file lol -->
+    <link rel="stylesheet" href="styles.css">
+    <title>Quicklife</title>
+</head>
+<body>
+
+    <div id="create-character-screen">
+        <h1>Please, choose how will you create your character</h1>
+        <div id="buttons-container">
+            <button class="create-btn" onclick="randomCharacter()">Random</button>
+            <button class="create-btn" onclick="displayCustomization()">Custom</button>
+        </div>
+    </div>
+
+    <div id="modal-background">
+        <div id="event-container">
+            <h2 id="event-title"></h2>
+            <hr>
+            <div id="event-body"></div>
+        </div>
+    </div>
+    <nav id="navbar">
+        <div id="money-container">
+            <p id="total-money">0 $</p>
+            <p id="balance"></p>
+        </div>
+    </nav>
+    <main>
+    <div id="stats-container">
+        <ul id="stats-list">
+            <li>Health: <div class="bar"><div class="bar-progress" id="health-bar"></div></div> </li>
+            <li>Happiness: <div class="bar"><div class="bar-progress" id="happiness-bar"></div></div> </li>
+            <li>Smartness: <div class="bar"><div class="bar-progress" id="smartness-bar"></div></div> </li>
+            <li>Appearance: <div class="bar"><div class="bar-progress" id="appearance-bar"></div></div> </li>
+            <li>Fitness: <div class="bar"><div class="bar-progress" id="fitness-bar"></div></div> </li>
+            <div class="clear"></div>
+        </ul>
+    </div>
+        <div id="tale-container">
+            <div id="head-container">
+                Childhood
+            </div>
+            <div id="text-container"></div>
+        </div>
+        <div id="control-container">
+            <div class="row">
+                <div class="button-container" id="relationship-container">
+                    <button onclick="menuTemplates.relationships()" class="btn" id="relation-button"><img src="images/relations.png" alt="relations"></button>
+                    <p>Relationships</p>
+                </div>
+                <div class="button-container">
+                    <button onclick="menuTemplates.profile()" class="btn"><img src="images/options/identity.png" alt="profile"></button>
+                    <p>Profile</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="button-container" id="job-btn-container">
+                    <button onclick="menuTemplates.job()" class="btn"><img src="images/job.png" alt="career"></button>
+                    <p>Career</p>
+                </div>
+                <div class="button-container" id="age-btn-container">
+                    <button id="age-btn">Age</button>
+                </div>
+                <div class="button-container">
+                    <button onclick="menuTemplates.activities()" id="activities-btn"><i class="fa-solid fa-bars"></i></button>
+                    <p>Activities</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- menu -->
+    <menu id="menu-template">
+        <div class="menu-header">
+            <h2 id="menu-title"></h2>
+            <button id="close-menu" class="fa-regular fa-circle-xmark"></button>
+        </div>
+        <hr>
+        <div id="menu-body"></div>
+    </menu>
+    
+    <div id="death-screen">
+        <div id="death-screen-body">
+            <h1 id="death-screen-title">You have died!</h1>
+            <div id="obituary-container"></div>
+            <div class="button-container">
+                <button onclick="">Start a random life</button>
+            </div>
+        </div>
+    </div>
+        <script src="js/items.js"></script>
+        <script src="js/countriesData.js"></script>
+        <script src="js/worldEvents.js"></script>
+        <script src="js/events.js"></script>
+        <script src="js/careers.js"></script>
+        <script src="js/libs.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/player.js"></script>
+        <script src="js/templates.js"></script>
+        <script src="js/interface.js"></script>
+    </body>
+</html>
