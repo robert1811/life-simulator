@@ -151,6 +151,11 @@ const interfaceLoading = () =>{
     jobAssigner(characters)
     firstMessage()
     document.getElementById('create-character-screen').style.display = 'none'
+    const bars = document.getElementsByClassName('bar-progress');
+    for(let bar of bars) {
+        bar.style.animationName = 'animation-bar';
+        bar.style.transition = 'all ease 0.3s'
+    }
 }
 
 //sets jobs for npcs

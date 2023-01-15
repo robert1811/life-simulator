@@ -187,6 +187,13 @@ body{
 
 .bar-progress{
     height: 100%;
+    animation-duration: 0.4s;
+}
+
+@keyframes animation-bar {
+    from {
+        width: 0;
+    }
 }
 
 .bar-percentage{
