@@ -103,7 +103,7 @@ const names = {
     },
     russian: {
         male: ['Vladimir', 'Aleksander', 'Ivan', 'Igor', 'Pyotr'],
-        female: ['Natasha']
+        female: ['Natasha', 'Dasha', 'Irina','Tasya', 'Zaria', 'Karenina']
     },
     sweedish: {
         male: ['Acke', 'Aleksander'],
@@ -122,7 +122,7 @@ const names = {
         female: ['Maria', 'Yeva', 'Nare']
     },
     ukrainian:{
-        male: ['Volodimir'],
+        male: ['Volodimir', 'Bohdan', 'Anton', 'Anatoliy', 'Borys', 'Gleb', 'Georgiy', 'Ivan'],
         female: ['Nataliya', 'Natalka', 'Oleksandra', 'Mariya']
     },
     chinese: {
@@ -144,10 +144,10 @@ const surnames = {
     hindi: ['Kumar', 'Devi', 'Singh', 'Ram'],
     german: ['Schmid', 'Schneider', 'Ehrmantraut', 'Weber'],
     italian: ['Vecchio', 'Giordano', 'Giovanna'],
-    russian: ['Putin', 'Gorbachov', 'Ivanovich', 'Petrikov'],
+    russian: ['Gorbachov', 'Ivanovich', 'Petrikov', 'Ivanov', 'Ivanova', 'Petrov', 'Petrova', 'Magomedov', 'Kuznetsov'],
     sweedish: ['Johansson', 'Andersson', 'Karlsson'],
     finnish: ['Koskinen', 'Heikkinen', 'Korhonen'],
     irish: ['Murphy', 'McCarthy', 'Doyle'],
     armenian: ['Grigoryan', 'Sargsyan', 'Harutyunyan'],
-    ukrainian:['Zelensky'],
+    ukrainian:['Bondarenko', 'Kovalenko', 'Boiko', 'Tkachenko', 'Kravchenko', 'Kovalchuk'],
 }
