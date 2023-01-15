@@ -112,9 +112,12 @@ const relationShipListifier = (category) => {
         string = string.concat(`
         <div onclick="functionTemplates.trigger.relations.display(this)" class="relationship-container"
         data-id="${category}-${index}">
-            <b>${relation.fullName}</b>
+            <h4>${relation.fullName}</h4>
             <div class="opinion-data-wrapper">
-                <div>Opinion about you <div class="relation-background"><div class="relation" id="${category}-${index}"></div></div></div>
+                <div class="bar-container">Opinion about you <div class="relation-background"><div class="relation" id="${category}-${index}"></div></div></div>
+                ${category === 'partner' ? `
+                <div class="bar-container">Love <div class="relation-background"><div style="background-color:#bb7a85; height: 100%; width:${relation.stats.loveToPartner}%" id="${category}-${index}"></div><div</div></div>
+                ` : ''}
             </div>
         </div>
         `)

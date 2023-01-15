@@ -160,7 +160,6 @@ const interfaceLoading = () =>{
 
 //sets jobs for npcs
 const jobAssigner = (characters) => {
-    console.log(Array.isArray(characters))
     const findJob = (person) => {
         let randomIndex = Math.floor(Math.random() * jobs.length)
         const job = jobs[randomIndex]

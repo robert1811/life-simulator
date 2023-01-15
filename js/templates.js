@@ -457,7 +457,7 @@ functionTemplates = {
                 ${player.age > 14 ? `<div class="option" onclick="functionTemplates.mean.assault(this)" data-index="${index}">Assault</div>` 
                 : ''}
                 ${person.relationships.partner[0] === player ? `
-                <div class="option" onclick="functionTemplates.romance.break()">Break up</div>
+                <div class="option" onclick="functionTemplates.romance.break()">${person.married ? 'Divorce' : 'Break up'}</div>
                 ` : ''}
                 <div class="option" onclick="closeEvent()">Close</div>
                 `
@@ -1092,7 +1092,7 @@ functionTemplates = {
             const partner = player.relationships.partner[0];
             const pronoun = partner.gender === 'male' ? 'He' : 'She';
             if(partner.stats.loveToPartner >= 60){
-                partner.marriedWithPlayer = true;
+                partner.married = true;
                 eventBody.innerHTML = `
                 <p>${pronoun} has accepted your marriage offer, now you are married</p>
                 <div class="option" onclick="closeEvent()">Close</div>
@@ -1124,7 +1124,6 @@ functionTemplates = {
             <p>You flirted with ${pronoun}</p>
             <div class="option" onclick="closeEvent()">Close</div>
             `
-
         }
     }
 }
