@@ -970,30 +970,45 @@ functionTemplates = {
         yell(data){
             const index = data.getAttribute('data-index');
             let person = characters[index]
+            const isPartner = person.relationships.partner[0] === player ? true : false;
 
             person.stats.relationWithPlayer -= 10
             
+            if(isPartner)
+                person.stats.loveToPartner -= 20
+            statsLimit(person)
+
             eventBody.innerHTML = `
             <p>You yelled at ${person.gender === 'male' ? 'him' : 'her'}</p>
             <p>-10 relationship</p>
+            ${isPartner ? '<p>-20 love</p>' : ''}
             <div class="option" onclick="closeEvent()">Close</div>
             `
             textContainer.innerHTML += `<p>You yelled at ${person.fullName}</p>`
-            functionTemplates.handleRelationBars()
+
+
+            menuTemplates.relationships()
         },
         insult(data){
             const index = data.getAttribute('data-index');
             let person = characters[index]
+            const isPartner = person.relationships.partner[0] === player ? true : false;
 
             person.stats.relationWithPlayer -= 8
+            
+            if(isPartner)
+                person.stats.loveToPartner -= 30
             
             eventBody.innerHTML = `
             <p>You insulted ${person.gender === 'male' ? 'him' : 'her'}</p>
             <p>-8 relationship</p>
+            ${isPartner ? '<p>-30 love</p>' : ''}
             <div class="option" onclick="closeEvent()">Close</div>
             `
             textContainer.innerHTML += `<p>You insulted ${person.fullName}</p>`
-            functionTemplates.handleRelationBars()
+            statsLimit(person)
+
+            menuTemplates.relationships()
         },
         assault(data){
             const index = data.getAttribute('data-index');
@@ -1009,8 +1024,8 @@ functionTemplates = {
         <div class="option" onclick="closeEvent()">Close</div>
         `
         textContainer.innerHTML += `<p>I organized a party at home</p>`
-        handleStatBars(player, true)
         statsLimit(player)
+        menuTemplates.relationships()
     }, 
     takeDriverTest(){
         const random = Math.floor(Math.random() * 3)
@@ -1102,6 +1117,7 @@ functionTemplates = {
                 <p>${pronoun} has rejected your marriage offer</p>
                 <div class="option" onclick="closeEvent()">Close</div>
                 `
+                menuTemplates.relationships()
             }
         },
         cuddle(){
@@ -1113,6 +1129,7 @@ functionTemplates = {
             <p>You cuddled with ${pronoun}</p>
             <div class="option" onclick="closeEvent()">Close</div>
             `
+            menuTemplates.relationships()
 
         },
         flirt(){
@@ -1124,6 +1141,7 @@ functionTemplates = {
             <p>You flirted with ${pronoun}</p>
             <div class="option" onclick="closeEvent()">Close</div>
             `
+            menuTemplates.relationships()
         }
     }
 }
