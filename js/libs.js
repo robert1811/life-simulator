@@ -1,3 +1,6 @@
+let leftBtnContainer = document.getElementById('left-btn-container')
+console.log(leftBtnContainer)
+
 let menuTemplate = document.getElementById('menu-template');
 let menuBody = document.getElementById('menu-body');
 let menuTitle = document.getElementById('menu-title');

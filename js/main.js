@@ -93,8 +93,16 @@ class Person {
     characterIndex = characters.length
 
     criminalRecord = {
+        yearsInPrison: 0,
         murderAttempts: 0,
-        murder: 0
+        murder: 0,
+        prisonEscapes: 0
+    }
+
+    prison = {
+        yearsLeft: 0,
+        sentenceTime: 0,
+        jailed: false
     }
 }
 

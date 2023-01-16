@@ -715,3 +715,13 @@ li{
     position: absolute;
     right: 0;
 }
+
+#left-btn-container{
+    position: absolute;
+    left: 0;
+}
+
+#general-container{
+    margin: 0 auto;
+    width: 360px;
+}

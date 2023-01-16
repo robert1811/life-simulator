@@ -249,3 +249,17 @@ const skillLeveler = () => {
         }
     }
  }
+
+ const prisonHandler = (person) => {
+    if(!person.prison.jailed) return
+
+    person.prison.yearsLeft--;
+    person.criminalRecord.yearsInPrison++;
+
+    if(person.prison.yearsLeft === 0){
+        person.prison.jailed = false
+        person.prison.sentenceTime = 0;
+        leftBtnContainer.innerHTML = ''
+        textContainer.innerHTML += `<p>I got out of prison</p>`
+    }
+ }

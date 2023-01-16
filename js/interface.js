@@ -10,6 +10,8 @@ let textContainer = document.getElementById('text-container');
 
 let year = Math.round(Math.random() * 20) + 2000;
 
+
+//this is when you customize your character
 const displayCustomization = () => {
     const characterScreen = document.getElementById('create-character-screen');
     characterScreen.innerHTML = `
@@ -101,7 +103,7 @@ const deathScreen = () => {
         `
     } else obituaryContainer.innerHTML += `<p>${pronoun} never got a job.</p><br>`
 
-    obituaryContainer.innerHTML += `<p>${pronoun} left this world with ${moneyFormat(player.money.total)} $ on his bank account. ${player.inventory.houses.length !== 0 ? `${pronoun} had ${player.inventory.houses.length}.` : `${pronoun} was homeless`}</p><br>`
+    obituaryContainer.innerHTML += `<p>${pronoun} left this world with ${moneyFormat(player.money.total)} $ on his bank account. ${player.inventory.houses.length !== 0 ? `${pronoun} had ${player.inventory.houses.length} properties.` : `${pronoun} was homeless.`}</p><br>`
 
     obituaryContainer.innerHTML += `
     <h3 class="yellow">Criminal record: </h3>
@@ -175,6 +177,8 @@ const annualChanges = () => {
     moneyViewer()
 
     randomizeHouseStats()
+
+    prisonHandler(player)
 }
 
 

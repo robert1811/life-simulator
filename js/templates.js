@@ -16,6 +16,8 @@ const carsOptions = itemListifier(assets, 'cars', 'assets');
 
 const menuTemplates = {
     activities(){
+        if(player.prison.jailed) return;
+
         menuTemplate.style.display = 'block';
         menuTitle.innerText  = 'Activities'
         menuBody.innerHTML = `
@@ -188,6 +190,8 @@ const menuTemplates = {
         `
     },
     job() {
+        if(player.prison.jailed) return;
+
         let string = '';
         let index = 0;
         for (let job of jobs) {
@@ -291,8 +295,7 @@ const menuTemplates = {
             `
 
         menuTemplate.style.display = 'block';
-    }
-
+    },
 }
 
 
@@ -629,6 +632,57 @@ functionTemplates = {
             <div class="option" onclick="functionTemplates.romance.dontTryPartner()">Close</div>
             `
             statbarColorer()
+        }, 
+        prison(){
+            modalBackground.style.display = 'flex'
+            eventTitle.innerText = 'Prison'
+            eventBody.innerHTML = `
+                <p><b>Years left: </b>${player.prison.yearsLeft} years</p>
+                <p><b>Sentence: </b>${player.prison.sentenceTime} years</p>
+                <div class="option" onclick="functionTemplates.prison.attempToEscape()">Attempt to escape</div>
+                <div class="option" onclick="functionTemplates.prison.lift()">Lift</div>
+                <div class="option" onclick="closeEvent()">Close</div>
+            `
+        }
+    },
+    prison: {
+        attempToEscape(){
+            const random = Math.floor(Math.random() * 100);
+            if(random <= 10){
+                player.prison.jailed = false;
+                player.criminalRecord.prisonEscapes++;
+                eventBody.innerHTML = `
+                <h3>You escaped from prison</h3>
+                `
+                textContainer.innerHTML += `
+                <p>I escaped from prison</p>
+                `
+
+            } else {
+                player.prison.yearsLeft += 2;
+                player.prison.sentenceTime += 2
+                eventBody.innerHTML = `
+                <h3>Your escape attempt failed</h3>
+                <p>+2 years of prison</p>
+                <div class="option" onclick="closeEvent()">...</div>
+                `
+                textContainer.innerHTML += `
+                <p>My escape attempt failed</p>
+                `
+            }
+        },
+        lift(){
+            player.stats.fitness += 5;
+            statsLimit(player);
+
+            eventBody.innerHTML = `
+            <p>You lifted</p>
+            <p>+5 fitness</p>
+            <div class="option" onclick="closeEvent()">Close</div>
+            `
+            textContainer.innerHTML += `
+            <p>I lifted</p>
+            `
         }
     },
     emigrate: {
@@ -836,7 +890,7 @@ functionTemplates = {
             let index = 1;
 
             for (let person of characters) {
-                if (person.fullName !== player.fullName && person.age !== player.age) {
+                if (person.fullName !== player.fullName && person.alive) {
                     person.index = index
                     options = options.concat(`
                         <div onclick="functionTemplates.weapon.kill(this)" data-weapon="${weaponIndex}" class="option" data-person="${person.index}">${person.fullName}</div>
@@ -879,10 +933,33 @@ functionTemplates = {
             } else {
                 eventBody.innerHTML = `
                 <h3>Oh no!</h3>
-                <p>Your assasination attemp failed!</p>
-                <div class="option">...</div>
+                <p>Your assasination attemp failed! you got arrested</p>
+                <div class="option" onclick="closeEvent()">...</div>
                 `
+                menuTemplate.style.display = 'none';
+
                 player.criminalRecord.murderAttempts++;
+                player.prison.sentenceTime = 8 + Math.floor(Math.random() * 17)
+                player.prison.yearsLeft = player.prison.sentenceTime
+                player.prison.jailed = true;
+
+                textContainer.innerHTML += `
+                <p>My assasination attempt failed, I got denounced</p>
+                <p>I have been arrested for ${player.prison.sentenceTime} years
+                </p>
+                `
+                
+                leftBtnContainer.innerHTML = `
+                <button class="btn" onclick="functionTemplates.trigger.prison()">
+                <img src="images/prison.png">
+                </button>
+                <p>Prison</p>
+                `
+
+                if(player.job !== 'none') {
+                    player.job === 'none';
+                    textContainer.innerHTML += `<p>I lost my job</p>`
+                }
             }
         },
     },
