@@ -258,6 +258,7 @@ const menuTemplates = {
             ${relationShipListifier('siblings')}
             ${relationShipListifier('friends')}
             ${relationShipListifier('partner')}
+            ${player.relationships.exPartners != null ? relationShipListifier('exPartners') : ''}
             ${relationShipListifier('children')}
         `
         functionTemplates.handleRelationBars()
@@ -408,8 +409,10 @@ functionTemplates = {
                 eventBody.innerHTML = `
                 <p><b>Relationship:</b> ${personCategory}</p>
                 <p><b>Age:</b> ${person.age}</p>
-                <p><b>Occupation:</b> ${person.job.label}</p>
-                <p><b>Salary:</b> ${person.money.income > 0 ? `${moneyFormat(person.money.income)} $` : 'none'}</p>
+                ${person.age >= 16 ? `
+                <p><b>Occupation:</b> ${person.job !== 'none' ? person.job.label : 'unemployed'}</p>
+                ${person.job !== 'none' ? `<p><b>Salary: </b>${moneyFormat(person.job.salary)} $</p>` : ''}</p>
+                ` : ''}
                 <p><b>Location:</b> ${person.location}</p>
                 <p><b>Nationality:</b> ${person.nationality}</p>
                 <ul>
@@ -581,6 +584,17 @@ functionTemplates = {
         },
         findLove(){
             if(player.age < 14) return;
+
+            if(player.relationships.partner.length !== 0){
+                modalBackground.style.display = 'flex'  
+                eventTitle.innerText = 'Are you sure?'
+                eventBody.innerHTML = `
+                <p>This means breaking up with your current partner</p>
+                <div class="option" onclick="functionTemplates.romance.break()">Break up</div>
+                <div class="option" onclick="closeEvent()">I changed my mind</div>
+                `
+                return
+            }
 
             const targetGender = {
                 heterosexual: player.gender === 'male' ? 'female' : 'male',
@@ -1044,16 +1058,6 @@ functionTemplates = {
     },
     romance: {
         tryPartner(){
-            if(player.relationships.partner.length !== 0){
-                eventBody.innerHTML = `
-                <h3>Are you sure?</h3>
-                <p>This means breaking up with your current partner</p>
-                <div class="option" onclick="functionTemplates.romance.break()">Break up</div>
-                <div class="option" onclick="closeEvent()">I changed my mind</div>
-                `
-                return
-            }
-
             let possiblePartner = characters.at(-1)
 
             const random = Math.floor(Math.random() * 100);
@@ -1102,6 +1106,8 @@ functionTemplates = {
             <p>You broke up with you ex</p>
             <div class="option" onclick="closeEvent()">Nothing to miss, right?</div>
             `
+
+            menuTemplates.relationships()
         },
         proposeMarriage(){
             const partner = player.relationships.partner[0];
