@@ -3,10 +3,10 @@
 let characters = [];
 
 class Person {
-    constructor(name, surname, age, gender, nationality, money){
+    constructor(name, surname, age, gender, nationality, money) {
         this.gender = gender || genderRandomizer()
         this.nationality = nationality || countryRandomizer();
-        this.languaje =  languajeQuery(this.nationality)
+        this.languaje = languajeQuery(this.nationality)
         this.name = name || nameRandomizer(this.languaje, this.gender);
         this.surname = surname || surnameRandomizer(this.languaje);
         this.age = age || 0;
@@ -16,8 +16,8 @@ class Person {
         this.driverLicense = this.age > 18 ? true : false;
     }
 
-    inventory = {weapons: [], instruments: [], electronics: [], houses: [], cars: []};
-    
+    inventory = { weapons: [], instruments: [], electronics: [], houses: [], cars: [] };
+
     sexuality = 'heterosexual'
 
     stats = {
@@ -26,7 +26,7 @@ class Person {
         smartness: randomStat(),
         fitness: randomStat(),
         appearance: randomStat(),
-        
+
     }
 
     relationships = {
@@ -54,7 +54,7 @@ class Person {
             level: 0,
             xp: 0,
             xpNeeded: 50,
-        }, 
+        },
         art: {
             level: 0,
             xp: 0,
@@ -69,7 +69,7 @@ class Person {
 
     //activities which you pay for increasing skills and stats
     freetime = {
-        isReading : false,
+        isReading: false,
         isTakingMusicLessons: false,
         isAttendingParties: false,
         goesToGym: false
@@ -82,10 +82,10 @@ class Person {
 
     money = {
         expenses: 0,
-        income: 0   
+        income: 0
     }
 
-    get fullName(){
+    get fullName() {
         return `${this.name} ${this.surname}`
     }
 
@@ -109,7 +109,7 @@ class Person {
 const createFamily = (player) => {
     const parentsAge = () => {
         let age = Math.floor(Math.random() * 40) + player.age;
-        if(age - player.age < 18) age = age + 18 + player.age;
+        if (age - player.age < 18) age = age + 18 + player.age;
         return age;
     }
 
@@ -121,16 +121,16 @@ const createFamily = (player) => {
     let mom = new Person(undefined, undefined, dad.age + Math.floor(Math.random() * 10), 'female', player.nationality);
     mom.stats.relationWithPlayer = Math.floor(Math.random() * 100);
     characters.push(mom)
-    
+
     dad.relationships.partner.push(mom);
     mom.relationships.partner.push(dad);
 
     player.relationships.parents.push(dad);
     player.relationships.parents.push(mom)
-    
+
     let siblingsAmount = Math.floor(Math.random() * 3);
 
-    while(siblingsAmount > 0){
+    while (siblingsAmount > 0) {
         let randomAge = Math.floor(Math.random() * 5);
         let sibling = new Person(undefined, player.surname, randomAge, undefined, player.nationality);
         sibling.stats.relationWithPlayer = Math.floor(Math.random() * 100);
@@ -152,7 +152,7 @@ const firstMessage = () => {
 
 let player;
 
-const interfaceLoading = () =>{
+const interfaceLoading = () => {
     handleStatBars(player, true);
     lifeStageDisplayer()
     moneyViewer()
@@ -160,7 +160,7 @@ const interfaceLoading = () =>{
     firstMessage()
     document.getElementById('create-character-screen').style.display = 'none'
     const bars = document.getElementsByClassName('bar-progress');
-    for(let bar of bars) {
+    for (let bar of bars) {
         bar.style.animationName = 'animation-bar';
         bar.style.transition = 'all ease 0.3s'
     }
@@ -175,14 +175,14 @@ const jobAssigner = (characters) => {
         person.money.income = job.salary
         requirementsFiller(job, person)
     }
-    if(characters === player) return
-    if(Array.isArray(characters))for(let person of characters){
-        if(person.age > 17 && person.job === 'none' && person !== player)
+    if (characters === player) return
+    if (Array.isArray(characters)) for (let person of characters) {
+        if (person.age > 17 && person.job === 'none' && person !== player)
             findJob(person)
     }
     else {
         let person = characters;
-        if(person.age > 17 && person.job && person.job === 'none')
+        if (person.age > 17 && person.job && person.job === 'none')
             findJob(person)
     }
 }
@@ -209,7 +209,7 @@ const customCharacter = () => {
     const nationality = selectNationality.value || undefined;
     const money = parseInt(inputMoney.value) || undefined;
 
-    player = new Person(name !== undefined ? capitalize(name) : name, name !== undefined ? capitalize(surname) : name   , age, gender, nationality, money);
+    player = new Person(name !== undefined ? capitalize(name) : name, name !== undefined ? capitalize(surname) : name, age, gender, nationality, money);
     characters.push(player);
     createFamily(player);
     interfaceLoading()

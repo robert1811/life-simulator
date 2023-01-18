@@ -12,8 +12,6 @@ const carsOptions = itemListifier(assets, 'cars', 'assets');
 
 // outside the trigger object but within the templateFunctions, there are the functions for every button from events 
 
-
-
 const menuTemplates = {
     activities(){
         if(player.prison.jailed) return;

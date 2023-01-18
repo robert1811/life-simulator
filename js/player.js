@@ -241,7 +241,7 @@ const skillLeveler = () => {
 
         person.deathCause = deathCause;
 
-        if(player.job !== 'none'){
+        if(person.job !== 'none'){
             person.job.until = year;
             person.cv.push(person.job)
             person.job = 'none'

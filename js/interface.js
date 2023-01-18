@@ -135,10 +135,11 @@ const annualChanges = () => {
         death(person)
     }
 
+    // adds the death button
     if(!player.alive){
         const ageBtnContainer = document.getElementById('age-btn-container');
         ageBtnContainer.innerHTML = `
-        <button id="dead-button" onclick="deathScreen()">Dead</button>
+        <button id="dead-button" class="rectangular-btn" onclick="deathScreen()">Dead</button>
         `
     }
 
