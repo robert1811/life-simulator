@@ -251,6 +251,7 @@ const menuTemplates = {
             <li class="option" onclick="functionTemplates.trigger.cv()"><img src="images/options/cv.png">Curriculum Vitae</li>
             <li class="option ${player.age < 15 ? 'disabled' : ''}" id="sexuality" onclick="functionTemplates.trigger.sexuality()">Sexuality</li>
             <li class="option" onclick="alert('not implemented yet')">Health</li>
+            <li class="option" onclick="functionTemplates.trigger.criminalRecord()">Criminal record</li>
         </ul>
         `
     },
@@ -408,7 +409,7 @@ functionTemplates = {
                 const characterIndex = person.characterIndex
                 
                 modalBackground.style.display = 'flex';
-                eventTitle.innerText = `${person.fullName}`
+                eventTitle.innerText = `${person.fullName} ${!person.alive ? '(dead)' : ''}`
                 eventBody.innerHTML = `
                 <p><b>Relationship:</b> ${personCategory}</p>
                 <p><b>Age:</b> ${person.age}</p>
@@ -431,15 +432,17 @@ functionTemplates = {
                 <li>Fitness: <div class="window-bar"><div class="bar-progress" id="window-fitness-bar"></div></div> </li>
             </ul>
             
-            <div class="option" onclick="functionTemplates.trigger.relations.friendlyOptions(this)"
-             data-index="${characterIndex}">Friendly</div>
+            ${!player.prison.jailed && person.alive ? `
+                <div class="option" onclick="functionTemplates.trigger.relations.friendlyOptions(this)"
+                 data-index="${characterIndex}">Friendly</div>
 
-            <div class="option" onclick="functionTemplates.trigger.relations.meanOptions(this)"
-             data-index="${characterIndex}">Mean</div>
+                <div class="option" onclick="functionTemplates.trigger.relations.meanOptions(this)"
+                 data-index="${characterIndex}">Mean</div>
 
-             ${personCategory === 'partner' ? `
-             <div class="option" onclick="functionTemplates.trigger.relations.romanticOptions(this)" data-index="${characterIndex}">Romantic</div>
-             ` : ''}
+                 ${personCategory === 'partner' ? `
+                 <div class="option" onclick="functionTemplates.trigger.relations.romanticOptions(this)" data-index="${characterIndex}">Romantic</div>
+                 ` : ''}
+            ` : ''}
 
              <div class="option" onclick="closeEvent()">Close</div>
              `
@@ -477,9 +480,6 @@ functionTemplates = {
                 `
             }
         },
-
-
-
         skills() {
             modalBackground.style.display = 'flex';
             eventTitle.innerText = 'Skills';
@@ -642,6 +642,21 @@ functionTemplates = {
                 <div class="option" onclick="functionTemplates.prison.attempToEscape()">Attempt to escape</div>
                 <div class="option" onclick="functionTemplates.prison.lift()">Lift</div>
                 <div class="option" onclick="closeEvent()">Close</div>
+            `
+        },
+        criminalRecord(){
+            const {yearsInPrison, murderAttempts, murder, prisonEscapes} = player.criminalRecord
+            console.log(murder)
+
+
+            modalBackground.style.display = 'flex'
+            eventTitle.innerText = 'Criminal record'
+            eventBody.innerHTML = `
+            <p><b>Years arrested: </b>${yearsInPrison === 0 ? 'none' : yearsInPrison + ' years'}</p>
+            <p><b>Murder attempts: </b>${murderAttempts === 0 ? 'none' : murderAttempts}</p>
+            <p><b>Murder: </b>${murder === 0 ? 'none' : murder}</p>
+            <p><b>Prison escapes: </b>${prisonEscapes === 0 ? 'none' : prisonEscapes}</p>
+            <div class="option" onclick="closeEvent()">Close</div>
             `
         }
     },
