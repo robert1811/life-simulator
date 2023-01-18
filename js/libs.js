@@ -60,7 +60,7 @@ const countriesList = () => {
 const nationalityList = () => {
     let string = '';
     for(let country of countriesData){
-        string = string.concat(`<option value="${country.nationality}">${firstCaseToUpper(country.nationality)}</option>`)
+        string = string.concat(`<option value="${country.nationality}">${capitalize(country.nationality)}</option>`)
     }
     return string;
 }
@@ -95,7 +95,7 @@ const ownedAssets = (type) =>{
 
 }
 
-firstCaseToUpper = (word) =>{
+capitalize = (word) =>{
     let newWord = []
     for(let i = 0; i < word.length; i++){
         if(i === 0) newWord.push(word.split('')[i].toUpperCase())
@@ -104,7 +104,7 @@ firstCaseToUpper = (word) =>{
 }
 
 const relationShipListifier = (category) => {
-   const title = firstCaseToUpper(category)
+   const title = capitalize(category)
 
     const relations = player.relationships[category]
     let string = `<h3>${title}:</h3>`;
@@ -160,7 +160,7 @@ const skillListifier = (player) => {
             skill[1].xp !== 0){
                 string = string.concat(`
                 <li>
-                <h3>${firstCaseToUpper(skill[0])}</h3>
+                <h3>${capitalize(skill[0])}</h3>
                 <p><b>Level:</b> ${skill[1].level}</p>
                 </li><br>
                 `)
@@ -247,7 +247,7 @@ const uncamelCaser = (string) => {
             arr.push(string[i])
         }
     }
-    return firstCaseToUpper(arr.join('').trim())
+    return capitalize(arr.join('').trim())
 }
 
 const jobRequirementsListifier = (index) => {
@@ -258,7 +258,7 @@ const jobRequirementsListifier = (index) => {
         if(requirement[0] === 'minAge')
         reqName = 'Minimal age'
         string = string.concat(`
-        <li><b>${firstCaseToUpper(uncamelCaser(reqName))}:</b> ${uncamelCaser(requirement[1])}</li>
+        <li><b>${capitalize(uncamelCaser(reqName))}:</b> ${uncamelCaser(requirement[1])}</li>
         `)   
     }
     return string

@@ -231,7 +231,6 @@ const skillLeveler = () => {
 }
 
  const death = (person) => {
-    //fix this crap with percentages
     const randomNum = Math.floor(Math.random() * person.age)
     
     if(person.age > 70 && person.stats.health < randomNum && person.alive){

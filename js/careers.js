@@ -14,12 +14,12 @@ const universityCareers = {
     medic: {
         label: 'medic',
         name: 'Medic',
-        duration: 5
+        duration: 4
     },
     computerScience: {
         label: 'computerScience',
         name: 'Computer science',
-        duration: 3
+        duration: 4
     },
     biology: {
         label: 'biology',
@@ -39,12 +39,12 @@ const universityCareers = {
     politicalScience: {
         label: 'politicalScience',
         name: 'Political science',
-        duration: 3
+        duration: 4
     },
     math: {
         label: 'math',
         name: 'Math',
-        duration: 3
+        duration: 4
     },
 
 
@@ -184,5 +184,14 @@ const jobs = [
         },
         salary: 55000,
         field: 'music'
+    }, {
+        label: 'Guru',
+        requirements: {
+            happiness: 100,
+            health: 100,
+            minAge: 18,
+            criminalRecord: 'clean'
+        },
+        salary: 78000
     }
 ];

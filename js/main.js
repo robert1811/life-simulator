@@ -209,7 +209,7 @@ const customCharacter = () => {
     const nationality = selectNationality.value || undefined;
     const money = parseInt(inputMoney.value) || undefined;
 
-    player = new Person(name !== undefined ? firstCaseToUpper(name) : name, name !== undefined ? firstCaseToUpper(surname) : name   , age, gender, nationality, money);
+    player = new Person(name !== undefined ? capitalize(name) : name, name !== undefined ? capitalize(surname) : name   , age, gender, nationality, money);
     characters.push(player);
     createFamily(player);
     interfaceLoading()

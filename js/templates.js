@@ -617,7 +617,7 @@ functionTemplates = {
             eventTitle.innerText = 'Find a partner';
             eventBody.innerHTML = `
             <p><b>Name: </b>${possiblePartner.fullName}</p>
-            <p><b>Gender: </b>${firstCaseToUpper(possiblePartner.gender)}</p>
+            <p><b>Gender: </b>${capitalize(possiblePartner.gender)}</p>
             <p><b>Age: </b>${possiblePartner.age}</p>
             <p><b>Job: </b>${possiblePartner.job !== 'none' ? possiblePartner.job.label : 'unemployed'}</p>
             ${possiblePartner.job !== 'none' ? `<p><b>Salary: </b>${moneyFormat(possiblePartner.job.salary)} $</p>` : ''}
