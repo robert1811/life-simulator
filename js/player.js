@@ -101,80 +101,8 @@ const specificEvents = () => {
             break;
 
         case 18:
-            modalBackground.style.display = 'flex';
-            player.currentEducation = 'none'
-            eventTitle.innerText = universityEvent.title;
             player.career['education'] = {name: 'Highschool'}
-
-            for (let option of universityEvent.options) {
-                eventBody.innerHTML += `<div class="option" data-label="${option.label}" data-accept="${option.accepted_msg}" data-decline="${option.declined_msg}">${option.decision}</div>`;
-
-            }
-
-            const dad = player.relationships.parents[0];
-            const mom = player.relationships.parents[1];
-
-            const chooseCareerEvent = (payer, paidBy) => {
-                eventTitle.innerText = universityEvent.careerChoose.title;
-                eventBody.innerHTML = universityEvent.careerChoose.body;
-                for (let option of document.getElementsByClassName('option')) {
-                    option.addEventListener('click', e => {
-                        const decision = e.target.getAttribute('data-label')
-                        if (decision === 'yes') {
-                            const chosenCareer = document.getElementById('career-selector').value
-                            player.currentCareer = universityCareers[chosenCareer];
-                            player.currentCareer.paidBy = paidBy;
-                            player.currentEducation = 'university';
-                            if (payer === player) payer.money.expenses += 6000 
-                            player.currentCareer.yearsStudied = 0;
-                            closeEvent();
-                        } else {
-                            closeEvent();
-                        }
-                    })
-                }
-
-            }
-
-
-            for (let option of document.getElementsByClassName('option')) {
-                option.addEventListener('click', e => {
-                    switch (e.target.getAttribute('data-label')) {
-                        case 'parents':
-                            if (dad.alive && dad.money.income - dad.money.expenses>= 6000 ||
-                                mom.alive && mom.money.income - mom.money.expenses>= 6000) {
-                                textContainer.innerHTML += `<p>${e.target.getAttribute('data-accept')}</p>`
-                                chooseCareerEvent(undefined, 'parents');
-                            } else {
-                                textContainer.innerHTML += `<p>${e.target.getAttribute('data-decline')}</p>`
-                                e.target.remove()
-                            }
-                            break;
-
-                        case 'loan':
-                            textContainer.innerHTML += `<p>${e.target.getAttribute('data-accept')}</p>`
-                            chooseCareerEvent(undefined, 'loan');
-                            break;
-
-                        case 'myself':
-                            if (player.money.income >= 6000 || player.money.total >= 6000 * 5) {
-                                chooseCareerEvent(player, 'myself');
-                            } else {
-                                textContainer.innerHTML += `<p>${e.target.getAttribute('data-decline')}</p>`
-                                e.target.remove()
-                            }
-                            break;
-
-                        case 'no':
-                            textContainer.innerHTML += `<p>${e.target.getAttribute('data-accept')}</p>`;
-                            closeEvent();
-                            break;
-                    }
-                })
-            }
-            break;
-        default:
-            break;
+            functionTemplates.trigger.university()
     }
 }
 

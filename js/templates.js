@@ -27,6 +27,7 @@ const menuTemplates = {
             <li onclick="menuTemplates.emigrate()" class="option activity-option ${player.age < 18 ? 'disabled' : ''}"><img src="images/options/emigrate.png" alt="emigrate globe earth"> Emigrate</li>
             <li onclick="functionTemplates.trigger.driverLicense()" class="option activity-option ${player.age < 18 ? 'disabled' : ''}"><img src="images/options/drivelicense.png">Driver license</li>
             <li onclick="functionTemplates.trigger.findLove()" class="option activity-option ${player.age < 14 ? 'disabled' : ''}">Love</li>
+            <li onclick="functionTemplates.trigger.university()" class="option activity-option ${player.age < 18 ? 'disabled' :''}">University</li>
         </ul>
         `
     },
@@ -656,7 +657,102 @@ functionTemplates = {
             <p><b>Prison escapes: </b>${prisonEscapes === 0 ? 'none' : prisonEscapes}</p>
             <div class="option" onclick="closeEvent()">Close</div>
             `
+        },
+        university(){
+            if(player.age < 17) return
+
+            if(player.currentEducation === 'university'){
+                modalBackground.style.display = 'flex'
+                eventTitle.innerText = 'University'
+                return eventBody.innerHTML = `
+                <p>You are already studying in the university</p>
+                <div class="option" onclick="closeEvent()">Close</div>
+                `
+            }
+
+            const dad = player.relationships.parents[0];
+            const mom = player.relationships.parents[1];
+
+            modalBackground.style.display = 'flex'
+            eventTitle.innerText = 'Are you going to university?'
+            eventBody.innerHTML = `
+            <div id="parents-pay-university" class="option ${!dad.alive && !mom.alive ? 'disabled' : ''}" onclick="functionTemplates.university.paidByParents()">Ask my parents to pay it</div>
+            <div class="option" onclick="functionTemplates.university.loan()">Ask for a student loan</div>
+            <div id="player-pay-university" class="option" onclick="functionTemplates.university.payByMyself()">Pay it by myself</div>
+            <div class="option" onclick="functionTemplates.university.dontGo()">Nevermind</div>
+            `
         }
+    },
+    university: {
+        dontGo(){
+            closeEvent()
+            textContainer.innerHTML += `<p>Im not going the university</p>`
+        },
+        chooseCareer(payer, paidBy){
+            eventTitle.innerText = 'Choose your career';
+            eventBody.innerHTML = `
+            <select id="career-selector">
+                <option value="medic">Medic</option>
+                <option value="computerScience">Computer Science</option>
+                <option value="biology">Biology</option>
+                <option value="chemistry">Chemistry</option>
+                <option value="history">History</option>
+                <option value="politicalScience">Political Science</option>
+                <option value="math">Math</option>
+            </select>
+            <div class="option" data-label="yes">Study</div>
+            <div class="option" data-label="no">I changed my mind</div>
+            `
+            for (let option of document.getElementsByClassName('option')) {
+                option.addEventListener('click', e => {
+                    const decision = e.target.getAttribute('data-label')
+                    if (decision === 'yes') {
+                        const chosenCareer = document.getElementById('career-selector').value
+                        player.currentCareer = universityCareers[chosenCareer];
+                        player.currentCareer.paidBy = paidBy;
+                        player.currentEducation = 'university';
+                        if (payer === player) 
+                            payer.money.expenses += 6000 
+                        player.currentCareer.yearsStudied = 0;
+                        closeEvent();
+                    } else {
+                        closeEvent();
+                    }
+                })
+            }
+        },
+        payByMyself(){
+            if (player.money.income >= 6000 || player.money.total >= 6000 * 5) {
+                functionTemplates.university.chooseCareer(player, 'myself');
+            } else {
+                textContainer.innerHTML += `<p>I dont have enough money</p>`
+                let btn = document.getElementById('player-pay-university')
+                btn.remove()
+            }
+        },
+        paidByParents(){
+            const dad = player.relationships.parents[0];
+            const mom = player.relationships.parents[1];
+
+            if(dad.alive || mom.alive)
+                textContainer.innerHTML += `<p>I asked my parents to pay </p>`
+
+            if (dad.alive && dad.money.income - dad.money.expenses>= 6000 ||
+                mom.alive && mom.money.income - mom.money.expenses>= 6000) {
+                textContainer.innerHTML += `<p>My parents accepted</p>`
+                functionTemplates.university.chooseCareer(undefined, 'parents');
+            } else {
+                textContainer.innerHTML += `<p>My parents rejected</p>`
+                let btn = document.getElementById('parents-pay-university')
+                btn.remove()
+            }
+            
+        },
+        loan(){
+            textContainer.innerHTML += `<p>I applied for a loan</p>`
+            functionTemplates.university.chooseCareer(undefined, 'loan');
+        }
+
     },
     prison: {
         attempToEscape(){
