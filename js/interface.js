@@ -65,18 +65,6 @@ const newLife = () => {
     characterScreen.style.display = 'block'
 }
 
-//related to events.js structure
-const optionsHandler = () => {
-    for (let option of options) {
-        option.addEventListener('click', e => {
-            textContainer.innerHTML += `<p>${e.target.getAttribute('data-msg')}</p>`;
-            modalBackground.style.display = 'none';
-            eventTitle.innerText = '';
-            eventBody.innerHTML = '';
-        })
-    }
-}
-
 const closeEvent = () => {
     eventTitle.innerText = '';
     eventBody.innerHTML = '';
@@ -178,7 +166,6 @@ const annualChanges = () => {
     moneyViewer()
 
     randomizeHouseStats()
-
     prisonHandler(player)
 }
 

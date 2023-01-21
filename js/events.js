@@ -1,8 +1,6 @@
 //random events
 const childhoodEvents = [
-    {
-        //TODO: Implement a function for these events which reads body and also options
-    }
+    
 ]
 
 const adulthoodEvents = [
@@ -13,62 +11,77 @@ const elderhoodEvents = [
 
 ]
 
-const prisonEvents = [
-//TODO
-]
+const prisonEvents = {
+    theyCalledYou: {
+        display(){
+            const insults = ['baby', 'idiot', 'dumbass', 'faggot', 'retard', 'fatty']
+            const insult = insults[Math.floor(Math.random() * insults.length)]
 
-const jobEvents = [
-
-]
-
-// obligatory events, in this part of the development I used other
-//approach for event handling, declaring here the msgs and inserting them
-//in the data attributes
-const firstWordsEvent = {
-    title: 'Your first words!',
-    options: ['Hungry', 'Water', 'Mom', 'Dad', 'Hello']
+            modalBackground.style.display = 'flex'
+            eventTitle.innerText = `the innmates called you ${insult}`
+            eventBody.innerHTML = `
+            <div class="option" onclick="closeEvent()">Close</div>
+            `
+        }
+    }
 }
 
-const universityEvent = {
-    title: 'Are you going to the university?',
-    options: [
-        {
-            label: 'parents',
-            decision: 'Ask to my parents to pay it',
-            accepted_msg: 'My parents agreed to pay it',
-            declined_msg: 'My parents declined to pay it'
+const jobEvents = {
+    jobMeeting: {
+        display(){
+            textContainer.innerHTML += `
+            <p>We have a job meeting</p>
+            `
+
+            modalBackground.style.display = 'flex'
+            eventTitle.innerText = 'Job meeting'
+            eventBody.innerHTML = `
+            <p>You have a meeting in your job, what are you going to do?</p>
+            <div class="option" onclick="jobEvents.jobMeeting.dontSpeak()">Dont say a word</div>
+            <div class="option" onclick="jobEvents.jobMeeting.proposeIdea()">Propose a revolutionary idea</div>
+            `
         },
-        {   
-            label: 'loan',
-            decision: 'Ask for a student loan',
-            accepted_msg: 'I applied for a student loan'
+        dontSpeak(){
+            closeEvent()
+            textContainer.innerHTML += `
+            <p>I said nothing in that meeting</p>
+            `
         },
-        {   
-            label: 'myself',
-            decision: 'Pay it by myself',
-            accepted_msg: 'I am paying my university right now',
-            declined_msg: 'I cant afford a university'
-        }, 
-        {
-            label: 'no',
-            decision: 'No way!',
-            accepted_msg: 'Not gonna go to university lol, I will be a streamer mom!'
+        proposeIdea(){
+            const smartness = player.stats.smartness;
+            const random = Math.floor(Math.random() * 50) + 50
+
+            if(random <= smartness){
+                closeEvent()
+                textContainer.innerHTML += `
+                <p>They congratulated me</p>
+                `
+            } else
+                closeEvent()
+                textContainer.innerHTML += `
+                <p>They told me to shut up</p>
+                `
         }
-    ],
-    careerChoose: {
-        title: 'Choose a career',
-        body: `
-        <select id="career-selector">
-            <option value="medic">Medic</option>
-            <option value="computerScience">Computer Science</option>
-            <option value="biology">Biology</option>
-            <option value="chemistry">Chemistry</option>
-            <option value="history">History</option>
-            <option value="politicalScience">Political Science</option>
-            <option value="math">Math</option>
-        </select>
-        <div class="option" data-label="yes">Study</div>
-        <div class="option" data-label="no">I changed my mind</div>
-        `
+    }
+}
+
+const obligatoryEvents = {
+    firstWords: {
+        display(){
+            modalBackground.style.display = 'flex';
+            eventTitle.innerText = 'Your first words';
+            eventBody.innerHTML = `
+            <div class="option" onclick="obligatoryEvents.firstWords.speak('hungry')">Hungry</div>
+            <div class="option" onclick="obligatoryEvents.firstWords.speak('water')">Water</div>
+            <div class="option" onclick="obligatoryEvents.firstWords.speak('mom')">Mom</div>
+            <div class="option" onclick="obligatoryEvents.firstWords.speak('dad')">Dad</div>
+            `
+        },
+        speak(words){
+            closeEvent()
+            textContainer.innerHTML += `
+            <p>My first words were ${words}</p>
+            `
+        }
     }
 }

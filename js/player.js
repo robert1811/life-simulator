@@ -73,15 +73,8 @@ const statsBuffer = () => {
 const specificEvents = () => {
     switch (player.age) {
         case 1:
-            //first words event
-            modalBackground.style.display = 'flex';
-            eventTitle.innerText = firstWordsEvent.title;
-            for (let option of firstWordsEvent.options) {
-                eventBody.innerHTML += `<div class="option" data-msg="My first words were '${option}'">${option}</div>`
-            }
-            optionsHandler();
+            obligatoryEvents.firstWords.display()
             break;
-
         case 3:
             player.currentEducation = 'preschool'
             player.currentEducation = 'preschool'

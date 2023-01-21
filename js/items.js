@@ -4,7 +4,7 @@ const items = {
     weapons: [
         {
             label: 'Knife',
-            price: 200,
+            price: 5000,
             successChance: 35,
             image: 'knife.png',
             type: 'weapons',
