@@ -77,18 +77,15 @@ const specificEvents = () => {
             break;
         case 3:
             player.currentEducation = 'preschool'
-            player.currentEducation = 'preschool'
             textContainer.innerHTML += `<p>I started prescholar</p>`
             break;
 
         case 6:
             player.currentEducation = 'elementary'
-            player.currentEducation = 'elementary'
             textContainer.innerHTML += `<p>I started elementary school</p>`
             break;
 
         case 12:
-            player.currentEducation = 'highschool'
             player.currentEducation = 'highschool'
             textContainer.innerHTML += `<p>I started highschool</p>`
             break;

@@ -187,11 +187,27 @@ const jobAssigner = (characters) => {
     }
 }
 
+const assignNPCEducation = (characters) => {
+    for(let person of characters){
+        if(person.age >= 3 && person.age < 6){
+            person.currentEducation = 'preschool'
+        } else if(person.age >= 6 && person.age < 12){
+            person.currentEducation = 'elementary'
+        } else if(person.age >= 12 && person.age < 18){
+            person.currentEducation = 'highschool'
+        } else if(person.age >= 18){
+            person.currentEducation = 'none'
+            person.career['education'] = {name: 'Highschool'}
+        }
+    }
+}
+
 const randomCharacter = () => {
     player = new Person();
     characters.push(player)
     createFamily(player)
     interfaceLoading()
+    assignNPCEducation(characters)
 }
 
 const customCharacter = () => {
@@ -213,5 +229,6 @@ const customCharacter = () => {
     characters.push(player);
     createFamily(player);
     interfaceLoading()
+    assignNPCEducation(characters)
 }
 
