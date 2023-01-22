@@ -335,7 +335,7 @@ functionTemplates = {
                 <h3>Requirements:</h3>
                 <ul>
                 ${jobRequirementsListifier(index)}
-                </ul><br>
+                </ul>
 
                 <div class="option" onclick="functionTemplates.job.apply('${index}')">Apply</div>
                 <div class="option" onclick="closeEvent()">Uh, nevermind</div>
@@ -541,9 +541,14 @@ functionTemplates = {
             <p><b>Salary: </b>${moneyFormat(player.job.salary)} $</p>
             <p><b>Next position: </b>TO DO</p>
             <p><b>Years working: </b>${year - player.job.since}</p>
+            <p><b>Performance:</b> ${player.job.performance}/100</p>
+            <div class="window-bar">
+                <div style="background-color:#bb7a85;width:${player.job.performance}%;height: 100%""></div>
+            </div> 
             <ul>
 
             <div class="option" onclick="functionTemplates.job.confirmLeave()">Leave this job</div>
+            <div class="option" onclick="alert('TODO')">Work harder</div>
             <div class="option" onclick="closeEvent()">Close</div>
             </ul>
             `
@@ -686,7 +691,7 @@ functionTemplates = {
     university: {
         dontGo(){
             closeEvent()
-            textContainer.innerHTML += `<p>Im not going the university</p>`
+            textContainer.innerHTML += `<p>Im not going to the university</p>`
         },
         chooseCareer(payer, paidBy){
             eventTitle.innerText = 'Choose your career';
@@ -858,6 +863,7 @@ functionTemplates = {
                 player.money.income += job.salary;
                 player.job = job;
                 player.job.since = year;
+                player.job.performance = Math.floor(Math.random() * 50) + 25
                 eventTitle.innerText = 'Applied succesfuly!'
                 eventBody.innerHTML = `<div class="option" onclick="closeEvent()">Nice</div>`;
                 textContainer.innerHTML += `<p>I got a job as ${job.label}</p>`
