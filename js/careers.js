@@ -58,7 +58,8 @@ const jobs = [
             programming: 3
         },
         salary: 55000,
-        field: 'technology'
+        field: 'technology',
+        promotion: 'App Developer'
     }, {
         label: 'App Developer',
         requirements: {
@@ -66,7 +67,8 @@ const jobs = [
             programming: 5
         },
         salary: 75000,
-        field: 'technology'
+        field: 'technology',
+        promotion: 'Sr App Developer'
     }, {
         label: 'Sr App Developer',
         requirements: {
@@ -74,21 +76,24 @@ const jobs = [
             programming: 8
         },
         salary: 100000,
-        field: 'technology'
+        field: 'technology',
+        promotion: 'none'
     }, {
         label: 'Supermarket cashier',
         requirements: {
             minAge: 16
         },
         salary: 25000,
-        field: ''
+        field: '',
+        promotion: 'none'
     },{
         label: 'Janitor',
         requirements: {
             minAge: 16
         },
         salary: 18000,
-        field: ''
+        field: '',
+        promotion: 'none'
     }, {
         label: 'History teacher',
         requirements: {
@@ -96,7 +101,8 @@ const jobs = [
             education: 'history'
         },
         salary: 50000,
-        field: 'history'
+        field: 'history',
+        promotion: 'none'
     },{
         label: 'Math teacher',
         requirements: {
@@ -104,7 +110,8 @@ const jobs = [
             education: 'math'
         },
         salary: 50000,
-        field: 'math'
+        field: 'math',
+        promotion: 'none'
     },{
         label: 'Gym trainer',
         requirements: {
@@ -112,7 +119,8 @@ const jobs = [
             fitness: 70
         },
         salary: 36000,
-        field: 'fitness'
+        field: 'fitness',
+        promotion: 'none'
     }, {
         label: 'Chemistry teacher',
         requirements: {
@@ -120,7 +128,8 @@ const jobs = [
             education: 'chemistry'
         },
         salary: 50000,
-        field: 'chemistry'
+        field: 'chemistry',
+        promotion: 'none'
     }, {
         label: 'Biology teacher',
         requirements: {
@@ -128,7 +137,8 @@ const jobs = [
             education: 'biology'
         },
         salary: 50000,
-        field: 'biology'
+        field: 'biology',
+        promotion: 'none'
     }, {
         label: 'Jr Web developer',
         requirements: {
@@ -137,7 +147,8 @@ const jobs = [
             programming: 2
         },
         salary: 52000,
-        field: 'technology'
+        field: 'technology',
+        promotion: 'Web developer'
     }, {
         label: 'Web developer',
         requirements: {
@@ -145,7 +156,8 @@ const jobs = [
             programming: 4
         },
         salary: 65000,
-        field: 'technology'
+        field: 'technology',
+        promotion: 'Sr Web developer'
     }, {
         label: 'Sr Web developer',
         requirements: {
@@ -153,21 +165,24 @@ const jobs = [
             programming: 7
         },
         salary: 80000,
-        field: 'technology'
+        field: 'technology',
+        promotion: 'none'
     }, {
         label: 'Truck driver',
         requirements: {
             driverLicense: true
         },
         salary: 40000,
-        field: 'transport'
+        field: 'transport',
+        promotion: 'none'
     }, {
         label: 'Taxi driver',
         requirements: {
             driverLicense: true
         },
         salary: 48000,
-        field: 'transport'
+        field: 'transport',
+        promotion: 'none'
     }, {
         label: 'Music teacher',
         requirements: {
@@ -175,7 +190,8 @@ const jobs = [
             music: 2
         },
         salary: 50000,
-        field: 'music'
+        field: 'music',
+        promotion: 'none'
     }, {
         label: 'Pianist',
         requirements: {
@@ -183,7 +199,8 @@ const jobs = [
             music: 4
         },
         salary: 55000,
-        field: 'music'
+        field: 'music',
+        promotion: 'none'
     }, {
         label: 'Guru',
         requirements: {
@@ -192,6 +209,7 @@ const jobs = [
             minAge: 18,
             criminalRecord: 'clean'
         },
-        salary: 78000
+        salary: 78000,
+        promotion: 'none'
     }
 ];

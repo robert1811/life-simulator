@@ -543,12 +543,15 @@ functionTemplates = {
             <p><b>Years working: </b>${year - player.job.since}</p>
             <p><b>Performance:</b> ${player.job.performance}/100</p>
             <div class="window-bar">
-                <div style="background-color:#bb7a85;width:${player.job.performance}%;height: 100%""></div>
+                <div style="background-color:#b7b34b;width:${player.job.performance}%;height: 100%""></div>
             </div> 
             <ul>
 
             <div class="option" onclick="functionTemplates.job.confirmLeave()">Leave this job</div>
-            <div class="option" onclick="alert('TODO')">Work harder</div>
+            <div class="option" onclick="functionTemplates.job.workHarder()">Work harder</div>
+            ${player.job.promotion !== 'none' ? `
+            <div class="option" onclick="functionTemplates.job.askPromotion()">Ask promotion</div>
+            ` : ''}
             <div class="option" onclick="closeEvent()">Close</div>
             </ul>
             `
@@ -848,9 +851,9 @@ functionTemplates = {
                     if(requirement[0] === skill && player.skills[skill].level >= requirement[1])
                         requirementsCompleted++;
                 }
-
+                console.log(requirement)
                 if (requirement[0] === 'education' && Object.entries(player.career).length !== 0)
-                    if (player.career[requirement[1]].label === requirement[1]) requirementsCompleted++;
+                    if (player.career[requirement[1]] === requirement[1]) requirementsCompleted++;
 
                skillVerifier('programming')
                skillVerifier('music')
@@ -890,6 +893,45 @@ functionTemplates = {
             <p>You resigned succesfully</p>
             <div class="option" onclick="closeEvent()">Good</div>
             `
+            menuTemplates.job()
+        },
+        workHarder(){
+            closeEvent()
+            menuTemplate.style.display = 'none'
+            textContainer.innerHTML += `
+            <p>I worked harder at my job</p>
+            `
+            player.job.performance += Math.floor(Math.random() * 10)
+            player.stats.happiness -= 5
+            player.stats.health -= 2
+            statsLimit(player)
+        },
+        askPromotion(){
+            modalBackground.style.display = 'flex'
+            eventTitle.innerText = 'Promotion'
+            if(player.job.performance >= 70)
+                for(let job of jobs){
+                    if(job.label === player.job.promotion){
+                        player.job.until = year
+                        player.cv.push(player.job)
+
+                        player.job = structuredClone(job)
+                        player.job.since = year
+
+                        eventBody.innerHTML = `
+                        <p>Your promotion request has been accepted</p>
+                        <div class="option" onclick="closeEvent()">Close</div>
+                        `
+
+                        break;
+                    }
+                }
+            else {
+                eventBody.innerHTML = `
+                <p>Your promotion request has been rejected</p>
+                <div class="option" onclick="closeEvent()">Close</div>
+                `
+            }
         }
     },
     freetime: {

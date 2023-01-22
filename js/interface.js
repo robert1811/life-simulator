@@ -85,7 +85,7 @@ const deathScreen = () => {
     <p>${player.fullName} was born in ${player.birthplace} at year ${year - player.age}. ${pronoun} was son of ${dadName} and ${momName}${siblingLength !== 0 ? `, ${player.gender === 'male' ? 'brother' : 'sister'} of ${siblingLength} ${siblingLength > 1 ? 'persons' : 'person'}.` : '.'}</p><br>
     `
 
-    if(player.cv.length !== 0){
+    if (player.cv.length !== 0) {
         obituaryContainer.innerHTML += `<h4 class="yellow">He worked as:</h4>
         ${cvListifier(player)}<br>
         `
@@ -111,7 +111,7 @@ const deathScreen = () => {
 const annualChanges = () => {
     year++;
     for (let person of characters) {
-        if(person.alive) person.age++;
+        if (person.alive) person.age++;
     }
 
     textContainer.innerHTML += `
@@ -119,12 +119,12 @@ const annualChanges = () => {
     `
 
     //death possibility
-    for(let person of characters){
+    for (let person of characters) {
         death(person)
     }
 
     // adds the death button
-    if(!player.alive){
+    if (!player.alive) {
         const ageBtnContainer = document.getElementById('age-btn-container');
         ageBtnContainer.innerHTML = `
         <button id="dead-button" class="rectangular-btn" onclick="deathScreen()">Dead</button>
@@ -140,18 +140,25 @@ const annualChanges = () => {
     //random messages
     if (Math.floor(Math.random() * 10) === 5)
         textContainer.innerHTML += `<p>${worldEventsMethodArr[Math.floor(Math.random() * worldEventsAmount)][1]()}</p>`
-    
+
 
     //stat changes
     player.money.total += player.money.income - player.money.expenses
+    if (player.job !== 'none') {
+        const random = Math.round(Math.random())
+        if (random === 0)
+            player.job.performance += Math.floor(Math.random() * 5)
+        else
+            player.job.performance -= Math.floor(Math.random() * 5)
+    }
 
     // for university
     studyingProcess(textContainer)
 
     if (Math.floor(Math.random() * 2) === 1) {
-        player.stats.happiness += Math.floor(Math.random() * 3)
+        player.stats.happiness += Math.floor(Math.random() * 10)
     } else {
-        player.stats.happiness -= Math.floor(Math.random() * 3);
+        player.stats.happiness -= Math.floor(Math.random() * 10);
     }
 
     statsBuffer()
@@ -170,7 +177,7 @@ const annualChanges = () => {
 }
 
 
-ageButton.addEventListener('click', () => annualChanges() )
+ageButton.addEventListener('click', () => annualChanges())
 
 const closeMenu = document.getElementById('close-menu');
 closeMenu.addEventListener('click', e => {

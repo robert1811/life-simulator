@@ -11,7 +11,6 @@ const studyingProcess = (textbox) => {
         yearsStudied = currentCareer.yearsStudied;
     }
 
-
     if(currentCareer && currentEducation === 'university' && yearsStudied !== duration){
         player.currentCareer.yearsStudied++;
     } else if(currentCareer && currentEducation === 'university' && yearsStudied === duration){
@@ -20,7 +19,6 @@ const studyingProcess = (textbox) => {
         player.currentCareer = {};
         player.currentEducation = 'none';
         textbox.innerHTML += `<p>I finished my career</p>`
-        console.log(player)
     }
 }
 
@@ -30,6 +28,12 @@ const statsLimit = (person) => {
         if(stat[1] < 0) person.stats[stat[0]] = 0
         else if (stat[1] > 100) person.stats[stat[0]] = 100
     }
+    if(person.job !== 'none')
+        if(person.job.performance > 100)
+            person.job.performance = 100
+        else if (person.job.performance < 0)
+            person.job.performance = 0
+    
 }
 
 const statsBuffer = () => {
@@ -178,5 +182,19 @@ const skillLeveler = () => {
         person.prison.sentenceTime = 0;
         leftBtnContainer.innerHTML = ''
         textContainer.innerHTML += `<p>I got out of prison</p>`
+    }
+ }
+
+ const jobPerformanceHandler = () => {
+    if(player.job === 'none') return 
+
+    const performance = player.job.performance
+    const random = Math.round(Math.random() * 10)
+    if(performance <= 10 && random === 2){
+        player.job.until = year
+        player.cv.push(player.job)
+        player.job = 'none'
+    } else if(performance >= 75 && random === 5){
+        
     }
  }

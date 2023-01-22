@@ -621,7 +621,7 @@ li{
 }
 
 #create-character-screen h1{
-    width: 400px;
+    width: 350px;
     text-align: center;
     margin: 0 auto;
     color: var(--yellow-text);
@@ -664,7 +664,7 @@ li{
 }
 
 #create-character-screen select{
-    width: 400px;
+    width: 350px;
     padding: 5px;
     font-size: 15px;
     border-radius: 5px;
@@ -675,7 +675,7 @@ li{
 }
 
 .input-group{
-    width: 400px;
+    width: 350px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
