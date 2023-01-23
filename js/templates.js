@@ -365,7 +365,6 @@ functionTemplates = {
             modalBackground.style.display = 'flex';
             eventTitle.innerText = 'Identity';
             eventBody.innerHTML = `
-            <h3>${player.fullName}</h3>
             <p><b>Full name:</b> ${player.fullName}</p>
             <p><b>Gender:</b> ${player.gender}</p>
             <p><b>Age:</b> ${player.age}</p>
@@ -514,7 +513,9 @@ functionTemplates = {
                 modalBackground.style.display = 'flex';
                 eventTitle.innerText = object.label
                 eventBody.innerHTML = `
-                    <div class="option" data-item="${index}" onclick="functionTemplates.playInstrument(this)">Play</div>
+                    ${player.actions.music < 3 ? `
+                        <div class="option" data-item="${index}" onclick="functionTemplates.playInstrument(this)">Play</div>
+                    ` : ''}
                     <div class="option" data-item="${type}-${index}" onclick="functionTemplates.sellItem(this)">Sell</div>
                     <div class="option" onclick="closeEvent()">Do nothing</div>
 
@@ -525,8 +526,12 @@ functionTemplates = {
                 modalBackground.style.display = 'flex';
                 eventTitle.innerText = object.label;
                 eventBody.innerHTML = `
-                <div class="option" data-item="${index}" onclick="functionTemplates.computer.practiceProgramming(this)">Practice programming</div>
-                <div class="option" data-item="${index}" onclick="functionTemplates.computer.practiceWriting(this)">Practice writing</div>
+                ${player.actions.programming < 3 ? `
+                    <div class="option" data-item="${index}" onclick="functionTemplates.computer.practiceProgramming(this)">Practice programming</div>
+                ` : ''}
+                ${player.actions.writing < 3 ? `
+                    <div class="option" data-item="${index}" onclick="functionTemplates.computer.practiceWriting(this)">Practice writing</div>
+                ` : ''}
                 <div class="option" data-item="${index}" onclick="functionTemplates.computer.playVideogames(this)">Play videogames</div>
                 <div class="option" data-item="${type}-${index}" onclick="functionTemplates.sellItem(this)">Sell</div>
                 <div class="option" data-item="${index}" onclick="closeEvent()">Do nothing</div>
@@ -548,7 +553,9 @@ functionTemplates = {
             <ul>
 
             <div class="option" onclick="functionTemplates.job.confirmLeave()">Leave this job</div>
-            <div class="option" onclick="functionTemplates.job.workHarder()">Work harder</div>
+            ${player.actions.workHarder < 3 ? `
+                <div class="option" onclick="functionTemplates.job.workHarder()">Work harder</div>
+            ` : ''}
             ${player.job.promotion !== 'none' ? `
             <div class="option" onclick="functionTemplates.job.askPromotion()">Ask promotion</div>
             ` : ''}
@@ -904,6 +911,7 @@ functionTemplates = {
             player.job.performance += Math.floor(Math.random() * 10)
             player.stats.happiness -= 5
             player.stats.health -= 2
+            player.actions.workHarder++;
             statsLimit(player)
         },
         askPromotion(){
@@ -922,7 +930,7 @@ functionTemplates = {
                         <p>Your promotion request has been accepted</p>
                         <div class="option" onclick="closeEvent()">Close</div>
                         `
-
+                        menuTemplates.job()
                         break;
                     }
                 }
@@ -1121,6 +1129,7 @@ functionTemplates = {
         },
     },
     playInstrument(data) {
+        player.actions.music++
         player.skills.music.xp += 25;
 
         eventBody.innerHTML = `
@@ -1131,6 +1140,7 @@ functionTemplates = {
     },
     computer: {
         practiceWriting() {
+            player.actions.writing++
             player.skills.writing.xp += 25;
             eventBody.innerHTML = `
             <p>+25 writing skill earned!</p>
@@ -1142,6 +1152,7 @@ functionTemplates = {
             skillLeveler()
         },
         practiceProgramming() {
+            player.actions.programming++
             player.skills.programming.xp += 25;
             eventBody.innerHTML = `
             <p>+25 programming skill earned!</p>

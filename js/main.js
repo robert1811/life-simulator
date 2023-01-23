@@ -104,6 +104,14 @@ class Person {
         sentenceTime: 0,
         jailed: false
     }
+
+    // this limits your actions per year
+    actions = {
+        programming: 0,
+        writing: 0,
+        workHarder: 0,
+        music: 0
+    }
 }
 
 const createFamily = (player) => {

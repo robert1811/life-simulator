@@ -172,6 +172,8 @@ const annualChanges = () => {
     //displaying flow of money
     moneyViewer()
 
+    resetAvaibleActions()
+
     randomizeHouseStats()
     prisonHandler(player)
 }

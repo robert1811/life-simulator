@@ -75,14 +75,14 @@ const items = {
     electronics : [
         {
             label: 'Smartphone',
-            price: 50,
+            price: 6000,
             image: 'smartphone.png',
             type: 'electronics',
             index: 0
         },
         {
             label: 'Laptop',
-            price: 65,
+            price: 12000,
             image: 'laptop.png',
             type: 'electronics',
             index: 1

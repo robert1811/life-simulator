@@ -198,3 +198,9 @@ const skillLeveler = () => {
         
     }
  }
+
+ const resetAvaibleActions = () => {
+    for(let action of Object.entries(player.actions)){
+        player.actions[action[0]] = 0
+    }
+ }
