@@ -110,7 +110,11 @@ class Person {
         programming: 0,
         writing: 0,
         workHarder: 0,
-        music: 0
+        music: 0,
+        meanActions: 0,
+        friendlyActions: 0,
+        romanticActions: 0,
+        askPromotion: 0
     }
 }
 

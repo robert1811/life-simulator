@@ -450,7 +450,7 @@ functionTemplates = {
                 const index = data.getAttribute('data-index');
 
                 eventBody.innerHTML = `
-                <div class="option" onclick="functionTemplates.friendly.spendTime(this)" data-index="${index}">Spend time together</div>
+                <div class="option ${player.actions.friendlyActions < 3 ? '' : 'disabled'}" onclick="functionTemplates.friendly.spendTime(this)" data-index="${index}">Spend time together</div>
                 <div class="option" onclick="closeEvent()">Close</div>
                 `
             },
@@ -459,21 +459,21 @@ functionTemplates = {
                 const person = characters[index]
 
                 eventBody.innerHTML = `
-                <div class="option" onclick="functionTemplates.mean.insult(this)" data-index="${index}">Insult</div>
-                <div class="option" onclick="functionTemplates.mean.yell(this)" data-index="${index}">Yell</div>
+                <div class="option ${player.actions.meanActions < 3 ? '' : 'disabled'}" onclick="functionTemplates.mean.insult(this)" data-index="${index}">Insult</div>
+                <div class="option ${player.actions.meanActions < 3 ? '' : 'disabled'}" onclick="functionTemplates.mean.yell(this)" data-index="${index}">Yell</div>
                 ${player.age > 14 ? `<div class="option" onclick="functionTemplates.mean.assault(this)" data-index="${index}">Assault</div>` 
                 : ''}
                 ${person.relationships.partner[0] === player ? `
-                <div class="option" onclick="functionTemplates.romance.break()">${person.married ? 'Divorce' : 'Break up'}</div>
+                <div class="option ${player.actions.meanActions < 3 ? '' : 'disabled'}" onclick="functionTemplates.romance.break()">${person.married ? 'Divorce' : 'Break up'}</div>
                 ` : ''}
                 <div class="option" onclick="closeEvent()">Close</div>
                 `
             },
             romanticOptions(data){
                 eventBody.innerHTML = `
-                <div class="option" onclick="functionTemplates.romance.proposeMarriage()">Propose marriage</div>
-                <div class="option" onclick="functionTemplates.romance.flirt()">Flirt</div>
-                <div class="option" onclick="functionTemplates.romance.cuddle()">Cuddle</div>
+                <div class="option ${player.actions.romanticActions < 3 ? '' : 'disabled'}" onclick="functionTemplates.romance.proposeMarriage()">Propose marriage</div>
+                <div class="option ${player.actions.romanticActions < 3 ? '' : 'disabled'}" onclick="functionTemplates.romance.flirt()">Flirt</div>
+                <div class="option ${player.actions.romanticActions < 3 ? '' : 'disabled'}" onclick="functionTemplates.romance.cuddle()">Cuddle</div>
                 <div class="option" onclick="closeEvent()">Close</div>
                 `
             }
@@ -556,7 +556,7 @@ functionTemplates = {
             ${player.actions.workHarder < 3 ? `
                 <div class="option" onclick="functionTemplates.job.workHarder()">Work harder</div>
             ` : ''}
-            ${player.job.promotion !== 'none' ? `
+            ${player.job !== 'none' && player.actions.askPromotion < 3 ? `
             <div class="option" onclick="functionTemplates.job.askPromotion()">Ask promotion</div>
             ` : ''}
             <div class="option" onclick="closeEvent()">Close</div>
@@ -859,7 +859,8 @@ functionTemplates = {
                         requirementsCompleted++;
                 }
                 console.log(requirement)
-                if (requirement[0] === 'education' && Object.entries(player.career).length > 1)
+                if (requirement[0] === 'education' && Object.entries(player.career).length > 0
+                && player.career[requirement[1]] != undefined)
                     if (player.career[requirement[1]].label === requirement[1]) requirementsCompleted++;
 
                skillVerifier('programming')
@@ -915,6 +916,7 @@ functionTemplates = {
             statsLimit(player)
         },
         askPromotion(){
+            player.actions.performance++
             modalBackground.style.display = 'flex'
             eventTitle.innerText = 'Promotion'
             if(player.job.performance >= 70)
@@ -1211,6 +1213,9 @@ functionTemplates = {
     },
     friendly: {
         spendTime(data){
+            if(player.actions.friendlyActions >= 3) return
+
+            player.actions.friendlyActions++
             const index = data.getAttribute('data-index');
             let person = characters[index];
 
@@ -1227,6 +1232,9 @@ functionTemplates = {
     },
     mean: {
         yell(data){
+            if(player.actions.meanActions >= 3) return
+
+            player.actions.meanActions++
             const index = data.getAttribute('data-index');
             let person = characters[index]
             const isPartner = person.relationships.partner[0] === player ? true : false;
@@ -1249,6 +1257,9 @@ functionTemplates = {
             menuTemplates.relationships()
         },
         insult(data){
+            if(player.actions.meanActions >= 3) return
+
+            player.actions.meanActions++
             const index = data.getAttribute('data-index');
             let person = characters[index]
             const isPartner = person.relationships.partner[0] === player ? true : false;
@@ -1270,6 +1281,8 @@ functionTemplates = {
             menuTemplates.relationships()
         },
         assault(data){
+            if(player.actions.meanActions >= 3) return
+
             const index = data.getAttribute('data-index');
 
             alert('not implemented yet')
@@ -1355,6 +1368,7 @@ functionTemplates = {
             menuTemplates.relationships()
         },
         proposeMarriage(){
+            player.actions.romanticActions++
             const partner = player.relationships.partner[0];
             const pronoun = partner.gender === 'male' ? 'He' : 'She';
             if(partner.stats.loveToPartner >= 60){
@@ -1372,6 +1386,7 @@ functionTemplates = {
             }
         },
         cuddle(){
+            player.actions.romanticActions++
             const partner = player.relationships.partner[0];
             const pronoun = partner.gender === 'male' ? 'him' : 'her';
             partner.stats.loveToPartner += 15;
@@ -1384,6 +1399,7 @@ functionTemplates = {
 
         },
         flirt(){
+            player.actions.romanticActions++
             const partner = player.relationships.partner[0];
             const pronoun = partner.gender === 'male' ? 'him' : 'her';
             partner.stats.loveToPartner += 10;
