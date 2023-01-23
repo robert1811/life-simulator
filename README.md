@@ -8,8 +8,8 @@ Its not finished yet, I will be constantly updating this, bringing new content, 
 
 ## Features to add
 - Military career
-- Job performance
 - Continue as child after dying as player
-- More shops
+- More shops, jobs, properties and cars
 - Diseases
 - Prison actions
+- Commercial properties
