@@ -852,8 +852,8 @@ functionTemplates = {
                         requirementsCompleted++;
                 }
                 console.log(requirement)
-                if (requirement[0] === 'education' && Object.entries(player.career).length !== 0)
-                    if (player.career[requirement[1]] === requirement[1]) requirementsCompleted++;
+                if (requirement[0] === 'education' && Object.entries(player.career).length > 1)
+                    if (player.career[requirement[1]].label === requirement[1]) requirementsCompleted++;
 
                skillVerifier('programming')
                skillVerifier('music')

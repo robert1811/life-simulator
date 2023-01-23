@@ -81,7 +81,7 @@ const jobs = [
     }, {
         label: 'Supermarket cashier',
         requirements: {
-            minAge: 16
+            minAge: 18
         },
         salary: 25000,
         field: '',
@@ -89,7 +89,7 @@ const jobs = [
     },{
         label: 'Janitor',
         requirements: {
-            minAge: 16
+            minAge: 18
         },
         salary: 18000,
         field: '',
@@ -142,7 +142,7 @@ const jobs = [
     }, {
         label: 'Jr Web developer',
         requirements: {
-            minAge: 17,
+            minAge: 18,
             education: 'computerScience',
             programming: 2
         },
