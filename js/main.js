@@ -243,4 +243,3 @@ const customCharacter = () => {
     interfaceLoading()
     assignNPCEducation(characters)
 }
-
