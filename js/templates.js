@@ -1225,7 +1225,7 @@ functionTemplates = {
         <h3>Are you sure you want to sell this?</h3>
         <p><b>Price:</b> ${moneyFormat(price)} $</p>
         <div class="option" onclick="functionTemplates.confirmSell(this)" data-type="${type}" data-index="${index}" data-price="${price}">Sell</div>
-        <div class="option" onclick="closeEvent">No</div>
+        <div class="option" onclick="closeEvent()">No</div>
         `
 
     }, confirmSell(data) {
