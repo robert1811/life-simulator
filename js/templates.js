@@ -20,14 +20,31 @@ const menuTemplates = {
         menuTitle.innerText  = 'Activities'
         menuBody.innerHTML = `
         <ul>
-            <li onclick="menuTemplates.freetime()" class="option activity-option"><img src="images/options/free-time.png" alt="free-time" on> Free time</li>
-            <li onclick="menuTemplates.cars()" class="option activity-option ${player.age < 18 ? 'disabled' : ''}"><img src="images/options/cars.png" alt="car"> Cars</li>
-            <li onclick="menuTemplates.realEstate()" class="option activity-option ${player.age < 16 ? 'disabled' : ''}"><img src="images/options/real-estate.png" alt="house"> Real Estate</li>
-            <li onclick="menuTemplates.shopping()" class="option activity-option ${player.age < 14 ? 'disabled' : ''}"><img src="images/options/shopping.png" alt="shopping"> Shopping</li>
-            <li onclick="menuTemplates.emigrate()" class="option activity-option ${player.age < 18 ? 'disabled' : ''}"><img src="images/options/emigrate.png" alt="emigrate globe earth"> Emigrate</li>
-            <li onclick="functionTemplates.trigger.driverLicense()" class="option activity-option ${player.age < 18 ? 'disabled' : ''}"><img src="images/options/drivelicense.png">Driver license</li>
-            <li onclick="functionTemplates.trigger.findLove()" class="option activity-option ${player.age < 14 ? 'disabled' : ''}">Love</li>
-            <li onclick="functionTemplates.trigger.university()" class="option activity-option ${player.age < 18 ? 'disabled' :''}">University</li>
+            <li onclick="menuTemplates.freetime()" class="option activity-option">
+                <img src="images/options/free-time.png" alt="free-time" on> Free time
+            </li>
+            <li onclick="menuTemplates.cars()" class="option activity-option ${player.age < 18 ? 'disabled' : ''}">
+                <img src="images/options/cars.png" alt="car"> Cars
+            </li>
+            <li onclick="menuTemplates.realEstate()" class="option activity-option ${player.age < 16 ? 'disabled' : ''}">
+                <img src="images/options/real-estate.png" alt="house"> Real Estate
+            </li>
+            <li onclick="menuTemplates.shopping()" class="option activity-option ${player.age < 14 ? 'disabled' : ''}">
+                <img src="images/options/shopping.png" alt="shopping"> Shopping
+            </li>
+            <li onclick="menuTemplates.emigrate()" class="option activity-option ${player.age < 18 ? 'disabled' : ''}">
+                <img src="images/options/emigrate.png" alt="emigrate globe earth"> Emigrate
+            </li>
+            <li onclick="functionTemplates.trigger.driverLicense()" class="option activity-option ${player.age < 18 ? 'disabled' : ''}">
+                <img src="images/options/drivelicense.png">Driver license
+            </li>
+            <li onclick="functionTemplates.trigger.findLove()" class="option activity-option ${player.age < 14 ? 'disabled' : ''}">
+                <img src="images/options/love.png" style="width: 35px; height: 35px"> Love
+            </li>
+            <li onclick="functionTemplates.trigger.university()" class="option activity-option ${player.age < 18 ? 'disabled' :''}">
+                <img src="images/options/university.png
+                ">University
+            </li>
         </ul>
         `
     },
@@ -246,14 +263,30 @@ const menuTemplates = {
         menuTitle.innerText  = 'Profile'
         menuBody.innerHTML = `
         <ul>
-            <li class="option" onclick="functionTemplates.trigger.identity()"><img src="images/options/identity.png"> Identity</li>
-            <li class="option" onclick="functionTemplates.trigger.skills()"><img src="images/options/skills.png" id="skills-icon"> Skills</li>
-            <li class="option" onclick="menuTemplates.inventory()"><img src="images/options/inventory.png">Inventory</li>
-            <li class="option" onclick="functionTemplates.trigger.education()"><img src="images/options/education.png">Education</li>
-            <li class="option" onclick="functionTemplates.trigger.cv()"><img src="images/options/cv.png">Curriculum Vitae</li>
-            <li class="option ${player.age < 15 ? 'disabled' : ''}" id="sexuality" onclick="functionTemplates.trigger.sexuality()">Sexuality</li>
-            <li class="option" onclick="alert('not implemented yet')">Health</li>
-            <li class="option" onclick="functionTemplates.trigger.criminalRecord()">Criminal record</li>
+            <li class="option" onclick="functionTemplates.trigger.identity()">
+                <img src="images/options/identity.png" alt="identity"> Identity
+            </li>
+            <li class="option" onclick="functionTemplates.trigger.skills()">
+                <img src="images/options/skills.png" id="skills-icon" alt="skills"> Skills
+            </li>
+            <li class="option" onclick="menuTemplates.inventory()">
+                <img src="images/options/inventory.png" alt="inventory">Inventory
+            </li>
+            <li class="option" onclick="functionTemplates.trigger.education()">
+                <img src="images/options/education.png" alt="education"> Education
+            </li>
+            <li class="option" onclick="functionTemplates.trigger.cv()">
+                <img src="images/options/cv.png" alt="curriculum">Curriculum Vitae
+            </li>
+            <li class="option ${player.age < 15 ? 'disabled' : ''}" id="sexuality" onclick="functionTemplates.trigger.sexuality()">
+                <img src="images/options/sexuality.png" alt="sexuality"> Sexuality
+            </li>
+            <li class="option" onclick="alert('not implemented yet')">
+                <img src="images/options/health.png" alt="health"> Health
+            </li>
+            <li class="option" onclick="functionTemplates.trigger.criminalRecord()">
+                <img src="images/options/criminal-record.png" alt="criminal-record"> Criminal record
+            </li>
         </ul>
         `
     },

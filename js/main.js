@@ -156,7 +156,7 @@ const firstMessage = () => {
     textContainer.innerHTML = `
     <p><span class="yellow">${year} - ${player.age === 0 ? 'birth' : `${player.age} years old`}</span></p>
     <p>My name is ${player.fullName}</p>
-    <p>I was born ${player.gender} in ${player.location} on ${year}</p>
+    <p>I was born ${player.gender} in ${player.location} on year ${year}</p>
     <p>My father is ${player.relationships.parents[0].fullName}, he works as a ${player.relationships.parents[0].job.label.toLowerCase()}</p>
     <p>My mother is ${player.relationships.parents[1].fullName}, she works as a ${player.relationships.parents[1].job.label.toLowerCase()}</p>
     `
