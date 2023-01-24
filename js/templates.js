@@ -197,17 +197,20 @@ const menuTemplates = {
             if (job.label !== player.job.label)
                 string = string.concat(`<div onclick="functionTemplates.trigger.jobWindow(this)" class="cell" data-index="${index}">${job.label}</div>`)
             index++;
-        } if (player.job !== 'none') {
-            string = string.concat(`
-        <div id="current-job" onclick="functionTemplates.trigger.currentJob()" class="option">${player.job.label}</div>
-        `)
         }
 
         menuTemplate.style.display = 'block'
         menuTitle.innerText = 'Jobs'
         menuBody.innerHTML = `
-        <div id="jobs-container">
-        ${string}
+        <div id="job-wrapper">
+            <div id="jobs-container">
+            ${string}
+            </div>
+            <div id="current-job">
+            ${player.job !== 'none' ? `
+            <div id="current-job" onclick="functionTemplates.trigger.currentJob()" class="option">${player.job.label}</div>
+            ` : ''}
+            </div>
         </div>
         `
     },
