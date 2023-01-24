@@ -342,6 +342,15 @@ const menuTemplates = {
 
 functionTemplates = {
     trigger: {
+        moneyDashboard(){
+            modalBackground.style.display = 'flex'
+            eventTitle.innerText = 'Money'
+            eventBody.innerHTML = `
+            <p><b>Total money: </b>${moneyFormat(player.money.total)}</p>
+            <p><b>Income: </b>${moneyFormat(player.money.income - player.money.expenses)}</p>
+            <div class="option" onclick="closeEvent()">Close</div>
+            `
+        },
         buyWindow(e) {
             const objName = e.getAttribute('data-objname');
             const property = e.getAttribute('data-property');

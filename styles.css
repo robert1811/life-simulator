@@ -104,6 +104,9 @@ body{
 #money-container{
     margin: 0 auto;
     padding: 5px;
+    cursor: pointer;
+    background-color: #303030;
+    border-radius: 5px;
 }
 
 .row{
