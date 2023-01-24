@@ -205,20 +205,6 @@ const cvListifier = (player) =>{
 
 }
 
-const moneyViewer = () => {
-    const totalMoney = document.getElementById('total-money');
-    totalMoney.innerText = `${moneyFormat(player.money.total)} $`;
-    
-    const balance = document.getElementById('balance');
-    if(player.money.income - player.money.expenses > 0)
-        balance.innerText = `+${moneyFormat(player.money.income - player.money.expenses)} $`
-    else if(player.money.income - player.money.expenses < 0)
-        balance.innerText = `${moneyFormat(player.money.income - player.money.expenses)} $`
-    else if(player.money.income - player.money.expenses === 0)
-        balance.innerText = ''
-}
-
-
 const lifeStageDisplayer = () => {
     let headContainer = document.getElementById('head-container');
     if (player.age < 18) {
@@ -279,4 +265,34 @@ const requirementsFiller = (obj, person) =>{
         if(req[0] === 'driverLicense')
             person.driverLicense = true
     }
+}
+
+const moneyAbbreviation = (money) => {
+    const array = moneyFormat(money).split('.')
+    const size = array.length
+    const handler = (letter) => {
+        console.log(parseInt(array[1][0]) !== 0)
+        if(parseInt(array[1][0]) !== 0) 
+            return `${array[0]}.${array[1][0]}${letter}`
+        else 
+            return array[0] + letter
+    }
+    if(size === 2) return handler('K')
+    else if(size === 3) return handler('M')
+    else if(size === 4) return handler('B')
+}
+
+console.log(moneyAbbreviation(521000000))
+
+const moneyViewer = () => {
+    const totalMoney = document.getElementById('total-money');
+    totalMoney.innerText = `${moneyFormat(player.money.total)} $`;
+    
+    const balance = document.getElementById('balance');
+    if(player.money.income - player.money.expenses > 0)
+        balance.innerHTML = `<span class="green">+${moneyAbbreviation(player.money.income - player.money.expenses)} $</span>`
+    else if(player.money.income - player.money.expenses < 0)
+        balance.innerHTML = `<span class="red">${moneyAbbreviation(player.money.income - player.money.expenses)} $</span>`
+    else if(player.money.income - player.money.expenses === 0)
+        balance.innerText = ''
 }

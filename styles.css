@@ -729,3 +729,11 @@ li{
     margin: 0 auto;
     width: 360px;
 }
+
+.green{
+    color: #15c53b;
+}
+
+.red{
+    color: #df3b3b;
+}
