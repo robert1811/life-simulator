@@ -61,7 +61,7 @@ const menuTemplates = {
             <li class="option activity-option" onclick="functionTemplates.trigger.murder()">
                 Murder
             </li>
-            <li class="option activity-option" onclick="functionTemplates.trigger.stealCar()">
+            <li class="option activity-option" onclick="functionTemplates.trigger.stealCarWindow()">
                 Steal Car
             </li>
             <li class="option activity-option" onclick="functionTemplates.trigger.robbery()">
@@ -811,9 +811,50 @@ functionTemplates = {
             <div class="option" onclick="functionTemplates.killRandom('${victim}')">kill</div>
             <div class="option" onclick="closeEvent()">Close</div>
             `
+        },
+        stealCarWindow(){
+            const cars = assets.cars
+            const random = Math.floor(Math.random() * cars.length)
+            const car = cars[random]
+
+            modalBackground.style.display = 'flex'
+            eventTitle.innerText = 'Steal car'
+            eventBody.innerHTML = `
+            <p>You found a ${car.label}, would you steal it?</p>
+            <div class="option" onclick="functionTemplates.stealCar('${car.label}')">Yes</div>
+            <div class="option" onclick="closeEvent()">No</div>
+            `
         }
     },
     // This is where trigger object ends
+    stealCar(carName){
+        let car
+        const cars = assets.cars
+        for(let i = 0; i < assets.cars.length; i++){
+            if(carName === cars[i].label){
+                car = structuredClone(cars[i])
+                car.stolen = true
+                break
+            }
+        }
+        const random = Math.floor(Math.random() * 100)
+        menuTemplate.style.display = 'none'
+        if(random >= 30){
+            car.inventoryIndex = player.inventory.cars.length
+            player.inventory.cars.push(car)
+            eventBody.innerHTML = `
+            <p>You stole this car succesfully</p>
+            <div class="option" onclick="closeEvent()">Close</div>
+            `
+        } else {
+            eventBody.innerHTML = `
+            <p>You got arrested</p>
+            <div class="option" onclick="closeEvent()">Close</div>
+            `
+            arrestByStealingCar(player)
+            textContainer.innerHTML += `<p>I got arrested for ${player.prison.sentenceTime} years</p>`
+        }
+    },
     killRandom(victim){
         const random = Math.floor(Math.random() * 100)
         menuTemplate.style.display = 'none'

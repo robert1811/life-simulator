@@ -205,8 +205,8 @@ const skillLeveler = () => {
     }
  }
 
- const arrestByMurder = (person) => {
-    person.prison.sentenceTime = 8 + Math.floor(Math.random() * 17)
+const arrest = (min, max, person) => {
+    person.prison.sentenceTime = min + Math.floor(Math.random() * max)
     person.prison.yearsLeft = person.prison.sentenceTime
     person.prison.jailed = true;
 
@@ -220,4 +220,12 @@ const skillLeveler = () => {
         player.job === 'none';
         textContainer.innerHTML += `<p>I lost my job</p>`
     }
+}
+
+ const arrestByMurder = (person) => {
+    arrest(8, 17, person)
+}
+
+const arrestByStealingCar = (person) => {
+    arrest(1, 3, person)
 }
