@@ -69,13 +69,14 @@ const nationalityList = () => {
 const itemListifier = (obj, property, objName) => {
     let string = '';
     let index = 0;
+    let collection = obj[property]
     if(objName === 'items')
         for(let element of obj[property]) {
             string = string.concat(`<li onclick="functionTemplates.trigger.buyWindow(this)" id="${property}-${index}" data-objName="${objName}" data-property="${property}" data-index="${index}" class="option">${element.label} (${moneyFormat(element.price)} $)</li>`)
             index++;
         }
     else if(objName === 'assets'){
-        for(let element of obj[property]) {
+        for(let element of collection.sort((a, b) => b.price - a.price)) {
             string = string.concat(`<div onclick="functionTemplates.trigger.buyWindow(this)" 
             id="${property}-${index}" data-objName="${objName}" data-property="${property}" data-index="${index}" class="cell">${element.label} (${moneyFormat(element.price)} $)</div>`)
             index++;
@@ -281,8 +282,6 @@ const moneyAbbreviation = (money) => {
     else if(size === 3) return handler('M')
     else if(size === 4) return handler('B')
 }
-
-console.log(moneyAbbreviation(521000000))
 
 const moneyViewer = () => {
     const totalMoney = document.getElementById('total-money');
