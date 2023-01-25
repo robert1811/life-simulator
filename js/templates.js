@@ -64,7 +64,7 @@ const menuTemplates = {
             <li class="option activity-option" onclick="functionTemplates.trigger.stealCarWindow()">
                 Steal Car
             </li>
-            <li class="option activity-option" onclick="functionTemplates.trigger.robbery()">
+            <li class="option activity-option" onclick="alert('coming soon')">
                 Robbery
             </li>
         </ul>
@@ -824,7 +824,8 @@ functionTemplates = {
             <div class="option" onclick="functionTemplates.stealCar('${car.label}')">Yes</div>
             <div class="option" onclick="closeEvent()">No</div>
             `
-        }
+        },
+
     },
     // This is where trigger object ends
     stealCar(carName){

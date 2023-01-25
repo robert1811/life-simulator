@@ -124,6 +124,27 @@ const assets = {
         }, {
             label: 'Aiways U5',
             price: 42690
+        }, {
+            label: 'Bolt 550S',
+            price: 124000
+        }, {
+            label: 'Onyx Zeal',
+            price: 113000
+        }, {
+            label: 'FRX Catalyst',
+            price: 58000
+        }, {
+            label: 'Shelly Behemot GT',
+            price: 56000
+        }, {
+            label: 'EOS Nimbus',
+            price: 54000
+        }, {
+            label: 'Ranger Expedition',
+            price: 26000
+        }, {
+            label: 'Ranger Radiance',
+            price: 35000
         }
     ]
 }
