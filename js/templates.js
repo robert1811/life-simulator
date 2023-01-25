@@ -45,6 +45,28 @@ const menuTemplates = {
                 <img src="images/options/university.png
                 ">University
             </li>
+            <li class="option activity-option ${player.age < 14 ? 'disabled' : ''}" onclick="menuTemplates.criminal()">
+                Criminal
+            </li>
+        </ul>
+        `
+    },
+    criminal(){
+        if(player.age < 14) return
+
+        menuTemplate.style.display = 'block'
+        menuTitle.innerText = 'Criminal'
+        menuBody.innerHTML = `
+        <ul>
+            <li class="option activity-option" onclick="functionTemplates.trigger.murder()">
+                Murder
+            </li>
+            <li class="option activity-option" onclick="functionTemplates.trigger.stealCar()">
+                Steal Car
+            </li>
+            <li class="option activity-option" onclick="functionTemplates.trigger.robbery()">
+                Robbery
+            </li>
         </ul>
         `
     },
@@ -741,6 +763,96 @@ functionTemplates = {
             <div id="player-pay-university" class="option" onclick="functionTemplates.university.payByMyself()">Pay it by myself</div>
             <div class="option" onclick="functionTemplates.university.dontGo()">Nevermind</div>
             `
+        },
+        robbery(){
+            modalBackground.style.display = 'flex'
+            eventTitle.innerText = 'Robbery'
+            eventBody.innerHTML = `
+            <div class="option" onclick="closeEvent()">Close</div>
+            `
+        },
+        stealCar(){
+            modalBackground.style.display = 'flex'
+            eventTitle.innerText = 'Steal car'
+            eventBody.innerHTML = `
+            <div class="option" onclick="closeEvent()">Close</div>
+            `
+        },
+        murder(){
+            const events = [{
+                message: 'A beggar asked for your charity',
+                target: 'beggar',
+                gender: 'male'
+            }, {
+                message: 'A prostitute offers you her services',
+                target: 'prostitute',
+                gender: 'female'
+            }]
+            const random = Math.floor(Math.random() * events.length)
+            const pronoun = events[random].gender === "male" ? 'him' : 'her'
+            const victim = events[random].target
+
+            modalBackground.style.display = 'flex'
+            eventTitle.innerText = 'Murder'
+            eventBody.innerHTML = `
+            <p>${events[random].message}</p>
+            <h3>Murder method:</h3>
+            <select id="method-selector">
+                <option value="strangulation">Strangle ${pronoun}</option>
+                <option value="stab">Stab ${pronoun}</option>
+            </select>
+            `
+            const methodSelector = document.getElementById('method-selector')
+            let method = methodSelector.value
+            methodSelector.onselect = (e => {
+                method = e.target.value
+            })
+            eventBody.innerHTML += `
+            <div class="option" onclick="functionTemplates.killRandom('${victim}')">kill</div>
+            <div class="option" onclick="closeEvent()">Close</div>
+            `
+        }
+    },
+    // This is where trigger object ends
+    killRandom(victim){
+        const random = Math.floor(Math.random() * 100)
+        menuTemplate.style.display = 'none'
+
+        if(random > 30){
+            player.criminalRecord.murder++
+            textContainer.innerHTML += `
+            <p>I killed a ${victim}</p>
+            `
+            const probabilityOfArrest = Math.floor(Math.random() * 100)
+            if(probabilityOfArrest > 60){
+                eventBody.innerHTML = `
+                <p>You got caught by the police, you are arrested</p>
+                <div class="option" onclick="closeEvent()">Close</div>
+                `
+                arrestByMurder(player)
+                textContainer.innerHTML += `
+                <p>The police caught me</p>
+                <p>I have been arrested for ${player.prison.sentenceTime} years</p>
+                ` 
+            } else {
+                eventBody.innerHTML = `
+                <p>You killed the ${victim} succesfully</p>
+                <div class="option" onclick="closeEvent()">Close</div>
+                `
+            }
+
+        } else {
+            player.criminalRecord.murderAttempts++
+            arrestByMurder(player)
+            eventBody.innerHTML = `
+            <p>Your murder attempt failed, you got denounced</p>
+            <div class="option" onclick="closeEvent()">Close</div>
+            `
+            textContainer.innerHTML += `
+            <p>My murder attempt failed</p>
+            <p>I got denounced</p>
+            <p>I have been arrested for ${player.prison.sentenceTime} years</p>
+            `
         }
     },
     university: {
@@ -1151,27 +1263,14 @@ functionTemplates = {
                 menuTemplate.style.display = 'none';
 
                 player.criminalRecord.murderAttempts++;
-                player.prison.sentenceTime = 8 + Math.floor(Math.random() * 17)
-                player.prison.yearsLeft = player.prison.sentenceTime
-                player.prison.jailed = true;
+                arrestByMurder(player)
 
                 textContainer.innerHTML += `
                 <p>My assasination attempt failed, I got denounced</p>
                 <p>I have been arrested for ${player.prison.sentenceTime} years
                 </p>
                 `
-                
-                leftBtnContainer.innerHTML = `
-                <button class="btn" onclick="functionTemplates.trigger.prison()">
-                <img src="images/prison.png">
-                </button>
-                <p>Prison</p>
-                `
-
-                if(player.job !== 'none') {
-                    player.job === 'none';
-                    textContainer.innerHTML += `<p>I lost my job</p>`
-                }
+            
             }
         },
     },

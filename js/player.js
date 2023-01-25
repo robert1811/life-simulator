@@ -204,3 +204,20 @@ const skillLeveler = () => {
         player.actions[action[0]] = 0
     }
  }
+
+ const arrestByMurder = (person) => {
+    person.prison.sentenceTime = 8 + Math.floor(Math.random() * 17)
+    person.prison.yearsLeft = person.prison.sentenceTime
+    person.prison.jailed = true;
+
+    leftBtnContainer.innerHTML = `
+                <button class="btn" onclick="functionTemplates.trigger.prison()">
+                <img src="images/prison.png">
+                </button>
+                <p>Prison</p>
+                `
+    if(player.job !== 'none') {
+        player.job === 'none';
+        textContainer.innerHTML += `<p>I lost my job</p>`
+    }
+}

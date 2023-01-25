@@ -740,3 +740,7 @@ li{
 .red{
     color: #df3b3b;
 }
+
+#modal-background select {
+    padding: 5px !important;
+}
