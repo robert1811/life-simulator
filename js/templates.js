@@ -392,10 +392,19 @@ functionTemplates = {
             `
         },
         jobWindow(e) {
+            modalBackground.style.display = 'flex';
+            if(player.job !== 'none'){
+                eventTitle.innerText = 'You already have a job'
+                return eventBody.innerHTML = `
+                <p>Will you quit?</p>
+                <div class="option" onclick="functionTemplates.job.leave()">Quit</div>
+                <div class="option" onclick="closeEvent()">Keep my job</div>
+                `
+            }
+
             const index = e.getAttribute('data-index');
             const job = jobs[index];
 
-            modalBackground.style.display = 'flex';
             eventTitle.innerText = `Get a job as ${job.label}`;
             eventBody.innerHTML = `
                 <p><b>Anual salary: </b>${moneyFormat(job.salary)}$</p><br>
