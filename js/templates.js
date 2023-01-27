@@ -374,16 +374,22 @@ functionTemplates = {
             `
         },
         buyWindow(e) {
+            // objname could be items of assets (car or real estate)
             const objName = e.getAttribute('data-objname');
             const property = e.getAttribute('data-property');
             const index = e.getAttribute('data-index');
+
+            modalBackground.style.display = 'flex'
+
+            if(property === 'cars'){
+                return functionTemplates.trigger.driverLicense()
+            }
 
             let obj;
 
             if (objName === 'items') obj = items[property][index]
             else obj = assets[property][index];
 
-            modalBackground.style.display = 'flex'
             eventTitle.innerText = `Buy ${obj.label}`
             eventBody.innerHTML = `
                 <h3>Price: ${moneyFormat(obj.price)} $</h3>
@@ -657,7 +663,12 @@ functionTemplates = {
                 <div class="option" onclick="closeEvent()">Close</div>
             `
             else eventBody.innerHTML = `
-            
+                <p><b>Value: </b>${moneyFormat(asset.price)}</p>
+                ${player.driverLicense ? `
+                <div class="option" onclick="functionTemplates.drive()">Drive</div>
+                ` : ''}
+                <div class="option" data-item="${type}-${index}" onclick="functionTemplates.sellItem(this)">Sell</div>
+                <div class="option" onclick="closeEvent()">Close</div>
             `
         }, 
         driverLicense(){
