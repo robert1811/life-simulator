@@ -368,8 +368,8 @@ functionTemplates = {
             modalBackground.style.display = 'flex'
             eventTitle.innerText = 'Money'
             eventBody.innerHTML = `
-            <p><b>Total money: </b>${moneyFormat(player.money.total)}</p>
-            <p><b>Income: </b>${moneyFormat(player.money.income - player.money.expenses)}</p>
+            <p><b>Total money: </b>${moneyFormat(player.money.total)} $</p>
+            <p><b>Income: </b>${moneyFormat(player.money.income - player.money.expenses)} $</p>
             <div class="option" onclick="closeEvent()">Close</div>
             `
         },
@@ -780,13 +780,6 @@ functionTemplates = {
             <div class="option" onclick="closeEvent()">Close</div>
             `
         },
-        stealCar(){
-            modalBackground.style.display = 'flex'
-            eventTitle.innerText = 'Steal car'
-            eventBody.innerHTML = `
-            <div class="option" onclick="closeEvent()">Close</div>
-            `
-        },
         murder(){
             const events = [{
                 message: 'A beggar asked for your charity',
@@ -856,12 +849,14 @@ functionTemplates = {
             <p>You stole this car succesfully</p>
             <div class="option" onclick="closeEvent()">Close</div>
             `
+            textContainer.innerHTML += `<p>I stole a ${carName.toLowerCase()}</p>`
         } else {
             eventBody.innerHTML = `
             <p>You got arrested</p>
             <div class="option" onclick="closeEvent()">Close</div>
             `
             arrestByStealingCar(player)
+            textContainer.innerHTML += `<p>I tried to steal a ${carName.toLowerCase()}</p>`
             textContainer.innerHTML += `<p>I got arrested for ${player.prison.sentenceTime} years</p>`
         }
     },
