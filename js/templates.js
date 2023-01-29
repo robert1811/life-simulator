@@ -41,6 +41,9 @@ const menuTemplates = {
             <li onclick="functionTemplates.trigger.findLove()" class="option activity-option ${player.age < 14 ? 'disabled' : ''}">
                 <img src="images/options/love.png" style="width: 35px; height: 35px"> Love
             </li>
+            <li onclick="functionTemplates.trigger.plasticSurgeries()" class="option activity-option ${player.age < 18 ? 'disabled' : ''}">
+                Plastic surgeries
+            </li>
             <li onclick="functionTemplates.trigger.university()" class="option activity-option ${player.age < 18 ? 'disabled' :''}">
                 <img src="images/options/university.png
                 ">University
@@ -364,6 +367,36 @@ const menuTemplates = {
 
 functionTemplates = {
     trigger: {
+        plasticSurgeries(){
+            if(player.age < 17) return
+
+            modalBackground.style.display = 'flex'
+            eventTitle.innerText = 'Plastic surgeries'
+            eventBody.innerHTML = `
+            <p>Fix your insecurities today</p>
+            <div class="option" onclick="functionTemplates.plasticSurgeries.noseJob(400)">
+                Nose job
+            </div>
+            <div class="option" onclick="functionTemplates.plasticSurgeries.faceLift(1000)">
+                Face lift
+            </div>
+            <div class="option" onclick="functionTemplates.plasticSurgeries.lipAugmentation(600)">
+                Lip Augmentation
+            </div>
+            ${player.gender === 'male' ? `` : `
+            <div class="option" onclick="functionTemplates.plasticSurgeries.breastAugmentation(800)">
+                Breast augmentation
+            </div>
+            `}
+            <div class="option" onclick="functionTemplates.plasticSurgeries.eyelidLift(250)">
+                Eyelid Lift
+            </div>
+            <div class="option" onclick="functionTemplates.plasticSurgeries.hairTransplantation(900)">
+                Hair transplantation
+            </div>
+            <div class="option" onclick="closeEvent()">Do nothing</div>
+            `
+        },
         moneyDashboard(){
             modalBackground.style.display = 'flex'
             eventTitle.innerText = 'Money'
@@ -841,6 +874,64 @@ functionTemplates = {
 
     },
     // This is where trigger object ends
+    plasticSurgeries: {
+        beautyBuff(price, operation){
+            if(player.money.total < price) 
+                return eventBody.innerHTML = `
+                <p>You cant afford this</p>
+                <div class="option" onclick="closeEvent()">Close</div>
+                `
+            const buff = Math.floor(Math.random() * 12)
+            player.stats.appearance += buff
+            statsLimit(player)
+            eventBody.innerHTML = `
+            <p>+${buff} appearance</p>
+            <div class="option" onclick="closeEvent()">Close</div>
+            `
+            menuTemplate.style.display = 'none'
+            textContainer.innerHTML += `
+            <p>I paid for a ${operation}</p>
+            `
+        },
+        options(price, operation){
+            return `
+            <p><b>Price: </b>${moneyFormat(price)} $</p>
+            <div class="option" onclick="functionTemplates.plasticSurgeries.beautyBuff(${price}, '${operation}')">Pay</div>
+            <div class="option" onclick="closeEvent()">Close</div>
+            `
+        },
+        noseJob(price){
+            const options = this.options(price, 'nose job')
+            eventTitle.innerText = 'Nose job'
+            eventBody.innerHTML = options
+        },
+        faceLift(price){
+            const options = this.options(price, 'face lift')
+            eventTitle.innerText = 'Face lift'
+            eventBody.innerHTML = options
+        },
+        lipAugmentation(price){
+            console.log(this)
+            const options = this.options(price, 'lip augmentation')
+            eventTitle.innerText = 'Lip augmentation'
+            eventBody.innerHTML = options
+        },
+        breastAugmentation(price){
+            const options = this.options(price, 'breast augmentation')
+            eventTitle.innerText = 'Breast augmentation'
+            eventBody.innerHTML = options
+        },
+        eyelidLift(price){
+            const options = this.options(price, 'eyelid lift')
+            eventTitle.innerText = 'Eyelid lift'
+            eventBody.innerHTML = options
+        },
+        hairTransplantation(price){
+            const options = this.options(price, 'hair transplantation')
+            eventTitle.innerText = 'Hair transplantation'
+            eventBody.innerHTML = options
+        }
+    },
     stealCar(carName){
         let car
         const cars = assets.cars
