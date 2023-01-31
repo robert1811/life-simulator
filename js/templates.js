@@ -13,11 +13,11 @@ const carsOptions = itemListifier(assets, 'cars', 'assets');
 // outside the trigger object but within the templateFunctions, there are the functions for every button from events 
 
 const menuTemplates = {
-    activities(){
-        if(player.prison.jailed) return;
+    activities() {
+        if (player.prison.jailed) return;
 
         menuTemplate.style.display = 'block';
-        menuTitle.innerText  = 'Activities'
+        menuTitle.innerText = 'Activities'
         menuBody.innerHTML = `
         <ul>
             <li onclick="menuTemplates.freetime()" class="option activity-option">
@@ -44,7 +44,7 @@ const menuTemplates = {
             <li onclick="functionTemplates.trigger.plasticSurgeries()" class="option activity-option ${player.age < 18 ? 'disabled' : ''}">
                 Plastic surgeries
             </li>
-            <li onclick="functionTemplates.trigger.university()" class="option activity-option ${player.age < 18 ? 'disabled' :''}">
+            <li onclick="functionTemplates.trigger.university()" class="option activity-option ${player.age < 18 ? 'disabled' : ''}">
                 <img src="images/options/university.png
                 ">University
             </li>
@@ -54,8 +54,8 @@ const menuTemplates = {
         </ul>
         `
     },
-    criminal(){
-        if(player.age < 14) return
+    criminal() {
+        if (player.age < 14) return
 
         menuTemplate.style.display = 'block'
         menuTitle.innerText = 'Criminal'
@@ -73,9 +73,9 @@ const menuTemplates = {
         </ul>
         `
     },
-    freetime(){
+    freetime() {
         menuTemplate.style.display = 'block';
-        menuTitle.innerText  = 'Free time'
+        menuTitle.innerText = 'Free time'
         menuBody.innerHTML = `
         <ul>
         <li class="option ${player.age < 8 ? 'disabled' : ''}" onclick="functionTemplates.freetime.handleSwitch('reading')">
@@ -134,13 +134,23 @@ const menuTemplates = {
         </div>
         </li>
 
-        <li class="option ${player.age < 12 ? 'disabled' : ''}" onclick="functionTemplates.trigger.restaurant()">Go to a restaurant</li>
-        <li class="option ${player.age < 12 ? 'disabled' : ''}" onclick="functionTemplates.trigger.cinema()">Watch a movie</li>
+        <li class="option ${player.age < 12 ? 'disabled' : ''}" onclick="functionTemplates.trigger.restaurant()">
+            Go to a restaurant
+        </li>
+
+        <li class="option ${player.age < 12 ? 'disabled' : ''}" onclick="functionTemplates.trigger.cinema()">
+            Watch a movie
+        </li>
+
+        <li class="option ${player.age < 18 ? 'disabled' : ''}" onclick="functionTemplates.goClubbing.display()">
+            Go clubbing
+        </li>
+        </li>
         </ul>
         `
     },
-    cars(){
-        if(player.age < 18) return;
+    cars() {
+        if (player.age < 18) return;
 
         menuTemplate.style.display = 'block';
         menuTitle.innerText = 'Cars';
@@ -159,8 +169,8 @@ const menuTemplates = {
             </div>
         </div>`
     },
-    realEstate(){
-        if(player.age < 16) return;
+    realEstate() {
+        if (player.age < 16) return;
 
         menuTemplate.style.display = 'block';
         menuTitle.innerText = 'Real Estate';
@@ -179,7 +189,7 @@ const menuTemplates = {
             </div>
         </div>`
     },
-    assetsHandler(data){
+    assetsHandler(data) {
         const ids = {
             ownedTab: 'marketTab',
             marketTab: 'ownedTab'
@@ -188,23 +198,23 @@ const menuTemplates = {
         const cellContainer = document.getElementById('cell-container')
         const type = data.getAttribute('data-type')
 
-        if(!data.classList.value.includes('active')){
+        if (!data.classList.value.includes('active')) {
             document.getElementById(ids[thisId]).classList.remove('active');
             data.classList.add('active')
-            if(thisId ==='marketTab'){
-                if(type === 'houses')
-                cellContainer.innerHTML = housesOptions
+            if (thisId === 'marketTab') {
+                if (type === 'houses')
+                    cellContainer.innerHTML = housesOptions
                 else
-                cellContainer.innerHTML = carsOptions
+                    cellContainer.innerHTML = carsOptions
             }
             else cellContainer.innerHTML = ownedAssets(type)
         }
     },
-    shopping(){
-        if(player.age < 14) return
+    shopping() {
+        if (player.age < 14) return
 
         menuTemplate.style.display = 'block';
-        menuTitle.innerText  = 'Shopping'
+        menuTitle.innerText = 'Shopping'
         menuBody.innerHTML = `
         <ul>
         <li onclick="menuTemplates.weapons()" class="option">Weapons</li>
@@ -213,10 +223,10 @@ const menuTemplates = {
         </ul>
         `
     },
-    emigrate(){
+    emigrate() {
         if (player.age < 18) return
         menuTemplate.style.display = 'block';
-        menuTitle.innerText  = 'Emigrate'
+        menuTitle.innerText = 'Emigrate'
         menuBody.innerHTML = `
         <div id="select-container">
             <select id="country-chooser">
@@ -231,7 +241,7 @@ const menuTemplates = {
         `
     },
     job() {
-        if(player.prison.jailed) return;
+        if (player.prison.jailed) return;
 
         let string = '';
         let index = 0;
@@ -256,36 +266,36 @@ const menuTemplates = {
         </div>
         `
     },
-    weapons(){
+    weapons() {
         menuTemplate.style.display = 'block';
-        menuTitle.innerText  = 'Weapons'
+        menuTitle.innerText = 'Weapons'
         menuBody.innerHTML = `
         <ul>
         ${weaponOptions}
         </ul>
         `
     },
-    instruments(){
+    instruments() {
         menuTemplate.style.display = 'block';
-        menuTitle.innerText  = 'Instruments'
+        menuTitle.innerText = 'Instruments'
         menuBody.innerHTML = `
         <ul>
         ${instrumentOptions}
         </ul>
         `
     },
-    electronics(){
+    electronics() {
         menuTemplate.style.display = 'block';
-        menuTitle.innerText  = 'Electronics'
+        menuTitle.innerText = 'Electronics'
         menuBody.innerHTML = `
         <ul>
         ${electronicOptions}
         </ul>
         `
     },
-    profile(){
+    profile() {
         menuTemplate.style.display = 'block';
-        menuTitle.innerText  = 'Profile'
+        menuTitle.innerText = 'Profile'
         menuBody.innerHTML = `
         <ul>
             <li class="option" onclick="functionTemplates.trigger.identity()">
@@ -315,7 +325,7 @@ const menuTemplates = {
         </ul>
         `
     },
-    relationships(){
+    relationships() {
         menuTemplate.style.display = 'block'
         menuTitle.innerText = 'Relationships'
         menuBody.innerHTML = `
@@ -366,9 +376,98 @@ const menuTemplates = {
 
 
 functionTemplates = {
+    goClubbing: {
+        display() {
+            if (player.age < 18) return
+
+            modalBackground.style.display = 'flex'
+            eventTitle.innerText = 'Go clubbing'
+            const possibilities = Math.round(Math.random() * 3)
+
+            player.stats.happiness += Math.floor(Math.random() * 5)
+            statsLimit(player)
+            textContainer.innerHTML += `
+            <p>I went clubbing</p>
+            `
+            handleStatBars(player, true)
+            if (possibilities <= 1)
+                eventBody.innerHTML = `
+                <p>You had fun at the club</p>
+                <div class="option" onclick="closeEvent()">Close</div>
+                `
+            else if (possibilities === 2) {
+                const drinks = ['beer', 'wine', 'vodka']
+                const random = Math.floor(Math.random() * drinks.length)
+                eventBody.innerHTML = `
+                <p>You have been offered a ${drinks[random]}</p>
+                <div class="option" onclick="functionTemplates.goClubbing.acceptDrink('${drinks[random]}')">Accept</div>
+
+                <div class="option" onclick="functionTemplates.goClubbing.decline()">Refuse</div>
+                `
+                textContainer.innerHTML += `<p>I have been offered a ${drinks[random]}</p>`
+            }
+            else if (possibilities === 3) {
+                const drugs = [
+                    {
+                        name: 'LSD',
+                        damage: 5
+                    },
+                    {
+                        name: 'weed',
+                        damage: 3
+                    },
+                    {
+                        name: 'heroin',
+                        damage: 12
+                    },
+                    {
+                        name: 'cocaine',
+                        damage: 10
+                    }
+                ];
+                const random = Math.floor(Math.random() * drugs.length)
+                const drug = drugs[random]
+
+                textContainer.innerHTML += `<p>I have been offered ${drug.name}</p>`
+                eventBody.innerHTML = `
+                <p>You have been offered ${drug.name}</p>
+                <div class="option" onclick="functionTemplates.goClubbing.acceptDrug(${drug.damage})">Accept</div>
+                <div class="option" onclick="functionTemplates.goClubbing.decline()">Refuse</div>
+                `
+            }
+        },
+        acceptDrink(drink){
+            menuTemplate.style.display = 'none'
+            eventBody.innerHTML = `
+            <p>You accepted the ${drink}</p>
+            <div class="option" onclick="closeEvent()">Close</div>
+            `
+            textContainer.innerHTML += `<p>I accepted the ${drink}</p>`
+            const random = Math.floor(Math.random() * 8)
+            player.stats.health -= random
+            statsLimit(player)
+            handleStatBars(player, true)
+        },
+        acceptDrug(damage){
+            menuTemplate.style.display = 'none'
+            closeEvent()
+            player.stats.health -= damage
+            statsLimit(player)
+            textContainer.innerHTML += `<p>I accepted</p>`
+            handleStatBars(player, true)
+        },
+        decline(){
+            menuTemplate.style.display = 'none'
+            closeEvent()
+            textContainer.innerHTML += `
+            <p>I declined</p>
+            `
+        }
+    },
     trigger: {
-        plasticSurgeries(){
-            if(player.age < 17) return
+
+        plasticSurgeries() {
+            if (player.age < 17) return
 
             modalBackground.style.display = 'flex'
             eventTitle.innerText = 'Plastic surgeries'
@@ -397,7 +496,7 @@ functionTemplates = {
             <div class="option" onclick="closeEvent()">Do nothing</div>
             `
         },
-        moneyDashboard(){
+        moneyDashboard() {
             modalBackground.style.display = 'flex'
             eventTitle.innerText = 'Money'
             eventBody.innerHTML = `
@@ -414,7 +513,7 @@ functionTemplates = {
 
             modalBackground.style.display = 'flex'
 
-            if(property === 'cars'){
+            if (property === 'cars') {
                 return functionTemplates.trigger.driverLicense()
             }
 
@@ -432,7 +531,7 @@ functionTemplates = {
         },
         jobWindow(e) {
             modalBackground.style.display = 'flex';
-            if(player.job !== 'none'){
+            if (player.job !== 'none') {
                 eventTitle.innerText = 'You already have a job'
                 return eventBody.innerHTML = `
                 <p>Will you quit?</p>
@@ -457,7 +556,7 @@ functionTemplates = {
                 `
         },
         cinema() {
-            if(player.age < 12) return
+            if (player.age < 12) return
             modalBackground.style.display = 'flex';
             eventTitle.innerText = `Cinema`;
             eventBody.innerHTML = `
@@ -467,7 +566,7 @@ functionTemplates = {
             `
         },
         restaurant() {
-            if(player.age < 12) return
+            if (player.age < 12) return
             modalBackground.style.display = 'flex';
             eventTitle.innerText = 'Restaurant';
             eventBody.innerHTML = `
@@ -520,7 +619,7 @@ functionTemplates = {
                 let personCategory = target.getAttribute('data-id').split('-')[0]
                 const person = player.relationships[personCategory][parseInt(personID)];
                 const characterIndex = person.characterIndex
-                
+
                 modalBackground.style.display = 'flex';
                 eventTitle.innerText = `${person.fullName} ${!person.alive ? '(dead)' : ''}`
                 eventBody.innerHTML = `
@@ -561,7 +660,7 @@ functionTemplates = {
              `
                 handleStatBars(person, false)
             },
-            friendlyOptions(data){
+            friendlyOptions(data) {
                 const index = data.getAttribute('data-index');
 
                 eventBody.innerHTML = `
@@ -569,22 +668,22 @@ functionTemplates = {
                 <div class="option" onclick="closeEvent()">Close</div>
                 `
             },
-            meanOptions(data){
+            meanOptions(data) {
                 const index = data.getAttribute('data-index');
                 const person = characters[index]
 
                 eventBody.innerHTML = `
                 <div class="option ${player.actions.meanActions < 3 ? '' : 'disabled'}" onclick="functionTemplates.mean.insult(this)" data-index="${index}">Insult</div>
                 <div class="option ${player.actions.meanActions < 3 ? '' : 'disabled'}" onclick="functionTemplates.mean.yell(this)" data-index="${index}">Yell</div>
-                ${player.age > 14 ? `<div class="option" onclick="functionTemplates.mean.assault(this)" data-index="${index}">Assault</div>` 
-                : ''}
+                ${player.age > 14 ? `<div class="option" onclick="functionTemplates.mean.assault(this)" data-index="${index}">Assault</div>`
+                        : ''}
                 ${person.relationships.partner[0] === player ? `
                 <div class="option ${player.actions.meanActions < 3 ? '' : 'disabled'}" onclick="functionTemplates.romance.break()">${person.married ? 'Divorce' : 'Break up'}</div>
                 ` : ''}
                 <div class="option" onclick="closeEvent()">Close</div>
                 `
             },
-            romanticOptions(data){
+            romanticOptions(data) {
                 eventBody.innerHTML = `
                 <div class="option ${player.actions.romanticActions < 3 ? '' : 'disabled'}" onclick="functionTemplates.romance.proposeMarriage()">Propose marriage</div>
                 <div class="option ${player.actions.romanticActions < 3 ? '' : 'disabled'}" onclick="functionTemplates.romance.flirt()">Flirt</div>
@@ -678,15 +777,15 @@ functionTemplates = {
             </ul>
             `
         },
-        ownedAssetWindow(data){
+        ownedAssetWindow(data) {
             const type = data.getAttribute('data-type')
             const index = data.getAttribute('data-index');
             const asset = player.inventory[type][index]
 
             modalBackground.style.display = 'flex'
             eventTitle.innerText = asset.label
-            if(type === 'houses')
-            eventBody.innerHTML = `
+            if (type === 'houses')
+                eventBody.innerHTML = `
                 <p><b>Age: </b>${asset.age}</p>
                 <p><b>Value: </b>${moneyFormat(asset.price)} $</p>
                 <p><b>Condition: </b>${asset.condition}</p>
@@ -703,9 +802,9 @@ functionTemplates = {
                 <div class="option" data-item="${type}-${index}" onclick="functionTemplates.sellItem(this)">Sell</div>
                 <div class="option" onclick="closeEvent()">Close</div>
             `
-        }, 
-        driverLicense(){
-            if(player.age < 18) return;
+        },
+        driverLicense() {
+            if (player.age < 18) return;
 
             modalBackground.style.display = 'flex';
             eventTitle.innerText = 'Driver license'
@@ -719,11 +818,11 @@ functionTemplates = {
             ` : '<div class="option" onclick="closeEvent()">Close</div>'}
             `
         },
-        findLove(){
-            if(player.age < 14) return;
+        findLove() {
+            if (player.age < 14) return;
 
-            if(player.relationships.partner.length !== 0){
-                modalBackground.style.display = 'flex'  
+            if (player.relationships.partner.length !== 0) {
+                modalBackground.style.display = 'flex'
                 eventTitle.innerText = 'Are you sure?'
                 eventBody.innerHTML = `
                 <p>This means breaking up with your current partner</p>
@@ -739,12 +838,12 @@ functionTemplates = {
                 bisexual: undefined
             }
 
-            let possiblePartner = new Person(undefined, undefined,player.age, targetGender[player.sexuality])
-            if(possiblePartner.gender === player.gender)
+            let possiblePartner = new Person(undefined, undefined, player.age, targetGender[player.sexuality])
+            if (possiblePartner.gender === player.gender)
                 possiblePartner.sexuality = 'homosexual'
-            if(possiblePartner.age >= 18)
+            if (possiblePartner.age >= 18)
                 jobAssigner(possiblePartner);
-            
+
             characters.push(possiblePartner)
 
             modalBackground.style.display = 'flex'
@@ -766,8 +865,8 @@ functionTemplates = {
             <div class="option" onclick="functionTemplates.romance.dontTryPartner()">Close</div>
             `
             statbarColorer()
-        }, 
-        prison(){
+        },
+        prison() {
             modalBackground.style.display = 'flex'
             eventTitle.innerText = 'Prison'
             eventBody.innerHTML = `
@@ -778,8 +877,8 @@ functionTemplates = {
                 <div class="option" onclick="closeEvent()">Close</div>
             `
         },
-        criminalRecord(){
-            const {yearsInPrison, murderAttempts, murder, prisonEscapes} = player.criminalRecord
+        criminalRecord() {
+            const { yearsInPrison, murderAttempts, murder, prisonEscapes } = player.criminalRecord
             console.log(murder)
 
 
@@ -793,10 +892,10 @@ functionTemplates = {
             <div class="option" onclick="closeEvent()">Close</div>
             `
         },
-        university(){
-            if(player.age < 17) return
+        university() {
+            if (player.age < 17) return
 
-            if(player.currentEducation === 'university'){
+            if (player.currentEducation === 'university') {
                 modalBackground.style.display = 'flex'
                 eventTitle.innerText = 'University'
                 return eventBody.innerHTML = `
@@ -817,14 +916,14 @@ functionTemplates = {
             <div class="option" onclick="functionTemplates.university.dontGo()">Nevermind</div>
             `
         },
-        robbery(){
+        robbery() {
             modalBackground.style.display = 'flex'
             eventTitle.innerText = 'Robbery'
             eventBody.innerHTML = `
             <div class="option" onclick="closeEvent()">Close</div>
             `
         },
-        murder(){
+        murder() {
             const events = [{
                 message: 'A beggar asked for your charity',
                 target: 'beggar',
@@ -858,7 +957,7 @@ functionTemplates = {
             <div class="option" onclick="closeEvent()">Close</div>
             `
         },
-        stealCarWindow(){
+        stealCarWindow() {
             const cars = assets.cars
             const random = Math.floor(Math.random() * cars.length)
             const car = cars[random]
@@ -875,8 +974,8 @@ functionTemplates = {
     },
     // This is where trigger object ends
     plasticSurgeries: {
-        beautyBuff(price, operation){
-            if(player.money.total < price) 
+        beautyBuff(price, operation) {
+            if (player.money.total < price)
                 return eventBody.innerHTML = `
                 <p>You cant afford this</p>
                 <div class="option" onclick="closeEvent()">Close</div>
@@ -893,50 +992,50 @@ functionTemplates = {
             <p>I paid for a ${operation}</p>
             `
         },
-        options(price, operation){
+        options(price, operation) {
             return `
             <p><b>Price: </b>${moneyFormat(price)} $</p>
             <div class="option" onclick="functionTemplates.plasticSurgeries.beautyBuff(${price}, '${operation}')">Pay</div>
             <div class="option" onclick="closeEvent()">Close</div>
             `
         },
-        noseJob(price){
+        noseJob(price) {
             const options = this.options(price, 'nose job')
             eventTitle.innerText = 'Nose job'
             eventBody.innerHTML = options
         },
-        faceLift(price){
+        faceLift(price) {
             const options = this.options(price, 'face lift')
             eventTitle.innerText = 'Face lift'
             eventBody.innerHTML = options
         },
-        lipAugmentation(price){
+        lipAugmentation(price) {
             console.log(this)
             const options = this.options(price, 'lip augmentation')
             eventTitle.innerText = 'Lip augmentation'
             eventBody.innerHTML = options
         },
-        breastAugmentation(price){
+        breastAugmentation(price) {
             const options = this.options(price, 'breast augmentation')
             eventTitle.innerText = 'Breast augmentation'
             eventBody.innerHTML = options
         },
-        eyelidLift(price){
+        eyelidLift(price) {
             const options = this.options(price, 'eyelid lift')
             eventTitle.innerText = 'Eyelid lift'
             eventBody.innerHTML = options
         },
-        hairTransplantation(price){
+        hairTransplantation(price) {
             const options = this.options(price, 'hair transplantation')
             eventTitle.innerText = 'Hair transplantation'
             eventBody.innerHTML = options
         }
     },
-    stealCar(carName){
+    stealCar(carName) {
         let car
         const cars = assets.cars
-        for(let i = 0; i < assets.cars.length; i++){
-            if(carName === cars[i].label){
+        for (let i = 0; i < assets.cars.length; i++) {
+            if (carName === cars[i].label) {
                 car = structuredClone(cars[i])
                 car.stolen = true
                 break
@@ -944,7 +1043,7 @@ functionTemplates = {
         }
         const random = Math.floor(Math.random() * 100)
         menuTemplate.style.display = 'none'
-        if(random >= 30){
+        if (random >= 30) {
             car.inventoryIndex = player.inventory.cars.length
             player.inventory.cars.push(car)
             eventBody.innerHTML = `
@@ -962,17 +1061,17 @@ functionTemplates = {
             textContainer.innerHTML += `<p>I got arrested for ${player.prison.sentenceTime} years</p>`
         }
     },
-    killRandom(victim){
+    killRandom(victim) {
         const random = Math.floor(Math.random() * 100)
         menuTemplate.style.display = 'none'
 
-        if(random > 30){
+        if (random > 30) {
             player.criminalRecord.murder++
             textContainer.innerHTML += `
             <p>I killed a ${victim}</p>
             `
             const probabilityOfArrest = Math.floor(Math.random() * 100)
-            if(probabilityOfArrest > 60){
+            if (probabilityOfArrest > 60) {
                 eventBody.innerHTML = `
                 <p>You got caught by the police, you are arrested</p>
                 <div class="option" onclick="closeEvent()">Close</div>
@@ -981,7 +1080,7 @@ functionTemplates = {
                 textContainer.innerHTML += `
                 <p>The police caught me</p>
                 <p>I have been arrested for ${player.prison.sentenceTime} years</p>
-                ` 
+                `
             } else {
                 eventBody.innerHTML = `
                 <p>You killed the ${victim} succesfully</p>
@@ -1004,11 +1103,11 @@ functionTemplates = {
         }
     },
     university: {
-        dontGo(){
+        dontGo() {
             closeEvent()
             textContainer.innerHTML += `<p>Im not going to the university</p>`
         },
-        chooseCareer(payer, paidBy){
+        chooseCareer(payer, paidBy) {
             eventTitle.innerText = 'Choose your career';
             eventBody.innerHTML = `
             <select id="career-selector">
@@ -1031,8 +1130,8 @@ functionTemplates = {
                         player.currentCareer = universityCareers[chosenCareer];
                         player.currentCareer.paidBy = paidBy;
                         player.currentEducation = 'university';
-                        if (payer === player) 
-                            payer.money.expenses += 6000 
+                        if (payer === player)
+                            payer.money.expenses += 6000
                         player.currentCareer.yearsStudied = 0;
                         closeEvent();
                     } else {
@@ -1041,7 +1140,7 @@ functionTemplates = {
                 })
             }
         },
-        payByMyself(){
+        payByMyself() {
             if (player.money.income >= 6000 || player.money.total >= 6000 * 5) {
                 functionTemplates.university.chooseCareer(player, 'myself');
             } else {
@@ -1050,15 +1149,15 @@ functionTemplates = {
                 btn.remove()
             }
         },
-        paidByParents(){
+        paidByParents() {
             const dad = player.relationships.parents[0];
             const mom = player.relationships.parents[1];
 
-            if(dad.alive || mom.alive)
+            if (dad.alive || mom.alive)
                 textContainer.innerHTML += `<p>I asked my parents to pay </p>`
 
-            if (dad.alive && dad.money.income - dad.money.expenses>= 6000 ||
-                mom.alive && mom.money.income - mom.money.expenses>= 6000) {
+            if (dad.alive && dad.money.income - dad.money.expenses >= 6000 ||
+                mom.alive && mom.money.income - mom.money.expenses >= 6000) {
                 textContainer.innerHTML += `<p>My parents accepted</p>`
                 functionTemplates.university.chooseCareer(undefined, 'parents');
             } else {
@@ -1066,18 +1165,18 @@ functionTemplates = {
                 let btn = document.getElementById('parents-pay-university')
                 btn.remove()
             }
-            
+
         },
-        loan(){
+        loan() {
             textContainer.innerHTML += `<p>I applied for a loan</p>`
             functionTemplates.university.chooseCareer(undefined, 'loan');
         }
 
     },
     prison: {
-        attempToEscape(){
+        attempToEscape() {
             const random = Math.floor(Math.random() * 100);
-            if(random <= 10){
+            if (random <= 10) {
                 player.prison.jailed = false;
                 player.criminalRecord.prisonEscapes++;
                 eventBody.innerHTML = `
@@ -1100,7 +1199,7 @@ functionTemplates = {
                 `
             }
         },
-        lift(){
+        lift() {
             player.stats.fitness += 5;
             statsLimit(player);
 
@@ -1160,16 +1259,16 @@ functionTemplates = {
             let requirementsCompleted = 0;
             for (let requirement of Object.entries(requirements)) {
                 const skillVerifier = (skill) => {
-                    if(requirement[0] === skill && player.skills[skill].level >= requirement[1])
+                    if (requirement[0] === skill && player.skills[skill].level >= requirement[1])
                         requirementsCompleted++;
                 }
                 console.log(requirement)
                 if (requirement[0] === 'education' && Object.entries(player.career).length > 0
-                && player.career[requirement[1]] != undefined)
+                    && player.career[requirement[1]] != undefined)
                     if (player.career[requirement[1]].label === requirement[1]) requirementsCompleted++;
 
-               skillVerifier('programming')
-               skillVerifier('music')
+                skillVerifier('programming')
+                skillVerifier('music')
 
                 if (requirement[0] === 'minAge' && player.age >= requirement[1])
                     requirementsCompleted++
@@ -1208,7 +1307,7 @@ functionTemplates = {
             `
             menuTemplates.job()
         },
-        workHarder(){
+        workHarder() {
             closeEvent()
             menuTemplate.style.display = 'none'
             textContainer.innerHTML += `
@@ -1220,13 +1319,13 @@ functionTemplates = {
             player.actions.workHarder++;
             statsLimit(player)
         },
-        askPromotion(){
+        askPromotion() {
             player.actions.performance++
             modalBackground.style.display = 'flex'
             eventTitle.innerText = 'Promotion'
-            if(player.job.performance >= 70)
-                for(let job of jobs){
-                    if(job.label === player.job.promotion){
+            if (player.job.performance >= 70)
+                for (let job of jobs) {
+                    if (job.label === player.job.promotion) {
                         player.job.until = year
                         player.cv.push(player.job)
 
@@ -1263,28 +1362,28 @@ functionTemplates = {
             let button = document.getElementById(`freetime-${option}`)
             switch (option) {
                 case 'reading':
-                    if(player.age < 8) return
+                    if (player.age < 8) return
                     if (player.money.total < 200) return notEnoughMoney()
                     freetime.isReading ? freetime.isReading = false : freetime.isReading = true;
                     freetime.isReading ? button.style.float = 'right' : button.style.float = 'left'
                     freetime.isReading ? player.money.expenses += 200 : player.money.expenses -= 200
                     break;
                 case 'parties':
-                    if(player.age < 2) return
+                    if (player.age < 2) return
                     if (player.money.total < 500) return notEnoughMoney()
                     freetime.isAttendingParties ? freetime.isAttendingParties = false : freetime.isAttendingParties = true;
                     freetime.isAttendingParties ? button.style.float = 'right' : button.style.float = 'left'
                     freetime.isAttendingParties ? player.money.expenses += 500 : player.money.expenses -= 500
                     break;
                 case 'musicLessons':
-                    if(player.age < 7) return
+                    if (player.age < 7) return
                     if (player.money.total < 2000) return notEnoughMoney()
                     freetime.isTakingMusicLessons ? freetime.isTakingMusicLessons = false : freetime.isTakingMusicLessons = true;
                     freetime.isTakingMusicLessons ? button.style.float = 'right' : button.style.float = 'left'
                     freetime.isTakingMusicLessons ? player.money.expenses += 2000 : player.money.expenses -= 2000
                     break;
                 case 'gym':
-                    if(player.age < 16) return
+                    if (player.age < 16) return
                     if (player.money.total < 1800) return notEnoughMoney()
                     freetime.goesToGym ? freetime.goesToGym = false : freetime.goesToGym = true;
                     freetime.goesToGym ? button.style.float = 'right' : button.style.float = 'left'
@@ -1418,7 +1517,7 @@ functionTemplates = {
                 <p>I have been arrested for ${player.prison.sentenceTime} years
                 </p>
                 `
-            
+
             }
         },
     },
@@ -1504,8 +1603,8 @@ functionTemplates = {
         moneyViewer()
     },
     friendly: {
-        spendTime(data){
-            if(player.actions.friendlyActions >= 3) return
+        spendTime(data) {
+            if (player.actions.friendlyActions >= 3) return
 
             player.actions.friendlyActions++
             const index = data.getAttribute('data-index');
@@ -1523,8 +1622,8 @@ functionTemplates = {
         }
     },
     mean: {
-        yell(data){
-            if(player.actions.meanActions >= 3) return
+        yell(data) {
+            if (player.actions.meanActions >= 3) return
 
             player.actions.meanActions++
             const index = data.getAttribute('data-index');
@@ -1532,8 +1631,8 @@ functionTemplates = {
             const isPartner = person.relationships.partner[0] === player ? true : false;
 
             person.stats.relationWithPlayer -= 10
-            
-            if(isPartner)
+
+            if (isPartner)
                 person.stats.loveToPartner -= 20
             statsLimit(person)
 
@@ -1548,8 +1647,8 @@ functionTemplates = {
 
             menuTemplates.relationships()
         },
-        insult(data){
-            if(player.actions.meanActions >= 3) return
+        insult(data) {
+            if (player.actions.meanActions >= 3) return
 
             player.actions.meanActions++
             const index = data.getAttribute('data-index');
@@ -1557,10 +1656,10 @@ functionTemplates = {
             const isPartner = person.relationships.partner[0] === player ? true : false;
 
             person.stats.relationWithPlayer -= 8
-            
-            if(isPartner)
+
+            if (isPartner)
                 person.stats.loveToPartner -= 30
-            
+
             eventBody.innerHTML = `
             <p>You insulted ${person.gender === 'male' ? 'him' : 'her'}</p>
             <p>-8 relationship</p>
@@ -1572,15 +1671,15 @@ functionTemplates = {
 
             menuTemplates.relationships()
         },
-        assault(data){
-            if(player.actions.meanActions >= 3) return
+        assault(data) {
+            if (player.actions.meanActions >= 3) return
 
             const index = data.getAttribute('data-index');
 
             alert('not implemented yet')
-        }        
+        }
     },
-    throwParty(){
+    throwParty() {
         player.stats.happiness += 10;
         eventBody.innerHTML = `
         <p>You threw an amazing party</p>
@@ -1590,10 +1689,10 @@ functionTemplates = {
         textContainer.innerHTML += `<p>I organized a party at home</p>`
         statsLimit(player)
         menuTemplates.relationships()
-    }, 
-    takeDriverTest(){
+    },
+    takeDriverTest() {
         const random = Math.floor(Math.random() * 3)
-        if(random === 2){
+        if (random === 2) {
             player.driverLicense = true
             eventBody.innerHTML = `<p>Congratulations, you approved the driver test</p>
             <div class="option" onclick="closeEvent()">Close</div>
@@ -1607,7 +1706,7 @@ functionTemplates = {
         }
     },
     romance: {
-        tryPartner(){
+        tryPartner() {
             let possiblePartner = characters.at(-1)
 
             const random = Math.floor(Math.random() * 100);
@@ -1615,7 +1714,7 @@ functionTemplates = {
 
             const pronoun = possiblePartner.gender === 'male' ? 'He' : 'She';
 
-            if(random + appearance > 100){
+            if (random + appearance > 100) {
                 possiblePartner.stats.relationWithPlayer = 50 + Math.floor(Math.random() * 50)
                 possiblePartner.stats.loveToPartner = 25 + Math.floor(Math.random() * 25)
 
@@ -1626,19 +1725,19 @@ functionTemplates = {
                 <p>${pronoun} is your partner now</p>
                 <div class="option" onclick="closeEvent()">Close</div>
                 `
-            } else{
+            } else {
                 eventBody.innerHTML = `
                 <p>${pronoun} has rejected you</p>
                 <div class="option" onclick="closeEvent()">Close</div>
                 `
                 characters.pop()
-            } 
+            }
         },
-        dontTryPartner(){
+        dontTryPartner() {
             closeEvent()
             characters.pop()
         },
-        break(){
+        break() {
             const exPartner = player.relationships.partner[0];
             exPartner.stats.relationWithPlayer -= 20 + Math.floor(Math.random() * 60)
             exPartner.stats.loveToPartner = 0;
@@ -1651,7 +1750,7 @@ functionTemplates = {
             player.relationships.exPartners = []
             player.relationships.exPartners.push(exPartner)
             player.relationships.partner.pop();
-            
+
             eventBody.innerHTML = `
             <p>You broke up with you ex</p>
             <div class="option" onclick="closeEvent()">Nothing to miss, right?</div>
@@ -1659,17 +1758,17 @@ functionTemplates = {
 
             menuTemplates.relationships()
         },
-        proposeMarriage(){
+        proposeMarriage() {
             player.actions.romanticActions++
             const partner = player.relationships.partner[0];
             const pronoun = partner.gender === 'male' ? 'He' : 'She';
-            if(partner.stats.loveToPartner >= 60){
+            if (partner.stats.loveToPartner >= 60) {
                 partner.married = true;
                 eventBody.innerHTML = `
                 <p>${pronoun} has accepted your marriage offer, now you are married</p>
                 <div class="option" onclick="closeEvent()">Close</div>
                 `
-            } else{
+            } else {
                 eventBody.innerHTML = `
                 <p>${pronoun} has rejected your marriage offer</p>
                 <div class="option" onclick="closeEvent()">Close</div>
@@ -1677,7 +1776,7 @@ functionTemplates = {
                 menuTemplates.relationships()
             }
         },
-        cuddle(){
+        cuddle() {
             player.actions.romanticActions++
             const partner = player.relationships.partner[0];
             const pronoun = partner.gender === 'male' ? 'him' : 'her';
@@ -1690,7 +1789,7 @@ functionTemplates = {
             menuTemplates.relationships()
 
         },
-        flirt(){
+        flirt() {
             player.actions.romanticActions++
             const partner = player.relationships.partner[0];
             const pronoun = partner.gender === 'male' ? 'him' : 'her';
