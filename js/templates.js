@@ -6,13 +6,13 @@ const carsOptions = itemListifier(assets, 'cars', 'assets');
 
 // there is an object which contains every menu content, which are showed by its methods (called by buttons)
 
-// also there is another object with event-related methods, unlike the menuTemplates object, events are showed in windows.
+// also there is another object with event-related methods, unlike the menu object, events are showed in windows.
 // These windows are mostly called by an object inside of templateFunctions called trigger, whose methods **trigger** the event window.
 // I said mostly because there are specific events which are called by events.js differently
 
 // outside the trigger object but within the templateFunctions, there are the functions for every button from events 
 
-const menuTemplates = {
+const menu = {
     activities() {
         if (player.prison.jailed) return;
 
@@ -20,19 +20,19 @@ const menuTemplates = {
         menuTitle.innerText = 'Activities'
         menuBody.innerHTML = `
         <ul>
-            <li onclick="menuTemplates.freetime()" class="option activity-option">
+            <li onclick="menu.freetime()" class="option activity-option">
                 <img src="images/options/free-time.png" alt="free-time" on> Free time
             </li>
-            <li onclick="menuTemplates.cars()" class="option activity-option ${player.age < 18 ? 'disabled' : ''}">
+            <li onclick="menu.cars()" class="option activity-option ${player.age < 18 ? 'disabled' : ''}">
                 <img src="images/options/cars.png" alt="car"> Cars
             </li>
-            <li onclick="menuTemplates.realEstate()" class="option activity-option ${player.age < 16 ? 'disabled' : ''}">
+            <li onclick="menu.realEstate()" class="option activity-option ${player.age < 16 ? 'disabled' : ''}">
                 <img src="images/options/real-estate.png" alt="house"> Real Estate
             </li>
-            <li onclick="menuTemplates.shopping()" class="option activity-option ${player.age < 14 ? 'disabled' : ''}">
+            <li onclick="menu.shopping()" class="option activity-option ${player.age < 14 ? 'disabled' : ''}">
                 <img src="images/options/shopping.png" alt="shopping"> Shopping
             </li>
-            <li onclick="menuTemplates.emigrate()" class="option activity-option ${player.age < 18 ? 'disabled' : ''}">
+            <li onclick="menu.emigrate()" class="option activity-option ${player.age < 18 ? 'disabled' : ''}">
                 <img src="images/options/emigrate.png" alt="emigrate globe earth"> Emigrate
             </li>
             <li onclick="functionTemplates.trigger.driverLicense()" class="option activity-option ${player.age < 18 ? 'disabled' : ''}">
@@ -48,7 +48,7 @@ const menuTemplates = {
                 <img src="images/options/university.png
                 ">University
             </li>
-            <li class="option activity-option ${player.age < 14 ? 'disabled' : ''}" onclick="menuTemplates.criminal()">
+            <li class="option activity-option ${player.age < 14 ? 'disabled' : ''}" onclick="menu.criminal()">
                 Criminal
             </li>
         </ul>
@@ -145,7 +145,6 @@ const menuTemplates = {
         <li class="option ${player.age < 18 ? 'disabled' : ''}" onclick="functionTemplates.goClubbing.display()">
             Go clubbing
         </li>
-        </li>
         </ul>
         `
     },
@@ -157,10 +156,10 @@ const menuTemplates = {
         menuBody.innerHTML = `
         <div class="assetsContainer">
             <div id="assets-header">
-                <div id="ownedTab" class="tab" data-type="cars" onclick="menuTemplates.assetsHandler(this)">
+                <div id="ownedTab" class="tab" data-type="cars" onclick="menu.assetsHandler(this)">
                     Owned
                 </div>
-                <div id="marketTab" class="tab active" data-type="cars" onclick="menuTemplates.assetsHandler(this)">
+                <div id="marketTab" class="tab active" data-type="cars" onclick="menu.assetsHandler(this)">
                     Market
                 </div>
             </div>
@@ -177,10 +176,10 @@ const menuTemplates = {
         menuBody.innerHTML = `
         <div class="assetsContainer">
             <div id="assets-header">
-                <div id="ownedTab" class="tab" data-type="houses" onclick="menuTemplates.assetsHandler(this)">
+                <div id="ownedTab" class="tab" data-type="houses" onclick="menu.assetsHandler(this)">
                     Owned
                 </div>
-                <div id="marketTab" class="tab active" data-type="houses" onclick="menuTemplates.assetsHandler(this)">
+                <div id="marketTab" class="tab active" data-type="houses" onclick="menu.assetsHandler(this)">
                     Market
                 </div>
             </div>
@@ -217,11 +216,87 @@ const menuTemplates = {
         menuTitle.innerText = 'Shopping'
         menuBody.innerHTML = `
         <ul>
-        <li onclick="menuTemplates.weapons()" class="option">Weapons</li>
-        <li onclick="menuTemplates.instruments()" class="option">Instruments</li>
-        <li onclick="menuTemplates.electronics()" class="option">Electronics</li>
+        <li onclick="menu.weapons()" class="option">Weapons</li>
+        <li onclick="menu.instruments()" class="option">Instruments</li>
+        <li onclick="menu.electronics()" class="option">Electronics</li>
+        <li class="option" onclick="menu.foodAndDrinks.display()">Food and drinks</li>
         </ul>
         `
+    },
+    foodAndDrinks: {
+        display() {
+            menuTitle.innerText = 'Food and drinks'
+            menuBody.innerHTML = `
+            <ul>
+                <li class="option" onclick="menu.foodAndDrinks.food.display()">Food</li>
+                <li class="option" onclick="menu.foodAndDrinks.drinks.display()">Drinks</li>
+            </ul>
+            `
+        },
+        food: {
+            display() {
+                menuTitle.innerText = 'Food'
+                menuBody.innerHTML = `
+                <ul>
+                    <li class="option" onclick="menu.foodAndDrinks.food.fastFood()">Fast food</li>
+                    <li class="option" onclick="menu.foodAndDrinks.food.dessert()">Dessert</li>
+                    <li class="option" onclick="menu.foodAndDrinks.food.vegetables()">Vegetables</li>
+                </ul>
+                `
+            },
+            fastFood() {
+                menuTitle.innerText = 'Fast food'
+                menuBody.innerHTML = `
+                <ul>
+                 ${itemListifier(items, 'fastFood', 'items')}
+                </ul>
+                `
+            },
+            dessert() {
+                menuTitle.innerText = 'Fast food'
+                menuBody.innerHTML = `
+                <ul>
+                ${itemListifier(items, 'desserts', 'items')}
+                </ul>
+                `
+            },
+            vegetables(){
+                menuTitle.innerText = 'Fast food'
+                menuBody.innerHTML = `
+                <ul>
+                ${itemListifier(items, 'vegetables', 'items')}
+                </ul>
+                `
+            }
+
+        },
+        drinks: {
+            display() {
+                menuTitle.innerText = 'Drinks'
+                menuBody.innerHTML = `
+                <ul>
+                    <li class="option" onclick="menu.foodAndDrinks.drinks.nonAlcoholic()">Non alcoholic</li>
+                    <li class="option" onclick="menu.foodAndDrinks.drinks.alcoholic()">Alcoholic</li>
+                </ul>
+                `
+            },
+            alcoholic() {
+                menuTitle.innerText = 'Alcoholic'
+                menuBody.innerHTML = `
+                <ul>
+                ${itemListifier(items, 'alcoholic', 'items')}
+                </ul>
+                `
+            },
+            nonAlcoholic() {
+                menuTitle.innerText = 'Non alcoholic'
+                menuBody.innerHTML = `
+                <ul>
+                ${itemListifier(items, 'nonAlcoholic', 'items')}
+                </ul>
+                `
+            }
+        }
     },
     emigrate() {
         if (player.age < 18) return
@@ -234,8 +309,8 @@ const menuTemplates = {
             </select>
         </div>
         <ul>
-        <li data-triggers="windows" onclick="functionTemplates.emigrate.emigrate()" class="option">Emigrate</li>
-        <li data-triggers="windows" onclick="menuTemplates.activities()" class="option">Cancel</li>
+        <li data-triggers="windows" onclick="functionTemplates.emigrate()" class="option">Emigrate</li>
+        <li data-triggers="windows" onclick="menu.activities()" class="option">Cancel</li>
         </ul>
         
         `
@@ -304,7 +379,7 @@ const menuTemplates = {
             <li class="option" onclick="functionTemplates.trigger.skills()">
                 <img src="images/options/skills.png" id="skills-icon" alt="skills"> Skills
             </li>
-            <li class="option" onclick="menuTemplates.inventory()">
+            <li class="option" onclick="menu.inventory()">
                 <img src="images/options/inventory.png" alt="inventory">Inventory
             </li>
             <li class="option" onclick="functionTemplates.trigger.education()">
@@ -396,8 +471,10 @@ functionTemplates = {
                 <div class="option" onclick="closeEvent()">Close</div>
                 `
             else if (possibilities === 2) {
-                const drinks = ['beer', 'wine', 'vodka']
+                const drinks =  items.alcoholic
+                // const drinks = ['beer', 'wine', 'vodka']
                 const random = Math.floor(Math.random() * drinks.length)
+                const drink = drinks[random].label.toLowerCase()
                 eventBody.innerHTML = `
                 <p>You have been offered a ${drinks[random]}</p>
                 <div class="option" onclick="functionTemplates.goClubbing.acceptDrink('${drinks[random]}')">Accept</div>
@@ -436,7 +513,7 @@ functionTemplates = {
                 `
             }
         },
-        acceptDrink(drink){
+        acceptDrink(drink) {
             menuTemplate.style.display = 'none'
             eventBody.innerHTML = `
             <p>You accepted the ${drink}</p>
@@ -448,7 +525,7 @@ functionTemplates = {
             statsLimit(player)
             handleStatBars(player, true)
         },
-        acceptDrug(damage){
+        acceptDrug(damage) {
             menuTemplate.style.display = 'none'
             closeEvent()
             player.stats.health -= damage
@@ -456,7 +533,7 @@ functionTemplates = {
             textContainer.innerHTML += `<p>I accepted</p>`
             handleStatBars(player, true)
         },
-        decline(){
+        decline() {
             menuTemplate.style.display = 'none'
             closeEvent()
             textContainer.innerHTML += `
@@ -720,7 +797,7 @@ functionTemplates = {
                     <p>${object.successChance}% efficiency</p>
                     <li class="option" data-weapon="${index}" onclick="functionTemplates.weapon.selectVictim(this)">Crimes</li>
                     <li class="option" data-item="${type}-${index}" onclick="functionTemplates.sellItem(this)">Sell</li>
-                    <li class="option" onclick="closeEvent()">Do nothing</li>
+                    <li class="option" onclick="closeEvent()">Close</li>
                 </ul>
                 `
             } else if (type === 'instruments') {
@@ -731,8 +808,24 @@ functionTemplates = {
                         <div class="option" data-item="${index}" onclick="functionTemplates.playInstrument(this)">Play</div>
                     ` : ''}
                     <div class="option" data-item="${type}-${index}" onclick="functionTemplates.sellItem(this)">Sell</div>
-                    <div class="option" onclick="closeEvent()">Do nothing</div>
+                    <div class="option" onclick="closeEvent()">Close</div>
 
+                `
+            } else if (['fastFood', 'desserts', 'vegetables'].includes(type)) {
+                modalBackground.style.display = 'flex'
+                eventTitle.innerText = object.label
+                eventBody.innerHTML = `
+                <div class="option" data-item="${type}-${index}" onclick="functionTemplates.consume(this, 'food')">Eat</div>
+                <div class="option" data-item="${type}-${index}" onclick="functionTemplates.sellItem(this)">Sell</div>
+                <div class="option" onclick="closeEvent()">Close</div>
+                `
+            } else if(['alcoholic', 'nonAlcoholic'].includes(type)){
+                modalBackground.style.display = 'flex'
+                eventTitle.innerText = object.label
+                eventBody.innerHTML = `
+                <div class="option" data-item="${type}-${index}" onclick="functionTemplates.consume(this, 'drink')">Drink</div>
+                <div class="option" data-item="${type}-${index}" onclick="functionTemplates.sellItem(this)">Sell</div>
+                <div class="option" onclick="closeEvent()">Close</div>
                 `
             }
 
@@ -973,6 +1066,23 @@ functionTemplates = {
 
     },
     // This is where trigger object ends
+    consume(data, kind) {
+        const type = data.getAttribute('data-item').split('-')[0]
+        const index = data.getAttribute('data-item').split('-')[1]
+        const item = player.inventory[type][index]
+        const statChanges = item.statChanges
+        for(let stat of Object.entries(statChanges)){
+            player.stats[stat[0]] += stat[1]
+            statsLimit(player)
+        }
+        handleStatBars(player, true)
+        eventBody.innerHTML = `
+        <p>You ${kind === 'food' ? 'ate' : 'drank'} a ${item.label.toLowerCase()}</p>
+        <div class="option" onclick="closeEvent()">Close</div>
+        `
+        player.inventory[type].splice(index, 1)
+        menu.inventory()
+    },
     plasticSurgeries: {
         beautyBuff(price, operation) {
             if (player.money.total < price)
@@ -1213,24 +1323,22 @@ functionTemplates = {
             `
         }
     },
-    emigrate: {
-        emigrate() {
-            const countryChoosen = document.getElementById('country-chooser').value
-            if (player.age >= 18) {
-                player.location = countryChoosen;
-                menuTemplate.style.display = 'none';
+    emigrate() {
+        const countryChoosen = document.getElementById('country-chooser').value
+        if (player.age >= 18) {
+            player.location = countryChoosen;
+            menuTemplate.style.display = 'none';
 
-                textContainer.innerHTML += `I emigrated to ${player.location}`;
+            textContainer.innerHTML += `I emigrated to ${player.location}`;
 
-            } else if (player.age < 18) {
-                modalBackground.style.display = 'flex';
-                eventTitle.innerText = 'You cant emigrate!'
-                eventBody.innerHTML = `
+        } else if (player.age < 18) {
+            modalBackground.style.display = 'flex';
+            eventTitle.innerText = 'You cant emigrate!'
+            eventBody.innerHTML = `
                 <div class="option" onclick="closeEvent()">Ok</div>
                 `;
-                textContainer.innerHTML += 'I cant emigrate'
-                menuTemplate.style.display = 'none';
-            }
+            textContainer.innerHTML += 'I cant emigrate'
+            menuTemplate.style.display = 'none';
         }
     },
     buy(objName, property, index) {
@@ -1240,7 +1348,13 @@ functionTemplates = {
         let newObj = structuredClone(obj);
         if (player.money.total >= newObj.price) {
             player.money.total -= newObj.price;
-            newObj.inventoryIndex = player.inventory[property].length;
+            try {
+                newObj.inventoryIndex = player.inventory[property].length;
+            } catch (err) {
+                newObj.inventoryIndex = 0
+                player.inventory[property] = []
+            }
+
             player.inventory[property].push(newObj);
             textContainer.innerHTML += `<p>I bought a ${newObj.label}</p>`;
             closeEvent()
@@ -1282,7 +1396,7 @@ functionTemplates = {
                 eventTitle.innerText = 'Applied succesfuly!'
                 eventBody.innerHTML = `<div class="option" onclick="closeEvent()">Nice</div>`;
                 textContainer.innerHTML += `<p>I got a job as ${job.label}</p>`
-                menuTemplates.job()
+                menu.job()
                 moneyViewer()
             } else {
                 eventTitle.innerText = 'You did not get an interview'
@@ -1305,7 +1419,7 @@ functionTemplates = {
             <p>You resigned succesfully</p>
             <div class="option" onclick="closeEvent()">Good</div>
             `
-            menuTemplates.job()
+            menu.job()
         },
         workHarder() {
             closeEvent()
@@ -1336,7 +1450,7 @@ functionTemplates = {
                         <p>Your promotion request has been accepted</p>
                         <div class="option" onclick="closeEvent()">Close</div>
                         `
-                        menuTemplates.job()
+                        menu.job()
                         break;
                     }
                 }
@@ -1645,7 +1759,7 @@ functionTemplates = {
             textContainer.innerHTML += `<p>You yelled at ${person.fullName}</p>`
 
 
-            menuTemplates.relationships()
+            menu.relationships()
         },
         insult(data) {
             if (player.actions.meanActions >= 3) return
@@ -1669,7 +1783,7 @@ functionTemplates = {
             textContainer.innerHTML += `<p>You insulted ${person.fullName}</p>`
             statsLimit(person)
 
-            menuTemplates.relationships()
+            menu.relationships()
         },
         assault(data) {
             if (player.actions.meanActions >= 3) return
@@ -1688,7 +1802,7 @@ functionTemplates = {
         `
         textContainer.innerHTML += `<p>I organized a party at home</p>`
         statsLimit(player)
-        menuTemplates.relationships()
+        menu.relationships()
     },
     takeDriverTest() {
         const random = Math.floor(Math.random() * 3)
@@ -1756,7 +1870,7 @@ functionTemplates = {
             <div class="option" onclick="closeEvent()">Nothing to miss, right?</div>
             `
 
-            menuTemplates.relationships()
+            menu.relationships()
         },
         proposeMarriage() {
             player.actions.romanticActions++
@@ -1773,7 +1887,7 @@ functionTemplates = {
                 <p>${pronoun} has rejected your marriage offer</p>
                 <div class="option" onclick="closeEvent()">Close</div>
                 `
-                menuTemplates.relationships()
+                menu.relationships()
             }
         },
         cuddle() {
@@ -1786,7 +1900,7 @@ functionTemplates = {
             <p>You cuddled with ${pronoun}</p>
             <div class="option" onclick="closeEvent()">Close</div>
             `
-            menuTemplates.relationships()
+            menu.relationships()
 
         },
         flirt() {
@@ -1799,7 +1913,7 @@ functionTemplates = {
             <p>You flirted with ${pronoun}</p>
             <div class="option" onclick="closeEvent()">Close</div>
             `
-            menuTemplates.relationships()
+            menu.relationships()
         }
     }
 }

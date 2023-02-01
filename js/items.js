@@ -88,6 +88,167 @@ const items = {
             index: 1
         }
     ],
+    fastFood: [
+        {
+            label: 'Hamburguer',
+            price: 35,
+            image: 'hamburguer.png',
+            type: 'fastFood',
+            index: 0,
+            statChanges: {
+                health: -1,
+                happiness: 5,
+                fitness: -1
+            }
+        },
+        {
+            label: 'Pizza',
+            price: 50,
+            image: 'pizza.png',
+            type: 'fastFood',
+            index: 1,
+            statChanges: {
+                health: -1,
+                happiness: 7,
+                fitness: -1
+            }
+        },
+        {
+            label: 'Hot dogs',
+            price: 30,
+            image:'hot_dog.png',
+            type: 'fastFood',
+            index: 2,
+            statChanges: {
+                health: -1,
+                happiness: 3,
+                fitness: -1
+            }
+        }
+    ],
+    vegetables: [
+        {
+            label: 'Potato',
+            price: 10,
+            image: 'potato.png',
+            type: 'vegetables',
+            index: 0,
+            statChanges: {
+                health: 2
+            }
+        },
+        {
+            label: 'Carrot',
+            price: 50,
+            image: 'carrot.png',
+            type: 'vegetables',
+            index: 1,
+            statChanges: {
+                health: 5
+            }
+        },
+        {
+            label: 'Broccoli',
+            price: 80,
+            image: 'broccoli.png',
+            type: 'vegetables',
+            index: 2,
+            statChanges: {
+                health: 7
+            }
+        }
+    ],
+    desserts: [
+        {
+            label: 'Cotton candy',
+            price: 15,
+            image: 'cotton_candy.png',
+            index: 0,
+            type: 'desserts',
+            statChanges: {
+                happiness: 3,
+                health: -1
+            }
+        },
+        {
+            label: 'Ice cream',
+            price: 15,
+            image: 'ice_cream.png',
+            index: 1,
+            type: 'desserts',
+            statChanges: {
+                happiness: 5
+            }
+        },
+        {
+            label: 'Chocolate bar',
+            price: 15,
+            image: 'chocolate.png',
+            index: 2,
+            type: 'desserts',
+            statChanges: {
+                happiness: 4,
+                fitness: -1
+            }
+        }
+    ],
+    alcoholic: [
+        {
+            label: 'Wine',
+            price: 60,
+            image: 'wine.png',
+            index: 0,
+            type: 'alcoholic',
+            statChanges: {
+                happiness: 12,
+                health: -8
+            }
+        },
+        {
+            label: 'Beer',
+            price: 25,
+            image: 'beer.png',
+            index: 1,
+            type: 'alcoholic',
+            statChanges: {
+                happiness: 10,
+                health: -8
+            }
+        },
+        {
+            label: 'Vodka',
+            price: 50,
+            image: 'vodka.png',
+            index: 2,
+            type: 'alcoholic',
+            statChanges: {
+                happiness: 11,
+                health: -7
+            }
+        }
+    ],
+    nonAlcoholic: [
+        {
+            label: 'Orange juice',
+            price: 15,
+            image: 'orange_juice.png',
+            index: 0,
+            type: 'nonAlcoholic',
+            statChanges: {
+                happiness: 4
+            }
+        },
+        {
+            label: 'Milk',
+            price: 5,
+            image: 'milk.png',
+            index: 1,
+            type: 'nonAlcoholic',
+            statChanges: {
+                happiness: 2
+            }
+        }
+    ]
 }
 
 const assets = {

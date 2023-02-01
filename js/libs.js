@@ -96,7 +96,7 @@ const ownedAssets = (type) =>{
 
 }
 
-capitalize = (word) =>{
+const capitalize = (word) =>{
     let newWord = []
     for(let i = 0; i < word.length; i++){
         if(i === 0) newWord.push(word.split('')[i].toUpperCase())
