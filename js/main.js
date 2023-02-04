@@ -16,7 +16,7 @@ class Person {
         this.driverLicense = this.age > 18 ? true : false;
     }
 
-    inventory = { weapons: [], instruments: [], electronics: [], houses: [], cars: [], food: [], drinks: []};
+    inventory = { weapons: [], instruments: [], electronics: [], houses: [], cars: []};
 
     sexuality = 'heterosexual'
 
