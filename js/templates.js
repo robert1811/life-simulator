@@ -863,7 +863,7 @@ functionTemplates = {
             ${player.actions.workHarder < 3 ? `
                 <div class="option" onclick="functionTemplates.job.workHarder()">Work harder</div>
             ` : ''}
-            ${player.job !== 'none' && player.actions.askPromotion < 3 ? `
+            ${player.job.promotion !== 'none' && player.actions.askPromotion < 3 ? `
             <div class="option" onclick="functionTemplates.job.askPromotion()">Ask promotion</div>
             ` : ''}
             <div class="option" onclick="closeEvent()">Close</div>
