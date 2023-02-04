@@ -542,7 +542,7 @@ functionTemplates = {
         }
     },
     trigger: {
-
+ 
         plasticSurgeries() {
             if (player.age < 17) return
 
