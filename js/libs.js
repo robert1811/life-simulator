@@ -4,8 +4,8 @@ let menuTemplate = document.getElementById('menu-template');
 let menuBody = document.getElementById('menu-body');
 let menuTitle = document.getElementById('menu-title');
 
-const randomStat = () => {
-    return Math.floor(Math.random() * 100);
+const randomStat = (min, max) => {
+    return min + Math.floor(Math.random() * max);
 }
 
 const genderRandomizer = () => {

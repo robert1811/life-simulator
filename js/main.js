@@ -21,11 +21,11 @@ class Person {
     sexuality = 'heterosexual'
 
     stats = {
-        health: randomStat(),
-        happiness: randomStat(),
-        smartness: randomStat(),
-        fitness: randomStat(),
-        appearance: randomStat(),
+        health: randomStat(70, 30),
+        happiness: randomStat(0, 100),
+        smartness: randomStat(0, 100),
+        fitness: randomStat(0, 35),
+        appearance: randomStat(0, 100),
 
     }
 
