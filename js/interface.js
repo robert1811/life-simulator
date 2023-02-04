@@ -60,7 +60,6 @@ const newLife = () => {
     const characterScreen = document.getElementById('create-character-screen')
     textContainer.innerHTML = ''
 
-
     deathScreen.style.display = 'none'
     characterScreen.style.display = 'block'
 }

@@ -96,7 +96,7 @@ const specificEvents = () => {
 
         case 18:
             player.career['education'] = {name: 'Highschool'}
-            functionTemplates.trigger.university()
+            windows.university.display()
     }
 }
 
@@ -211,7 +211,7 @@ const arrest = (min, max, person) => {
     person.prison.jailed = true;
 
     leftBtnContainer.innerHTML = `
-                <button class="btn" onclick="functionTemplates.trigger.prison()">
+                <button class="btn" onclick="windows.prison.display()">
                 <img src="images/prison.png">
                 </button>
                 <p>Prison</p>
