@@ -77,7 +77,7 @@ const itemListifier = (obj, property, objName) => {
         }
     else if(objName === 'assets'){
         for(let element of collection.sort((a, b) => b.price - a.price)) {
-            string = string.concat(`<div onclick="windows.trigger.buyWindow(this)" 
+            string = string.concat(`<div onclick="windows.items.buyWindow(this)" 
             id="${property}-${index}" data-objName="${objName}" data-property="${property}" data-index="${index}" class="cell">${element.label} (${moneyFormat(element.price)} $)</div>`)
             index++;
         }
@@ -89,7 +89,7 @@ const itemListifier = (obj, property, objName) => {
 const ownedAssets = (type) =>{
     let string = '';
     for(let asset of player.inventory[type]){
-        string = string.concat(`<div onclick="windows.trigger.ownedAssetWindow(this)" data-type="${type}" data-index="${asset.inventoryIndex}" class="cell">
+        string = string.concat(`<div onclick="windows.items.ownedAssetWindow(this)" data-type="${type}" data-index="${asset.inventoryIndex}" class="cell">
         ${asset.label}
         </div>`)
     } return string
@@ -113,7 +113,7 @@ const relationShipListifier = (category) => {
     //these bars depend on windows.handleRelationBars()
     if(relations.length !== 0) for(let relation of relations){
         string = string.concat(`
-        <div onclick="windows.trigger.relations.display(this)" class="relationship-container"
+        <div onclick="windows.relations.display(this)" class="relationship-container"
         data-id="${category}-${index}">
             <h4>${relation.fullName} ${!relation.alive ? '(Dead)' : ''}</h4>
             <div class="opinion-data-wrapper">

@@ -38,7 +38,7 @@ const menu = {
             <li onclick="windows.driverLicense.display()" class="option activity-option ${player.age < 18 ? 'disabled' : ''}">
                 <img src="images/options/drivelicense.png">Driver license
             </li>
-            <li onclick="windows.trigger.findLove()" class="option activity-option ${player.age < 14 ? 'disabled' : ''}">
+            <li onclick="windows.love.findLove()" class="option activity-option ${player.age < 14 ? 'disabled' : ''}">
                 <img src="images/options/love.png" style="width: 35px; height: 35px"> Love
             </li>
             <li onclick="windows.plasticSurgeries.display()" class="option activity-option ${player.age < 18 ? 'disabled' : ''}">
@@ -61,10 +61,10 @@ const menu = {
         menuTitle.innerText = 'Criminal'
         menuBody.innerHTML = `
         <ul>
-            <li class="option activity-option" onclick="windows.trigger.murder()">
+            <li class="option activity-option" onclick="windows.criminal.murder.display()">
                 Murder
             </li>
-            <li class="option activity-option" onclick="windows.trigger.stealCarWindow()">
+            <li class="option activity-option" onclick="windows.criminal.stealCar.display()">
                 Steal Car
             </li>
             <li class="option activity-option" onclick="alert('coming soon')">
@@ -134,15 +134,15 @@ const menu = {
         </div>
         </li>
 
-        <li class="option ${player.age < 12 ? 'disabled' : ''}" onclick="windows.trigger.restaurant()">
+        <li class="option ${player.age < 12 ? 'disabled' : ''}" onclick="windows.freetime.restaurant.display()">
             Go to a restaurant
         </li>
 
-        <li class="option ${player.age < 12 ? 'disabled' : ''}" onclick="windows.trigger.cinema()">
+        <li class="option ${player.age < 12 ? 'disabled' : ''}" onclick="windows.freetime.cinema.display()">
             Watch a movie
         </li>
 
-        <li class="option ${player.age < 18 ? 'disabled' : ''}" onclick="windows.goClubbing.display()">
+        <li class="option ${player.age < 18 ? 'disabled' : ''}" onclick="windows.freetime.goClubbing.display()">
             Go clubbing
         </li>
         </ul>
@@ -335,7 +335,7 @@ const menu = {
             </div>
             <div id="current-job">
             ${player.job !== 'none' ? `
-            <div id="current-job" onclick="windows.trigger.currentJob()" class="option">${player.job.label}</div>
+            <div id="current-job" onclick="windows.job.currentJob()" class="option">${player.job.label}</div>
             ` : ''}
             </div>
         </div>
@@ -424,7 +424,7 @@ const menu = {
         let string = '';
         if (inventoryArr.length !== 0) for (let item of inventoryArr) {
             string = string.concat(`
-            <li class="item-container" onclick="windows.trigger.useItem(this)" data-index="${item.inventoryIndex}"
+            <li class="item-container" onclick="windows.items.useItem(this)" data-index="${item.inventoryIndex}"
             data-type="${item.type}">
                 <img class="item-preview" src="images/shop/${item.image}">    
                 <figcaption>${item.label}</figcaption>
@@ -451,95 +451,136 @@ const menu = {
 
 
 windows = {
-    goClubbing: {
-        display() {
-            if (player.age < 18) return
-
-            modalBackground.style.display = 'flex'
-            eventTitle.innerText = 'Go clubbing'
-            const possibilities = Math.round(Math.random() * 3)
-
-            player.stats.happiness += Math.floor(Math.random() * 5)
-            statsLimit(player)
-            textContainer.innerHTML += `
-            <p>I went clubbing</p>
-            `
-            handleStatBars(player, true)
-            if (possibilities <= 1)
+    criminal: {
+        stealCar: {
+            display() {
+                const cars = assets.cars
+                const random = Math.floor(Math.random() * cars.length)
+                const car = cars[random]
+    
+                modalBackground.style.display = 'flex'
+                eventTitle.innerText = 'Steal car'
                 eventBody.innerHTML = `
-                <p>You had fun at the club</p>
+                <p>You found a ${car.label}, would you steal it?</p>
+                <div class="option" onclick="windows.criminal.stealCar.steal('${car.label}')">Yes</div>
+                <div class="option" onclick="closeEvent()">No</div>
+                `
+            },
+            steal(carName) {
+                let car
+                const cars = assets.cars
+                for (let i = 0; i < assets.cars.length; i++) {
+                    if (carName === cars[i].label) {
+                        car = structuredClone(cars[i])
+                        car.stolen = true
+                        break
+                    }
+                }
+                const random = Math.floor(Math.random() * 100)
+                menuTemplate.style.display = 'none'
+                if (random >= 30) {
+                    car.inventoryIndex = player.inventory.cars.length
+                    player.inventory.cars.push(car)
+                    eventBody.innerHTML = `
+                    <p>You stole this car succesfully</p>
+                    <div class="option" onclick="closeEvent()">Close</div>
+                    `
+                    textContainer.innerHTML += `<p>I stole a ${carName.toLowerCase()}</p>`
+                } else {
+                    eventBody.innerHTML = `
+                    <p>You got arrested</p>
+                    <div class="option" onclick="closeEvent()">Close</div>
+                    `
+                    arrestByStealingCar(player)
+                    textContainer.innerHTML += `<p>I tried to steal a ${carName.toLowerCase()}</p>`
+                    textContainer.innerHTML += `<p>I got arrested for ${player.prison.sentenceTime} years</p>`
+                }
+            },
+        },
+        murder: {
+            display() {
+                const events = [{
+                    message: 'A beggar asked for your charity',
+                    target: 'beggar',
+                    gender: 'male'
+                }, {
+                    message: 'A prostitute offers you her services',
+                    target: 'prostitute',
+                    gender: 'female'
+                }]
+                const random = Math.floor(Math.random() * events.length)
+                const pronoun = events[random].gender === "male" ? 'him' : 'her'
+                const victim = events[random].target
+    
+                modalBackground.style.display = 'flex'
+                eventTitle.innerText = 'Murder'
+                eventBody.innerHTML = `
+                <p>${events[random].message}</p>
+                <h3>Murder method:</h3>
+                <select id="method-selector">
+                    <option value="strangulation">Strangle ${pronoun}</option>
+                    <option value="stab">Stab ${pronoun}</option>
+                </select>
+                `
+                const methodSelector = document.getElementById('method-selector')
+                let method = methodSelector.value
+                methodSelector.onselect = (e => {
+                    method = e.target.value
+                })
+                eventBody.innerHTML += `
+                <div class="option" onclick="windows.criminal.murder.kill('${victim}')">kill</div>
                 <div class="option" onclick="closeEvent()">Close</div>
                 `
-            else if (possibilities === 2) {
-                const drinks = items.alcoholic
-                // const drinks = ['beer', 'wine', 'vodka']
-                const random = Math.floor(Math.random() * drinks.length)
-                const drink = drinks[random].label.toLowerCase()
-                eventBody.innerHTML = `
-                <p>You have been offered a ${drinks[random]}</p>
-                <div class="option" onclick="windows.goClubbing.acceptDrink('${drinks[random]}')">Accept</div>
-
-                <div class="option" onclick="windows.goClubbing.decline()">Refuse</div>
-                `
-                textContainer.innerHTML += `<p>I have been offered a ${drinks[random]}</p>`
-            }
-            else if (possibilities === 3) {
-                const drugs = [
-                    {
-                        name: 'LSD',
-                        damage: 5
-                    },
-                    {
-                        name: 'weed',
-                        damage: 3
-                    },
-                    {
-                        name: 'heroin',
-                        damage: 12
-                    },
-                    {
-                        name: 'cocaine',
-                        damage: 10
+            },
+            kill(victim) {
+                const random = Math.floor(Math.random() * 100)
+                menuTemplate.style.display = 'none'
+        
+                if (random > 30) {
+                    player.criminalRecord.murder++
+                    textContainer.innerHTML += `
+                    <p>I killed a ${victim}</p>
+                    `
+                    const probabilityOfArrest = Math.floor(Math.random() * 100)
+                    if (probabilityOfArrest > 60) {
+                        eventBody.innerHTML = `
+                        <p>You got caught by the police, you are arrested</p>
+                        <div class="option" onclick="closeEvent()">Close</div>
+                        `
+                        arrestByMurder(player)
+                        textContainer.innerHTML += `
+                        <p>The police caught me</p>
+                        <p>I have been arrested for ${player.prison.sentenceTime} years</p>
+                        `
+                    } else {
+                        eventBody.innerHTML = `
+                        <p>You killed the ${victim} succesfully</p>
+                        <div class="option" onclick="closeEvent()">Close</div>
+                        `
                     }
-                ];
-                const random = Math.floor(Math.random() * drugs.length)
-                const drug = drugs[random]
-
-                textContainer.innerHTML += `<p>I have been offered ${drug.name}</p>`
-                eventBody.innerHTML = `
-                <p>You have been offered ${drug.name}</p>
-                <div class="option" onclick="windows.goClubbing.acceptDrug(${drug.damage})">Accept</div>
-                <div class="option" onclick="windows.goClubbing.decline()">Refuse</div>
-                `
-            }
+        
+                } else {
+                    player.criminalRecord.murderAttempts++
+                    arrestByMurder(player)
+                    eventBody.innerHTML = `
+                    <p>Your murder attempt failed, you got denounced</p>
+                    <div class="option" onclick="closeEvent()">Close</div>
+                    `
+                    textContainer.innerHTML += `
+                    <p>My murder attempt failed</p>
+                    <p>I got denounced</p>
+                    <p>I have been arrested for ${player.prison.sentenceTime} years</p>
+                    `
+                }
+            },
         },
-        acceptDrink(drink) {
-            menuTemplate.style.display = 'none'
+        robbery() {
+            modalBackground.style.display = 'flex'
+            eventTitle.innerText = 'Robbery'
             eventBody.innerHTML = `
-            <p>You accepted the ${drink}</p>
             <div class="option" onclick="closeEvent()">Close</div>
             `
-            textContainer.innerHTML += `<p>I accepted the ${drink}</p>`
-            const random = Math.floor(Math.random() * 8)
-            player.stats.health -= random
-            statsLimit(player)
-            handleStatBars(player, true)
         },
-        acceptDrug(damage) {
-            menuTemplate.style.display = 'none'
-            closeEvent()
-            player.stats.health -= damage
-            statsLimit(player)
-            textContainer.innerHTML += `<p>I accepted</p>`
-            handleStatBars(player, true)
-        },
-        decline() {
-            menuTemplate.style.display = 'none'
-            closeEvent()
-            textContainer.innerHTML += `
-            <p>I declined</p>
-            `
-        }
     },
     plasticSurgeries: {
         display() {
@@ -718,8 +759,286 @@ windows = {
             eventTitle.innerText = `Buy ${obj.label}`
             eventBody.innerHTML = `
                 <h3>Price: ${moneyFormat(obj.price)} $</h3>
-                <div class="option" onclick="windows.buy('${objName}', '${property}', '${index}')">Buy it</div>
+                <div class="option" onclick="windows.items.buy('${objName}', '${property}', '${index}')">Buy it</div>
                 <div class="option" onclick="closeEvent()">Cancel</div>
+            `
+        },
+        sell(data) {
+            const index = data.getAttribute('data-item').split('-')[1]
+            const type = data.getAttribute('data-item').split('-')[0]
+            const item = player.inventory[type][index];
+            const price = item.price;
+
+            eventBody.innerHTML = `
+            <h3>Are you sure you want to sell this?</h3>
+            <p><b>Price:</b> ${moneyFormat(price)} $</p>
+            <div class="option" onclick="windows.items.confirmSell(this)" data-type="${type}" data-index="${index}" data-price="${price}">Sell</div>
+            <div class="option" onclick="closeEvent()">No</div>
+            `
+
+        }, confirmSell(data) {
+            const price = data.getAttribute('data-price');
+            let index = data.getAttribute('data-index');
+            const type = data.getAttribute('data-type')
+            modalBackground.style.display = 'none';
+            menuTemplate.style.display = 'none'
+            textContainer.innerHTML += `<p>I sold an item for ${moneyFormat(price)}$</p>`
+
+            player.inventory[type].splice(parseInt(index), 1)
+
+            let i = 0
+            for (let item of player.inventory[type]) {
+                item.inventoryIndex = i;
+                i++
+            }
+
+            player.money.total += parseInt(price)
+            moneyViewer()
+        },
+        useItem(data) {
+            const type = data.getAttribute('data-type')
+            const index = data.getAttribute('data-index')
+            const object = player.inventory[type][index]
+
+            if (type === 'weapons') {
+                modalBackground.style.display = 'flex';
+                eventTitle.innerText = object.label
+                eventBody.innerHTML = `
+                <ul>
+                    <p>${object.successChance}% efficiency</p>
+                    <li class="option" data-weapon="${index}" onclick="windows.items.weapon.selectVictim(this)">Crimes</li>
+                    <li class="option" data-item="${type}-${index}" onclick="windows.items.sell(this)">Sell</li>
+                    <li class="option" onclick="closeEvent()">Close</li>
+                </ul>
+                `
+            } else if (type === 'instruments') {
+                modalBackground.style.display = 'flex';
+                eventTitle.innerText = object.label
+                eventBody.innerHTML = `
+                    ${player.actions.music < 3 ? `
+                        <div class="option" data-item="${index}" onclick="windows.items.playInstrument(this)">Play</div>
+                    ` : ''}
+                    <div class="option" data-item="${type}-${index}" onclick="windows.items.sell(this)">Sell</div>
+                    <div class="option" onclick="closeEvent()">Close</div>
+
+                `
+            } else if (['fastFood', 'desserts', 'vegetables'].includes(type)) {
+                modalBackground.style.display = 'flex'
+                eventTitle.innerText = object.label
+                eventBody.innerHTML = `
+                <div class="option" data-item="${type}-${index}" onclick="windows.items.consume(this, 'food')">Eat</div>
+                <div class="option" data-item="${type}-${index}" onclick="windows.items.sell(this)">Sell</div>
+                <div class="option" onclick="closeEvent()">Close</div>
+                `
+            } else if (['alcoholic', 'nonAlcoholic'].includes(type)) {
+                modalBackground.style.display = 'flex'
+                eventTitle.innerText = object.label
+                eventBody.innerHTML = `
+                <div class="option" data-item="${type}-${index}" onclick="windows.items.consume(this, 'drink')">Drink</div>
+                <div class="option" data-item="${type}-${index}" onclick="windows.items.sell(this)">Sell</div>
+                <div class="option" onclick="closeEvent()">Close</div>
+                `
+            }
+
+            if (object.label === 'Laptop' || object.label === 'PC') {
+                modalBackground.style.display = 'flex';
+                eventTitle.innerText = object.label;
+                eventBody.innerHTML = `
+                ${player.actions.programming < 3 ? `
+                    <div class="option" data-item="${index}" onclick="windows.items.computer.practiceProgramming(this)">Practice programming</div>
+                ` : ''}
+                ${player.actions.writing < 3 ? `
+                    <div class="option" data-item="${index}" onclick="windows.items.computer.practiceWriting(this)">Practice writing</div>
+                ` : ''}
+                <div class="option" data-item="${index}" onclick="windows.items.computer.playVideogames(this)">Play videogames</div>
+                <div class="option" data-item="${type}-${index}" onclick="windows.items.sell(this)">Sell</div>
+                <div class="option" data-item="${index}" onclick="closeEvent()">Do nothing</div>
+                `
+            }
+        },
+        buy(objName, property, index) {
+            let obj;
+            if (objName === 'items') obj = items[property][index]
+            else obj = assets[property][index];
+            let newObj = structuredClone(obj);
+            if (player.money.total >= newObj.price) {
+                player.money.total -= newObj.price;
+                try {
+                    newObj.inventoryIndex = player.inventory[property].length;
+                } catch (err) {
+                    newObj.inventoryIndex = 0
+                    player.inventory[property] = []
+                }
+
+                player.inventory[property].push(newObj);
+                textContainer.innerHTML += `<p>I bought a ${newObj.label}</p>`;
+                closeEvent()
+                document.getElementById(`${property}-${index}`).remove()
+                moneyViewer()
+
+            } else {
+                eventTitle.innerText = 'Cant afford this'
+                eventBody.innerHTML = `<div class="option" onclick="closeEvent()">...</div>`;
+            }
+        },
+        consume(data, kind) {
+            const type = data.getAttribute('data-item').split('-')[0]
+            const index = data.getAttribute('data-item').split('-')[1]
+            const item = player.inventory[type][index]
+            const statChanges = item.statChanges
+            for (let stat of Object.entries(statChanges)) {
+                player.stats[stat[0]] += stat[1]
+                statsLimit(player)
+            }
+            handleStatBars(player, true)
+            eventBody.innerHTML = `
+            <p>You ${kind === 'food' ? 'ate' : 'drank'} a ${item.label.toLowerCase()}</p>
+            <div class="option" onclick="closeEvent()">Close</div>
+            `
+            player.inventory[type].splice(index, 1)
+            menu.inventory()
+        },
+        playInstrument(data) {
+            player.actions.music++
+            player.skills.music.xp += 25;
+    
+            eventBody.innerHTML = `
+            <p>+25 music skill earned!</p>
+            <div class="option" onclick="closeEvent()">Close</div>
+            `
+            skillLeveler()
+        },
+        weapon: {
+            selectVictim(data) {
+                let weaponIndex = data.getAttribute('data-weapon')
+    
+                let options = ''
+                //one because player is 0, this may cause problems later if I decide to implement generations
+                let index = 1;
+    
+                for (let person of characters) {
+                    if (person.fullName !== player.fullName && person.alive) {
+                        person.index = index
+                        options = options.concat(`
+                            <div onclick="windows.items.weapon.kill(this)" data-weapon="${weaponIndex}" class="option" data-person="${person.index}">${person.fullName}</div>
+                        `)
+                        index++;
+                    }
+                }
+    
+                options = options.concat(`<div onclick="windows.items.weapon.kill(this)" data-weapon="${weaponIndex}" class="option" data-person="beggar">Random beggar</div>`)
+    
+                eventBody.innerHTML = `
+                    ${options}
+                    <div class="option" onclick="closeEvent()">Not a good idea</div>
+                `
+            },
+            kill(data) {
+                const victimIndex = data.getAttribute('data-person')
+                const victim = characters[victimIndex]
+                const weaponIndex = data.getAttribute('data-weapon')
+                const weapon = player.inventory.weapons[weaponIndex]
+                const efficiency = weapon.successChance;
+                const randomNum = Math.floor(Math.random() * 100);
+    
+                if (randomNum < efficiency) {
+                    let name;
+                    if (victim != undefined) {
+                        victim.alive = false
+                        name = victim.fullName
+                        player.criminalRecord.murder++;
+                    } else name = 'someone'
+                    eventBody.innerHTML = `
+                    <h3>Success</h3>
+                    <p>You have commited murder succesfully</p>
+                    <div class="option" onclick="closeEvent()">Okay</div>
+                    `
+                    textContainer.innerHTML += `
+                    <p>I killed ${name}</p>
+                    `
+                } else {
+                    eventBody.innerHTML = `
+                    <h3>Oh no!</h3>
+                    <p>Your assasination attemp failed! you got arrested</p>
+                    <div class="option" onclick="closeEvent()">...</div>
+                    `
+                    menuTemplate.style.display = 'none';
+    
+                    player.criminalRecord.murderAttempts++;
+                    arrestByMurder(player)
+    
+                    textContainer.innerHTML += `
+                    <p>My assasination attempt failed, I got denounced</p>
+                    <p>I have been arrested for ${player.prison.sentenceTime} years
+                    </p>
+                    `
+    
+                }
+            },
+        },
+        computer: {
+            practiceWriting() {
+                player.actions.writing++
+                player.skills.writing.xp += 25;
+                eventBody.innerHTML = `
+                <p>+25 writing skill earned!</p>
+                <div class="option" onclick="closeEvent()">Close</div>
+                `
+                textContainer.innerHTML += `
+                <p>I practiced writing</p>
+                `
+                skillLeveler()
+            },
+            practiceProgramming() {
+                player.actions.programming++
+                player.skills.programming.xp += 25;
+                eventBody.innerHTML = `
+                <p>+25 programming skill earned!</p>
+                <div class="option" onclick="closeEvent()">Close</div>
+                `
+                textContainer.innerHTML += `
+                <p>I practiced programming</p>
+                `
+                skillLeveler()
+            },
+            playVideogames() {
+                const videogames = ['Among sus', 'Minekampf', 'Call of Honor', 'The Binding of Ray', 'Hollow Warrior', 'Raymonds Mod', 'Hearts of Steel IV', 'Asia Universallis IV', 'Fall-in: New Ohio']
+                player.stats.happiness += 5;
+    
+                const gamePlayed = videogames[Math.floor(Math.random() * videogames.length)]
+    
+                eventBody.innerHTML = `
+                <p>You played ${gamePlayed}</p>
+                <p>+5 happiness</p>
+                <div class="option" onclick="closeEvent()">Close</div>
+                `
+                textContainer.innerHTML += `<p>I played ${gamePlayed}</p>`
+            }
+        },
+        ownedAssetWindow(data) {
+            const type = data.getAttribute('data-type')
+            const index = data.getAttribute('data-index');
+            const asset = player.inventory[type][index]
+
+            modalBackground.style.display = 'flex'
+            eventTitle.innerText = asset.label
+            if (type === 'houses')
+                eventBody.innerHTML = `
+                <p><b>Age: </b>${asset.age}</p>
+                <p><b>Value: </b>${moneyFormat(asset.price)} $</p>
+                <p><b>Condition: </b>${asset.condition}</p>
+                <br>
+                <div class="option" onclick="windows.throwParty()">Throw a party</div>
+                <div class="option" data-item="${type}-${index}" onclick="windows.items.sell(this)">Sell</div>
+                <div class="option" onclick="closeEvent()">Close</div>
+            `
+            else eventBody.innerHTML = `
+                <p><b>Value: </b>${moneyFormat(asset.price)}</p>
+                ${player.driverLicense ? `
+                <div class="option" onclick="windows.drive()">Drive</div>
+                ` : ''}
+                <div class="option" data-item="${type}-${index}" onclick="windows.items.sell(this)">Sell</div>
+                <div class="option" onclick="closeEvent()">Close</div>
             `
         },
     },
@@ -878,49 +1197,7 @@ windows = {
                 alert('not implemented yet')
             }
         },
-        throwParty() {
-            player.stats.happiness += 10;
-            eventBody.innerHTML = `
-                <p>You threw an amazing party</p>
-                <br>
-                <div class="option" onclick="closeEvent()">Close</div>
-                `
-            textContainer.innerHTML += `<p>I organized a party at home</p>`
-            statsLimit(player)
-            menu.relationships()
-        },
         romance: {
-            tryPartner() {
-                let possiblePartner = characters.at(-1)
-
-                const random = Math.floor(Math.random() * 100);
-                const appearance = player.stats.appearance;
-
-                const pronoun = possiblePartner.gender === 'male' ? 'He' : 'She';
-
-                if (random + appearance > 100) {
-                    possiblePartner.stats.relationWithPlayer = 50 + Math.floor(Math.random() * 50)
-                    possiblePartner.stats.loveToPartner = 25 + Math.floor(Math.random() * 25)
-
-                    possiblePartner.relationships.partner.push(player)
-
-                    player.relationships.partner.push(possiblePartner)
-                    eventBody.innerHTML = `
-                        <p>${pronoun} is your partner now</p>
-                        <div class="option" onclick="closeEvent()">Close</div>
-                        `
-                } else {
-                    eventBody.innerHTML = `
-                        <p>${pronoun} has rejected you</p>
-                        <div class="option" onclick="closeEvent()">Close</div>
-                        `
-                    characters.pop()
-                }
-            },
-            dontTryPartner() {
-                closeEvent()
-                characters.pop()
-            },
             break() {
                 const exPartner = player.relationships.partner[0];
                 exPartner.stats.relationWithPlayer -= 20 + Math.floor(Math.random() * 60)
@@ -985,13 +1262,10 @@ windows = {
                     `
                 menu.relationships()
             }
-        },
-        job: {
-
         }
     },
     sexuality: {
-        display(){
+        display() {
             if (player.age < 15) return
 
             modalBackground.style.display = 'flex';
@@ -1012,7 +1286,7 @@ windows = {
         }
     },
     driverLicense: {
-        display(){
+        display() {
             if (player.age < 18) return;
 
             modalBackground.style.display = 'flex';
@@ -1042,7 +1316,7 @@ windows = {
                 textContainer.innerHTML += `<p>I failed the driver test</p>`
             }
         },
-        
+
     },
     prison: {
         display() {
@@ -1095,120 +1369,7 @@ windows = {
             `
         }
     },
-    trigger: {
-        
-        useItem(data) {
-            const type = data.getAttribute('data-type')
-            const index = data.getAttribute('data-index')
-            const object = player.inventory[type][index]
-
-            if (type === 'weapons') {
-                modalBackground.style.display = 'flex';
-                eventTitle.innerText = object.label
-                eventBody.innerHTML = `
-                <ul>
-                    <p>${object.successChance}% efficiency</p>
-                    <li class="option" data-weapon="${index}" onclick="windows.weapon.selectVictim(this)">Crimes</li>
-                    <li class="option" data-item="${type}-${index}" onclick="windows.sellItem(this)">Sell</li>
-                    <li class="option" onclick="closeEvent()">Close</li>
-                </ul>
-                `
-            } else if (type === 'instruments') {
-                modalBackground.style.display = 'flex';
-                eventTitle.innerText = object.label
-                eventBody.innerHTML = `
-                    ${player.actions.music < 3 ? `
-                        <div class="option" data-item="${index}" onclick="windows.playInstrument(this)">Play</div>
-                    ` : ''}
-                    <div class="option" data-item="${type}-${index}" onclick="windows.sellItem(this)">Sell</div>
-                    <div class="option" onclick="closeEvent()">Close</div>
-
-                `
-            } else if (['fastFood', 'desserts', 'vegetables'].includes(type)) {
-                modalBackground.style.display = 'flex'
-                eventTitle.innerText = object.label
-                eventBody.innerHTML = `
-                <div class="option" data-item="${type}-${index}" onclick="windows.consume(this, 'food')">Eat</div>
-                <div class="option" data-item="${type}-${index}" onclick="windows.sellItem(this)">Sell</div>
-                <div class="option" onclick="closeEvent()">Close</div>
-                `
-            } else if (['alcoholic', 'nonAlcoholic'].includes(type)) {
-                modalBackground.style.display = 'flex'
-                eventTitle.innerText = object.label
-                eventBody.innerHTML = `
-                <div class="option" data-item="${type}-${index}" onclick="windows.consume(this, 'drink')">Drink</div>
-                <div class="option" data-item="${type}-${index}" onclick="windows.sellItem(this)">Sell</div>
-                <div class="option" onclick="closeEvent()">Close</div>
-                `
-            }
-
-            if (object.label === 'Laptop' || object.label === 'PC') {
-                modalBackground.style.display = 'flex';
-                eventTitle.innerText = object.label;
-                eventBody.innerHTML = `
-                ${player.actions.programming < 3 ? `
-                    <div class="option" data-item="${index}" onclick="windows.computer.practiceProgramming(this)">Practice programming</div>
-                ` : ''}
-                ${player.actions.writing < 3 ? `
-                    <div class="option" data-item="${index}" onclick="windows.computer.practiceWriting(this)">Practice writing</div>
-                ` : ''}
-                <div class="option" data-item="${index}" onclick="windows.computer.playVideogames(this)">Play videogames</div>
-                <div class="option" data-item="${type}-${index}" onclick="windows.sellItem(this)">Sell</div>
-                <div class="option" data-item="${index}" onclick="closeEvent()">Do nothing</div>
-                `
-            }
-        },
-        currentJob() {
-            modalBackground.style.display = 'flex'
-            eventTitle.innerText = 'Current job';
-            eventBody.innerHTML = `
-            <p><b>Current job: </b>${player.job.label}</p>
-            <p><b>Salary: </b>${moneyFormat(player.job.salary)} $</p>
-            <p><b>Next position: </b>TO DO</p>
-            <p><b>Years working: </b>${year - player.job.since}</p>
-            <p><b>Performance:</b> ${player.job.performance}/100</p>
-            <div class="window-bar">
-                <div style="background-color:#b7b34b;width:${player.job.performance}%;height: 100%""></div>
-            </div> 
-            <ul>
-
-            <div class="option" onclick="windows.job.confirmLeave()">Leave this job</div>
-            ${player.actions.workHarder < 3 ? `
-                <div class="option" onclick="windows.job.workHarder()">Work harder</div>
-            ` : ''}
-            ${player.job.promotion !== 'none' && player.actions.askPromotion < 3 ? `
-            <div class="option" onclick="windows.job.askPromotion()">Ask promotion</div>
-            ` : ''}
-            <div class="option" onclick="closeEvent()">Close</div>
-            </ul>
-            `
-        },
-        ownedAssetWindow(data) {
-            const type = data.getAttribute('data-type')
-            const index = data.getAttribute('data-index');
-            const asset = player.inventory[type][index]
-
-            modalBackground.style.display = 'flex'
-            eventTitle.innerText = asset.label
-            if (type === 'houses')
-                eventBody.innerHTML = `
-                <p><b>Age: </b>${asset.age}</p>
-                <p><b>Value: </b>${moneyFormat(asset.price)} $</p>
-                <p><b>Condition: </b>${asset.condition}</p>
-                <br>
-                <div class="option" onclick="windows.throwParty()">Throw a party</div>
-                <div class="option" data-item="${type}-${index}" onclick="windows.sellItem(this)">Sell</div>
-                <div class="option" onclick="closeEvent()">Close</div>
-            `
-            else eventBody.innerHTML = `
-                <p><b>Value: </b>${moneyFormat(asset.price)}</p>
-                ${player.driverLicense ? `
-                <div class="option" onclick="windows.drive()">Drive</div>
-                ` : ''}
-                <div class="option" data-item="${type}-${index}" onclick="windows.sellItem(this)">Sell</div>
-                <div class="option" onclick="closeEvent()">Close</div>
-            `
-        },
+    love: {
         findLove() {
             if (player.age < 14) return;
 
@@ -1217,7 +1378,7 @@ windows = {
                 eventTitle.innerText = 'Are you sure?'
                 eventBody.innerHTML = `
                 <p>This means breaking up with your current partner</p>
-                <div class="option" onclick="windows.romance.break()">Break up</div>
+                <div class="option" onclick="windows.relations.romance.break()">Break up</div>
                 <div class="option" onclick="closeEvent()">I changed my mind</div>
                 `
                 return
@@ -1252,154 +1413,42 @@ windows = {
                 <li>Appearance: <div class="window-bar"><div class="bar-progress" id="window-appearance-bar" style="width: ${possiblePartner.stats.appearance}%;"></div></div> </li>
                 <li>Fitness: <div class="window-bar"><div class="bar-progress" id="window-fitness-bar" style="width: ${possiblePartner.stats.fitness}%;"></div></div> </li>
             </ul>
-            <div class="option" onclick="windows.romance.tryPartner()">Try it</div>
-            <div class="option" onclick="windows.romance.dontTryPartner()">Close</div>
+            <div class="option" onclick="windows.love.tryPartner()">Try it</div>
+            <div class="option" onclick="windows.love.dontTryPartner()">Close</div>
             `
             statbarColorer()
         },
-        robbery() {
-            modalBackground.style.display = 'flex'
-            eventTitle.innerText = 'Robbery'
-            eventBody.innerHTML = `
-            <div class="option" onclick="closeEvent()">Close</div>
-            `
-        },
-        murder() {
-            const events = [{
-                message: 'A beggar asked for your charity',
-                target: 'beggar',
-                gender: 'male'
-            }, {
-                message: 'A prostitute offers you her services',
-                target: 'prostitute',
-                gender: 'female'
-            }]
-            const random = Math.floor(Math.random() * events.length)
-            const pronoun = events[random].gender === "male" ? 'him' : 'her'
-            const victim = events[random].target
+        tryPartner() {
+            let possiblePartner = characters.at(-1)
 
-            modalBackground.style.display = 'flex'
-            eventTitle.innerText = 'Murder'
-            eventBody.innerHTML = `
-            <p>${events[random].message}</p>
-            <h3>Murder method:</h3>
-            <select id="method-selector">
-                <option value="strangulation">Strangle ${pronoun}</option>
-                <option value="stab">Stab ${pronoun}</option>
-            </select>
-            `
-            const methodSelector = document.getElementById('method-selector')
-            let method = methodSelector.value
-            methodSelector.onselect = (e => {
-                method = e.target.value
-            })
-            eventBody.innerHTML += `
-            <div class="option" onclick="windows.killRandom('${victim}')">kill</div>
-            <div class="option" onclick="closeEvent()">Close</div>
-            `
-        },
-        stealCarWindow() {
-            const cars = assets.cars
-            const random = Math.floor(Math.random() * cars.length)
-            const car = cars[random]
+            const random = Math.floor(Math.random() * 100);
+            const appearance = player.stats.appearance;
 
-            modalBackground.style.display = 'flex'
-            eventTitle.innerText = 'Steal car'
-            eventBody.innerHTML = `
-            <p>You found a ${car.label}, would you steal it?</p>
-            <div class="option" onclick="windows.stealCar('${car.label}')">Yes</div>
-            <div class="option" onclick="closeEvent()">No</div>
-            `
-        },
-    },
-    // This is where trigger object ends
-    consume(data, kind) {
-        const type = data.getAttribute('data-item').split('-')[0]
-        const index = data.getAttribute('data-item').split('-')[1]
-        const item = player.inventory[type][index]
-        const statChanges = item.statChanges
-        for (let stat of Object.entries(statChanges)) {
-            player.stats[stat[0]] += stat[1]
-            statsLimit(player)
-        }
-        handleStatBars(player, true)
-        eventBody.innerHTML = `
-        <p>You ${kind === 'food' ? 'ate' : 'drank'} a ${item.label.toLowerCase()}</p>
-        <div class="option" onclick="closeEvent()">Close</div>
-        `
-        player.inventory[type].splice(index, 1)
-        menu.inventory()
-    },
-    stealCar(carName) {
-        let car
-        const cars = assets.cars
-        for (let i = 0; i < assets.cars.length; i++) {
-            if (carName === cars[i].label) {
-                car = structuredClone(cars[i])
-                car.stolen = true
-                break
-            }
-        }
-        const random = Math.floor(Math.random() * 100)
-        menuTemplate.style.display = 'none'
-        if (random >= 30) {
-            car.inventoryIndex = player.inventory.cars.length
-            player.inventory.cars.push(car)
-            eventBody.innerHTML = `
-            <p>You stole this car succesfully</p>
-            <div class="option" onclick="closeEvent()">Close</div>
-            `
-            textContainer.innerHTML += `<p>I stole a ${carName.toLowerCase()}</p>`
-        } else {
-            eventBody.innerHTML = `
-            <p>You got arrested</p>
-            <div class="option" onclick="closeEvent()">Close</div>
-            `
-            arrestByStealingCar(player)
-            textContainer.innerHTML += `<p>I tried to steal a ${carName.toLowerCase()}</p>`
-            textContainer.innerHTML += `<p>I got arrested for ${player.prison.sentenceTime} years</p>`
-        }
-    },
-    killRandom(victim) {
-        const random = Math.floor(Math.random() * 100)
-        menuTemplate.style.display = 'none'
+            const pronoun = possiblePartner.gender === 'male' ? 'He' : 'She';
 
-        if (random > 30) {
-            player.criminalRecord.murder++
-            textContainer.innerHTML += `
-            <p>I killed a ${victim}</p>
-            `
-            const probabilityOfArrest = Math.floor(Math.random() * 100)
-            if (probabilityOfArrest > 60) {
+            if (random + appearance > 100) {
+                possiblePartner.stats.relationWithPlayer = 50 + Math.floor(Math.random() * 50)
+                possiblePartner.stats.loveToPartner = 25 + Math.floor(Math.random() * 25)
+
+                possiblePartner.relationships.partner.push(player)
+
+                player.relationships.partner.push(possiblePartner)
                 eventBody.innerHTML = `
-                <p>You got caught by the police, you are arrested</p>
-                <div class="option" onclick="closeEvent()">Close</div>
-                `
-                arrestByMurder(player)
-                textContainer.innerHTML += `
-                <p>The police caught me</p>
-                <p>I have been arrested for ${player.prison.sentenceTime} years</p>
-                `
+                    <p>${pronoun} is your partner now</p>
+                    <div class="option" onclick="closeEvent()">Close</div>
+                    `
             } else {
                 eventBody.innerHTML = `
-                <p>You killed the ${victim} succesfully</p>
-                <div class="option" onclick="closeEvent()">Close</div>
-                `
+                    <p>${pronoun} has rejected you</p>
+                    <div class="option" onclick="closeEvent()">Close</div>
+                    `
+                characters.pop()
             }
-
-        } else {
-            player.criminalRecord.murderAttempts++
-            arrestByMurder(player)
-            eventBody.innerHTML = `
-            <p>Your murder attempt failed, you got denounced</p>
-            <div class="option" onclick="closeEvent()">Close</div>
-            `
-            textContainer.innerHTML += `
-            <p>My murder attempt failed</p>
-            <p>I got denounced</p>
-            <p>I have been arrested for ${player.prison.sentenceTime} years</p>
-            `
-        }
+        },
+        dontTryPartner() {
+            closeEvent()
+            characters.pop()
+        },
     },
     university: {
         display() {
@@ -1514,33 +1563,8 @@ windows = {
             menuTemplate.style.display = 'none';
         }
     },
-    buy(objName, property, index) {
-        let obj;
-        if (objName === 'items') obj = items[property][index]
-        else obj = assets[property][index];
-        let newObj = structuredClone(obj);
-        if (player.money.total >= newObj.price) {
-            player.money.total -= newObj.price;
-            try {
-                newObj.inventoryIndex = player.inventory[property].length;
-            } catch (err) {
-                newObj.inventoryIndex = 0
-                player.inventory[property] = []
-            }
-
-            player.inventory[property].push(newObj);
-            textContainer.innerHTML += `<p>I bought a ${newObj.label}</p>`;
-            closeEvent()
-            document.getElementById(`${property}-${index}`).remove()
-            moneyViewer()
-
-        } else {
-            eventTitle.innerText = 'Cant afford this'
-            eventBody.innerHTML = `<div class="option" onclick="closeEvent()">...</div>`;
-        }
-    },
     job: {
-        jobWindow(e){
+        jobWindow(e) {
             modalBackground.style.display = 'flex';
             if (player.job !== 'none') {
                 eventTitle.innerText = 'You already have a job'
@@ -1659,7 +1683,32 @@ windows = {
                 <div class="option" onclick="closeEvent()">Close</div>
                 `
             }
-        }
+        },
+        currentJob() {
+            modalBackground.style.display = 'flex'
+            eventTitle.innerText = 'Current job';
+            eventBody.innerHTML = `
+            <p><b>Current job: </b>${player.job.label}</p>
+            <p><b>Salary: </b>${moneyFormat(player.job.salary)} $</p>
+            <p><b>Next position: </b>TO DO</p>
+            <p><b>Years working: </b>${year - player.job.since}</p>
+            <p><b>Performance:</b> ${player.job.performance}/100</p>
+            <div class="window-bar">
+                <div style="background-color:#b7b34b;width:${player.job.performance}%;height: 100%""></div>
+            </div> 
+            <ul>
+
+            <div class="option" onclick="windows.job.confirmLeave()">Leave this job</div>
+            ${player.actions.workHarder < 3 ? `
+                <div class="option" onclick="windows.job.workHarder()">Work harder</div>
+            ` : ''}
+            ${player.job.promotion !== 'none' && player.actions.askPromotion < 3 ? `
+            <div class="option" onclick="windows.job.askPromotion()">Ask promotion</div>
+            ` : ''}
+            <div class="option" onclick="closeEvent()">Close</div>
+            </ul>
+            `
+        },
     },
     freetime: {
         handleSwitch(option) {
@@ -1708,7 +1757,7 @@ windows = {
             moneyViewer()
         },
         cinema: {
-            display(){
+            display() {
                 if (player.age < 12) return
                 modalBackground.style.display = 'flex';
                 eventTitle.innerText = `Cinema`;
@@ -1736,11 +1785,11 @@ windows = {
                         <div class="option" onclick="closeEvent()">...</div>
                         `;
                 }
-        
+
             }
         },
         restaurant: {
-            display(){
+            display() {
                 if (player.age < 12) return
                 modalBackground.style.display = 'flex';
                 eventTitle.innerText = 'Restaurant';
@@ -1770,8 +1819,98 @@ windows = {
                 }
             }
         },
-    }, 
-     handleRelationBars() {
+        goClubbing: {
+            display() {
+                if (player.age < 18) return
+    
+                modalBackground.style.display = 'flex'
+                eventTitle.innerText = 'Go clubbing'
+                const possibilities = Math.round(Math.random() * 3)
+    
+                player.stats.happiness += Math.floor(Math.random() * 5)
+                statsLimit(player)
+                textContainer.innerHTML += `
+                <p>I went clubbing</p>
+                `
+                handleStatBars(player, true)
+                if (possibilities <= 1)
+                    eventBody.innerHTML = `
+                    <p>You had fun at the club</p>
+                    <div class="option" onclick="closeEvent()">Close</div>
+                    `
+                else if (possibilities === 2) {
+                    const drinks = items.alcoholic
+                    // const drinks = ['beer', 'wine', 'vodka']
+                    const random = Math.floor(Math.random() * drinks.length)
+                    const drink = drinks[random].label.toLowerCase()
+                    eventBody.innerHTML = `
+                    <p>You have been offered a ${drinks[random]}</p>
+                    <div class="option" onclick="windows.goClubbing.acceptDrink('${drinks[random]}')">Accept</div>
+    
+                    <div class="option" onclick="windows.goClubbing.decline()">Refuse</div>
+                    `
+                    textContainer.innerHTML += `<p>I have been offered a ${drinks[random]}</p>`
+                }
+                else if (possibilities === 3) {
+                    const drugs = [
+                        {
+                            name: 'LSD',
+                            damage: 5
+                        },
+                        {
+                            name: 'weed',
+                            damage: 3
+                        },
+                        {
+                            name: 'heroin',
+                            damage: 12
+                        },
+                        {
+                            name: 'cocaine',
+                            damage: 10
+                        }
+                    ];
+                    const random = Math.floor(Math.random() * drugs.length)
+                    const drug = drugs[random]
+    
+                    textContainer.innerHTML += `<p>I have been offered ${drug.name}</p>`
+                    eventBody.innerHTML = `
+                    <p>You have been offered ${drug.name}</p>
+                    <div class="option" onclick="windows.goClubbing.acceptDrug(${drug.damage})">Accept</div>
+                    <div class="option" onclick="windows.goClubbing.decline()">Refuse</div>
+                    `
+                }
+            },
+            acceptDrink(drink) {
+                menuTemplate.style.display = 'none'
+                eventBody.innerHTML = `
+                <p>You accepted the ${drink}</p>
+                <div class="option" onclick="closeEvent()">Close</div>
+                `
+                textContainer.innerHTML += `<p>I accepted the ${drink}</p>`
+                const random = Math.floor(Math.random() * 8)
+                player.stats.health -= random
+                statsLimit(player)
+                handleStatBars(player, true)
+            },
+            acceptDrug(damage) {
+                menuTemplate.style.display = 'none'
+                closeEvent()
+                player.stats.health -= damage
+                statsLimit(player)
+                textContainer.innerHTML += `<p>I accepted</p>`
+                handleStatBars(player, true)
+            },
+            decline() {
+                menuTemplate.style.display = 'none'
+                closeEvent()
+                textContainer.innerHTML += `
+                <p>I declined</p>
+                `
+            }
+        },
+    },
+    handleRelationBars() {
         let progressBars = document.getElementsByClassName('relation');
         for (let element of Object.entries(progressBars)) {
             let index = parseInt(element[1].id.split('-')[1])
@@ -1786,155 +1925,16 @@ windows = {
             else if (percentage > 25) progressBar.style.backgroundColor = 'rgb(196, 221, 105)'
             else progressBar.style.backgroundColor = 'rgb(185, 61, 61)'
         }
-    }, weapon: {
-        selectVictim(data) {
-            let weaponIndex = data.getAttribute('data-weapon')
-
-            let options = ''
-            //one because player is 0, this may cause problems later if I decide to implement generations
-            let index = 1;
-
-            for (let person of characters) {
-                if (person.fullName !== player.fullName && person.alive) {
-                    person.index = index
-                    options = options.concat(`
-                        <div onclick="windows.weapon.kill(this)" data-weapon="${weaponIndex}" class="option" data-person="${person.index}">${person.fullName}</div>
-                    `)
-                    index++;
-                }
-            }
-
-            options = options.concat(`<div onclick="windows.weapon.kill(this)" data-weapon="${weaponIndex}" class="option" data-person="beggar">Random beggar</div>`)
-
-            eventBody.innerHTML = `
-                ${options}
-                <div class="option" onclick="closeEvent()">Not a good idea</div>
-            `
-
-        },
-        kill(data) {
-            const victimIndex = data.getAttribute('data-person')
-            const victim = characters[victimIndex]
-            const weaponIndex = data.getAttribute('data-weapon')
-            const weapon = player.inventory.weapons[weaponIndex]
-            const efficiency = weapon.successChance;
-            const randomNum = Math.floor(Math.random() * 100);
-
-            if (randomNum < efficiency) {
-                let name;
-                if (victim != undefined) {
-                    victim.alive = false
-                    name = victim.fullName
-                    player.criminalRecord.murder++;
-                } else name = 'someone'
-                eventBody.innerHTML = `
-                <h3>Success</h3>
-                <p>You have commited murder succesfully</p>
-                <div class="option" onclick="closeEvent()">Okay</div>
-                `
-                textContainer.innerHTML += `
-                <p>I killed ${name}</p>
-                `
-            } else {
-                eventBody.innerHTML = `
-                <h3>Oh no!</h3>
-                <p>Your assasination attemp failed! you got arrested</p>
-                <div class="option" onclick="closeEvent()">...</div>
-                `
-                menuTemplate.style.display = 'none';
-
-                player.criminalRecord.murderAttempts++;
-                arrestByMurder(player)
-
-                textContainer.innerHTML += `
-                <p>My assasination attempt failed, I got denounced</p>
-                <p>I have been arrested for ${player.prison.sentenceTime} years
-                </p>
-                `
-
-            }
-        },
-    },
-    playInstrument(data) {
-        player.actions.music++
-        player.skills.music.xp += 25;
-
+    }, 
+    throwParty() {
+        player.stats.happiness += 10;
         eventBody.innerHTML = `
-        <p>+25 music skill earned!</p>
-        <div class="option" onclick="closeEvent()">Close</div>
-        `
-        skillLeveler()
-    },
-    computer: {
-        practiceWriting() {
-            player.actions.writing++
-            player.skills.writing.xp += 25;
-            eventBody.innerHTML = `
-            <p>+25 writing skill earned!</p>
+            <p>You threw an amazing party</p>
+            <br>
             <div class="option" onclick="closeEvent()">Close</div>
             `
-            textContainer.innerHTML += `
-            <p>I practiced writing</p>
-            `
-            skillLeveler()
-        },
-        practiceProgramming() {
-            player.actions.programming++
-            player.skills.programming.xp += 25;
-            eventBody.innerHTML = `
-            <p>+25 programming skill earned!</p>
-            <div class="option" onclick="closeEvent()">Close</div>
-            `
-            textContainer.innerHTML += `
-            <p>I practiced programming</p>
-            `
-            skillLeveler()
-        },
-        playVideogames() {
-            const videogames = ['Among sus', 'Minekampf', 'Call of Honor', 'The Binding of Ray', 'Hollow Warrior', 'Raymonds Mod', 'Hearts of Steel IV', 'Asia Universallis IV', 'Fall-in: New Ohio']
-            player.stats.happiness += 5;
-
-            const gamePlayed = videogames[Math.floor(Math.random() * videogames.length)]
-
-            eventBody.innerHTML = `
-            <p>You played ${gamePlayed}</p>
-            <p>+5 happiness</p>
-            <div class="option" onclick="closeEvent()">Close</div>
-            `
-            textContainer.innerHTML += `<p>I played ${gamePlayed}</p>`
-        }
+        textContainer.innerHTML += `<p>I organized a party at home</p>`
+        statsLimit(player)
+        menu.relationships()
     },
-    sellItem(data) {
-        const index = data.getAttribute('data-item').split('-')[1]
-        const type = data.getAttribute('data-item').split('-')[0]
-        const item = player.inventory[type][index];
-        const price = item.price;
-
-        eventBody.innerHTML = `
-        <h3>Are you sure you want to sell this?</h3>
-        <p><b>Price:</b> ${moneyFormat(price)} $</p>
-        <div class="option" onclick="windows.confirmSell(this)" data-type="${type}" data-index="${index}" data-price="${price}">Sell</div>
-        <div class="option" onclick="closeEvent()">No</div>
-        `
-
-    }, confirmSell(data) {
-        const price = data.getAttribute('data-price');
-        let index = data.getAttribute('data-index');
-        const type = data.getAttribute('data-type')
-        modalBackground.style.display = 'none';
-        menuTemplate.style.display = 'none'
-        textContainer.innerHTML += `<p>I sold an item for ${moneyFormat(price)}$</p>`
-
-        player.inventory[type].splice(parseInt(index), 1)
-
-        let i = 0
-        for (let item of player.inventory[type]) {
-            item.inventoryIndex = i;
-            i++
-        }
-
-        player.money.total += parseInt(price)
-        moneyViewer()
-    },
-
 }
