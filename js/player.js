@@ -229,3 +229,28 @@ const arrest = (min, max, person) => {
 const arrestByStealingCar = (person) => {
     arrest(1, 3, person)
 }
+
+const pregnancy = (person) => {
+    if(!person.pregnant) return 
+
+    person.pregnant = false;
+    const partner = person.relationships.partner[0]
+    const possibleGenders = ['male', 'female']
+    const gender = possibleGenders[Math.round(Math.random())]
+    if(person == player || person == player.relationships.partner[0]){
+        const pronoun = gender === 'male' ? 'him' : 'her'
+        modalBackground.style.display = 'flex'
+        eventTitle.innerText = `Its a ${gender == 'male' ? 'boy' : 'girl'}`
+        eventBody.innerHTML = `
+        <p>How will you call ${pronoun}</p>
+        <input type="text" placeholder="name" id="name-field">
+        <div class="option" onclick="createChild('${person.characterIndex}', '${gender}')">Name ${pronoun}</div>
+        <div class="option" onclick="randomNameForChildren('${person.characterIndex}')">Random</div>
+        `
+        return
+    }
+    const nationality = nationalityQuery(person.location)
+    const children = new person(undefined, partner.surname, 0, gender, nationality)
+    person.relationships.children.push(children)
+    partner.relationships.children.push(children)
+}

@@ -571,7 +571,6 @@ li{
     justify-content: space-between;
 }
 
-
 #death-screen{
     position: fixed;
     left: 0;
@@ -661,12 +660,12 @@ li{
     margin: 30px auto;
 }
 
-#create-character-screen input{
+#create-character-screen input, #event-body input{
     padding: 5px;
     border-radius: 5px;
     background-color: #303030;
     border: none;
-    color: var(--purple-text);
+    color: #ffff;
     font-size: 20px;
 }
 
@@ -677,7 +676,7 @@ li{
     border-radius: 5px;
     border: none;
     background-color: #303030;
-    color: var(--purple-text);
+    color: #ffff;
     font-size: 20px;
 }
 

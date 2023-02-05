@@ -111,6 +111,7 @@ const annualChanges = () => {
     year++;
     for (let person of characters) {
         if (person.alive) person.age++;
+        pregnancy(person)
     }
 
     textContainer.innerHTML += `

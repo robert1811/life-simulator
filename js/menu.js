@@ -1265,7 +1265,7 @@ windows = {
                 const partner = this.partner();
                 partner.stats.loveToPartner = Math.floor(enjoyment / 10)
 
-                const pronoun = partner.gender === 'male' ? 'his' : 'her';
+                const pronoun = partner.gender === 'male' ? 'His' : 'Her';
                 let color = ''
                 let colors = {
                     green: 'rgb(47, 151, 73)',
@@ -1280,7 +1280,7 @@ windows = {
                 <p>${pronoun} enjoyment</p>
                 <div class="window-bar">
                     <div style="height: 100%; width: ${enjoyment}%; background-color: ${color}"></div>
-                </div>
+                </div><br>
                 ${useProtection ? `
                 <div class="option" onclick="closeEvent()">Close</div>
                 ` : ''}
@@ -1294,6 +1294,9 @@ windows = {
                         eventBody.innerHTML   += `
                         <p>${player.pregnant ? 'You are' : 'She is'} pregnant</p>
                         <div class="option" onclick="closeEvent()">Close</div>
+                        `
+                        textContainer.innerHTML += `
+                        <p>${player.pregnant ? 'I am pregnant' : 'My partner is pregnant'}</p>
                         `
                     }
                 }
@@ -1426,7 +1429,7 @@ love: {
             bisexual: undefined
         }
 
-        let possiblePartner = new Person(undefined, undefined, player.age, targetGender[player.sexuality])
+        let possiblePartner = new Person(undefined, undefined, player.age, targetGender[player.sexuality], undefined, 0, player.location)
         if (possiblePartner.gender === player.gender)
             possiblePartner.sexuality = 'homosexual'
         if (possiblePartner.age >= 18)

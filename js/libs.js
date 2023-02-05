@@ -19,14 +19,20 @@ const countryRandomizer = () => {
     return data.nationality;
 }
 
-const languajeQuery = (nationality) => {
+const languageQuery = (nationality) => {
     for(let country of countriesData){
-        if(country.nationality == nationality) return country.languaje;  
+        if(country.nationality == nationality) return country.language;  
     }
 }
 const locationQuery = (nationality) => {
     for(let country of countriesData){
         if(country.nationality == nationality) return country.country;  
+    }
+}
+
+const nationalityQuery = (location) => {
+    for(let country of countriesData){
+        if(country.country == location) return country.nationality
     }
 }
 
@@ -294,4 +300,30 @@ const moneyViewer = () => {
         balance.innerHTML = `<span class="red">${moneyAbbreviation(player.money.income - player.money.expenses)} $</span>`
     else if(player.money.income - player.money.expenses === 0)
         balance.innerText = ''
+}
+
+const createChild = (personIndex, gender) => {
+    const person = characters[personIndex]
+    const partner = person.relationships.partner[0]
+    const name = document.getElementById('name-field').value;
+    const surname = partner.surname
+    const nationality = nationalityQuery(person.location)
+    const children = new Person(name, surname, 0, gender, nationality)
+    children.stats.relationWithPlayer = 50 + Math.floor(Math.random() * 50)
+
+    person.relationships.children.push(children)
+    partner.relationships.children.push(children)
+
+    textContainer.innerHTML += `
+        <p>My ${gender === 'male' ? 'son' : 'daughter'} has born. ${gender === 'male' ? 'His' : 'Her'} name is ${children.name}</p>
+    `
+    closeEvent();
+}
+
+const randomNameForChildren = (personIndex) => {
+    const person =  characters[personIndex]
+    const gender = person.gender;
+    const array = names[person.language][gender]
+    const random = Math.floor(Math.random() * array.length)
+    document.getElementById('name-field').value = array[random]
 }

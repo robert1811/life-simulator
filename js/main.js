@@ -3,15 +3,15 @@
 let characters = [];
 
 class Person {
-    constructor(name, surname, age, gender, nationality, money) {
+    constructor(name, surname, age, gender, nationality, money, location) {
         this.gender = gender || genderRandomizer()
         this.nationality = nationality || countryRandomizer();
-        this.languaje = languajeQuery(this.nationality)
-        this.name = name || nameRandomizer(this.languaje, this.gender);
-        this.surname = surname || surnameRandomizer(this.languaje);
+        this.language = languageQuery(this.nationality)
+        this.name = name || nameRandomizer(this.language, this.gender);
+        this.surname = surname || surnameRandomizer(this.language);
         this.age = age || 0;
         this.money.total = money ? money : 0;
-        this.location = locationQuery(this.nationality)
+        this.location = location || locationQuery(this.nationality)
         this.birthplace = this.location
         this.driverLicense = this.age > 18 ? true : false;
     }
