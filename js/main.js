@@ -11,7 +11,7 @@ class Person {
         this.surname = surname || surnameRandomizer(this.language);
         this.age = age || 0;
         this.money.total = money ? money : 0;
-        this.location = location || locationQuery(this.nationality)
+        this.location = location || birthplaceQuery(this.nationality)
         this.birthplace = this.location
         this.driverLicense = this.age > 18 ? true : false;
     }

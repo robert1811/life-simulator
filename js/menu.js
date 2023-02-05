@@ -1286,6 +1286,8 @@ windows = {
                 ` : ''}
                 `
                 if(!useProtection){
+                    const abort = countryQuery(player.location).laws.abort
+                    console.log(abort)
                     if(player.gender == 'male' && partner.gender == 'female' || player.gender == 'female' && partner.gender == 'male'){
                         if(player.gender == 'female')
                             player.pregnant = true
@@ -1293,13 +1295,26 @@ windows = {
 
                         eventBody.innerHTML   += `
                         <p>${player.pregnant ? 'You are' : 'She is'} pregnant</p>
-                        <div class="option" onclick="closeEvent()">Close</div>
+                        ${abort ? `
+                        <div class="option" onclick="windows.relations.romance.abort()">Abort</div>
+                        ` : ''}
+                        <div class="option" onclick="windows.relations.romance.break()">Abandon</div>
+                        <div class="option" onclick="closeEvent()">Keep it</div>
                         `
                         textContainer.innerHTML += `
                         <p>${player.pregnant ? 'I am pregnant' : 'My partner is pregnant'}</p>
                         `
                     }
                 }
+            },
+            abort(){
+                const partner = player.relationships.partner[0]
+                if(player.pregnant) player.pregnant = false
+                else partner.pregnant = false
+                eventBody.innerHTML = `
+                <p>We decided to abort it</p>
+                <div class="option" onclick="closeEvent()">Close</div>
+                `
             }
     }
 },

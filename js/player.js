@@ -237,6 +237,7 @@ const pregnancy = (person) => {
     const partner = person.relationships.partner[0]
     const possibleGenders = ['male', 'female']
     const gender = possibleGenders[Math.round(Math.random())]
+    
     if(person == player || person == player.relationships.partner[0]){
         const pronoun = gender === 'male' ? 'him' : 'her'
         modalBackground.style.display = 'flex'
@@ -250,7 +251,13 @@ const pregnancy = (person) => {
         return
     }
     const nationality = nationalityQuery(person.location)
-    const children = new person(undefined, partner.surname, 0, gender, nationality)
+    const children = new Person(undefined, partner != undefined ? partner.surname : person.surname, 0, gender, nationality)
     person.relationships.children.push(children)
-    partner.relationships.children.push(children)
+    children.relationships.parents.push(person)
+    if(partner != undefined){
+        partner.relationships.children.push(children)
+        children.relationships.parents.push(partner)
+    }
+
+    characters.push(children)
 }

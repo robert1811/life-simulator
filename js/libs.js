@@ -24,7 +24,7 @@ const languageQuery = (nationality) => {
         if(country.nationality == nationality) return country.language;  
     }
 }
-const locationQuery = (nationality) => {
+const birthplaceQuery = (nationality) => {
     for(let country of countriesData){
         if(country.nationality == nationality) return country.country;  
     }
@@ -33,6 +33,12 @@ const locationQuery = (nationality) => {
 const nationalityQuery = (location) => {
     for(let country of countriesData){
         if(country.country == location) return country.nationality
+    }
+}
+
+const countryQuery = (countryName) => {
+    for(let country of countriesData){
+        if(country.country === countryName) return country
     }
 }
 
@@ -308,11 +314,16 @@ const createChild = (personIndex, gender) => {
     const name = document.getElementById('name-field').value;
     const surname = partner.surname
     const nationality = nationalityQuery(person.location)
-    const children = new Person(name, surname, 0, gender, nationality)
+    const children = new Person(name, partner != undefined ? surname : person.surname, 0, gender, nationality)
     children.stats.relationWithPlayer = 50 + Math.floor(Math.random() * 50)
 
+    characters.push(children)
     person.relationships.children.push(children)
-    partner.relationships.children.push(children)
+    children.relationships.parents.push(person)
+    if(partner != undefined){
+        partner.relationships.children.push(children)
+        children.relationships.parents.push(partner)
+    }
 
     textContainer.innerHTML += `
         <p>My ${gender === 'male' ? 'son' : 'daughter'} has born. ${gender === 'male' ? 'His' : 'Her'} name is ${children.name}</p>
