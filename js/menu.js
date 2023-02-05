@@ -4,13 +4,6 @@ const electronicOptions = itemListifier(items, 'electronics', 'items');
 const housesOptions = itemListifier(assets, 'houses', 'assets');
 const carsOptions = itemListifier(assets, 'cars', 'assets');
 
-// there is an object which contains every menu content, which are showed by its methods (called by buttons)
-
-// also there is another object with event-related methods, unlike the menu object, events are showed in windows.
-// These windows are mostly called by an object inside of windows called trigger, whose methods **trigger** the event window.
-// I said mostly because there are specific events which are called by events.js differently
-
-// outside the trigger object but within the windows, there are the functions for every button from events 
 
 const menu = {
     activities() {
