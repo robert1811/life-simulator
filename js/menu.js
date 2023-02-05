@@ -450,7 +450,7 @@ windows = {
                 const cars = assets.cars
                 const random = Math.floor(Math.random() * cars.length)
                 const car = cars[random]
-    
+
                 modalBackground.style.display = 'flex'
                 eventTitle.innerText = 'Steal car'
                 eventBody.innerHTML = `
@@ -504,7 +504,7 @@ windows = {
                 const random = Math.floor(Math.random() * events.length)
                 const pronoun = events[random].gender === "male" ? 'him' : 'her'
                 const victim = events[random].target
-    
+
                 modalBackground.style.display = 'flex'
                 eventTitle.innerText = 'Murder'
                 eventBody.innerHTML = `
@@ -528,7 +528,7 @@ windows = {
             kill(victim) {
                 const random = Math.floor(Math.random() * 100)
                 menuTemplate.style.display = 'none'
-        
+
                 if (random > 30) {
                     player.criminalRecord.murder++
                     textContainer.innerHTML += `
@@ -551,7 +551,7 @@ windows = {
                         <div class="option" onclick="closeEvent()">Close</div>
                         `
                     }
-        
+
                 } else {
                     player.criminalRecord.murderAttempts++
                     arrestByMurder(player)
@@ -623,6 +623,7 @@ windows = {
             textContainer.innerHTML += `
             <p>I paid for a ${operation}</p>
             `
+            handleStatBars(player, true)
         },
         options(price, operation) {
             return `
@@ -642,7 +643,6 @@ windows = {
             eventBody.innerHTML = options
         },
         lipAugmentation(price) {
-            console.log(this)
             const options = this.options(price, 'lip augmentation')
             eventTitle.innerText = 'Lip augmentation'
             eventBody.innerHTML = options
@@ -894,7 +894,7 @@ windows = {
         playInstrument(data) {
             player.actions.music++
             player.skills.music.xp += 25;
-    
+
             eventBody.innerHTML = `
             <p>+25 music skill earned!</p>
             <div class="option" onclick="closeEvent()">Close</div>
@@ -904,11 +904,11 @@ windows = {
         weapon: {
             selectVictim(data) {
                 let weaponIndex = data.getAttribute('data-weapon')
-    
+
                 let options = ''
                 //one because player is 0, this may cause problems later if I decide to implement generations
                 let index = 1;
-    
+
                 for (let person of characters) {
                     if (person.fullName !== player.fullName && person.alive) {
                         person.index = index
@@ -918,9 +918,9 @@ windows = {
                         index++;
                     }
                 }
-    
+
                 options = options.concat(`<div onclick="windows.items.weapon.kill(this)" data-weapon="${weaponIndex}" class="option" data-person="beggar">Random beggar</div>`)
-    
+
                 eventBody.innerHTML = `
                     ${options}
                     <div class="option" onclick="closeEvent()">Not a good idea</div>
@@ -933,7 +933,7 @@ windows = {
                 const weapon = player.inventory.weapons[weaponIndex]
                 const efficiency = weapon.successChance;
                 const randomNum = Math.floor(Math.random() * 100);
-    
+
                 if (randomNum < efficiency) {
                     let name;
                     if (victim != undefined) {
@@ -956,16 +956,16 @@ windows = {
                     <div class="option" onclick="closeEvent()">...</div>
                     `
                     menuTemplate.style.display = 'none';
-    
+
                     player.criminalRecord.murderAttempts++;
                     arrestByMurder(player)
-    
+
                     textContainer.innerHTML += `
                     <p>My assasination attempt failed, I got denounced</p>
                     <p>I have been arrested for ${player.prison.sentenceTime} years
                     </p>
                     `
-    
+
                 }
             },
         },
@@ -997,9 +997,9 @@ windows = {
             playVideogames() {
                 const videogames = ['Among sus', 'Minekampf', 'Call of Honor', 'The Binding of Ray', 'Hollow Warrior', 'Raymonds Mod', 'Hearts of Steel IV', 'Asia Universallis IV', 'Fall-in: New Ohio']
                 player.stats.happiness += 5;
-    
+
                 const gamePlayed = videogames[Math.floor(Math.random() * videogames.length)]
-    
+
                 eventBody.innerHTML = `
                 <p>You played ${gamePlayed}</p>
                 <p>+5 happiness</p>
@@ -1067,14 +1067,14 @@ windows = {
         </ul>
         
         ${!player.prison.jailed && person.alive ? `
-            <div class="option" onclick="windows.trigger.relations.friendlyOptions(this)"
+            <div class="option" onclick="windows.relations.friendlyOptions(this)"
              data-index="${characterIndex}">Friendly</div>
 
-            <div class="option" onclick="windows.trigger.relations.meanOptions(this)"
+            <div class="option" onclick="windows.relations.meanOptions(this)"
              data-index="${characterIndex}">Mean</div>
 
              ${personCategory === 'partner' ? `
-             <div class="option" onclick="windows.trigger.relations.romanticOptions(this)" data-index="${characterIndex}">Romantic</div>
+             <div class="option" onclick="windows.relations.romanticOptions(this)" data-index="${characterIndex}">Romantic</div>
              ` : ''}
         ` : ''}
 
@@ -1110,6 +1110,8 @@ windows = {
             <div class="option ${player.actions.romanticActions < 3 ? '' : 'disabled'}" onclick="windows.relations.romance.proposeMarriage()">Propose marriage</div>
             <div class="option ${player.actions.romanticActions < 3 ? '' : 'disabled'}" onclick="windows.relations.romance.flirt()">Flirt</div>
             <div class="option ${player.actions.romanticActions < 3 ? '' : 'disabled'}" onclick="windows.relations.romance.cuddle()">Cuddle</div>
+            <div class="option" onclick="windows.relations.romance.sex(true)">Sex with protection</div>
+            <div class="option" onclick="windows.relations.romance.sex(false)">Sex without protection</div>
             <div class="option" onclick="closeEvent()">Close</div>
             `
         },
@@ -1191,8 +1193,11 @@ windows = {
             }
         },
         romance: {
+            partner(){
+                return player.relationships.partner[0]
+            },
             break() {
-                const exPartner = player.relationships.partner[0];
+                const exPartner = this.partner();
                 exPartner.stats.relationWithPlayer -= 20 + Math.floor(Math.random() * 60)
                 exPartner.stats.loveToPartner = 0;
                 statsLimit(exPartner);
@@ -1214,7 +1219,7 @@ windows = {
             },
             proposeMarriage() {
                 player.actions.romanticActions++
-                const partner = player.relationships.partner[0];
+                const partner = this.partner();
                 const pronoun = partner.gender === 'male' ? 'He' : 'She';
                 if (partner.stats.loveToPartner >= 60) {
                     partner.married = true;
@@ -1232,7 +1237,7 @@ windows = {
             },
             cuddle() {
                 player.actions.romanticActions++
-                const partner = player.relationships.partner[0];
+                const partner = this.partner();
                 const pronoun = partner.gender === 'male' ? 'him' : 'her';
                 partner.stats.loveToPartner += 15;
                 statsLimit(partner)
@@ -1245,7 +1250,7 @@ windows = {
             },
             flirt() {
                 player.actions.romanticActions++
-                const partner = player.relationships.partner[0];
+                const partner = this.partner();
                 const pronoun = partner.gender === 'male' ? 'him' : 'her';
                 partner.stats.loveToPartner += 10;
                 statsLimit(partner)
@@ -1254,146 +1259,184 @@ windows = {
                     <div class="option" onclick="closeEvent()">Close</div>
                     `
                 menu.relationships()
-            }
-        }
-    },
-    sexuality: {
-        display() {
-            if (player.age < 15) return
+            },
+            sex(useProtection) {
+                const enjoyment = Math.floor(Math.random() * 100);
+                const partner = this.partner();
+                partner.stats.loveToPartner = Math.floor(enjoyment / 10)
 
-            modalBackground.style.display = 'flex';
-            eventTitle.innerText = 'Sexuality';
-            eventBody.innerHTML = `
+                const pronoun = partner.gender === 'male' ? 'his' : 'her';
+                let color = ''
+                let colors = {
+                    green: 'rgb(47, 151, 73)',
+                    yellow: 'rgb(196, 221, 105)',
+                    red: 'rgb(185, 61, 61)'
+                }
+                if(enjoyment > 55) color = colors.green
+                else if(enjoyment > 25) color = colors.yellow
+                else color = colors.red
+
+                eventBody.innerHTML = `
+                <p>${pronoun} enjoyment</p>
+                <div class="window-bar">
+                    <div style="height: 100%; width: ${enjoyment}%; background-color: ${color}"></div>
+                </div>
+                ${useProtection ? `
+                <div class="option" onclick="closeEvent()">Close</div>
+                ` : ''}
+                `
+                if(!useProtection){
+                    if(player.gender == 'male' && partner.gender == 'female' || player.gender == 'female' && partner.gender == 'male'){
+                        if(player.gender == 'female')
+                            player.pregnant = true
+                        else partner.pregnant = true
+
+                        eventBody.innerHTML   += `
+                        <p>${player.pregnant ? 'You are' : 'She is'} pregnant</p>
+                        <div class="option" onclick="closeEvent()">Close</div>
+                        `
+                    }
+                }
+            }
+    }
+},
+    sexuality: {
+    display() {
+        if (player.age < 15) return
+
+        modalBackground.style.display = 'flex';
+        eventTitle.innerText = 'Sexuality';
+        eventBody.innerHTML = `
             <h3>Choose your sexual orientation</h3>
             <p>You are currently ${player.sexuality}</p>
             <div class="option" onclick="windows.sexuality.choose('heterosexual')">Heterosexual</div>
             <div class="option" onclick="windows.sexuality.choose('homosexual')">Homosexual</div>
             <div class="option" onclick="windows.sexuality.choose('bisexual')">Bisexual</div>
             `
-        },
-        choose(sexuality) {
-            player.sexuality = sexuality;
-            closeEvent();
-            menuTemplate.style.display = 'none'
-            textContainer.innerHTML += `<p>I am ${sexuality} now</p>`
-        }
     },
-    driverLicense: {
-        display() {
-            if (player.age < 18) return;
+    choose(sexuality) {
+        player.sexuality = sexuality;
+        closeEvent();
+        menuTemplate.style.display = 'none'
+        textContainer.innerHTML += `<p>I am ${sexuality} now</p>`
+    }
+},
+driverLicense: {
+    display() {
+        if (player.age < 18) return;
 
-            modalBackground.style.display = 'flex';
-            eventTitle.innerText = 'Driver license'
-            eventBody.innerHTML = `
+        modalBackground.style.display = 'flex';
+        eventTitle.innerText = 'Driver license'
+        eventBody.innerHTML = `
             ${player.driverLicense ? '<p>You already have a driver license</p>' : '<p>You dont have a driver license</p>'}
             `
-            eventBody.innerHTML += `
+        eventBody.innerHTML += `
             ${!player.driverLicense ? `
             <div class="option" onclick="windows.driverLicense.test()">Take test</div>
             <div class="option" onclick="closeEvent()">Close</div>
             ` : '<div class="option" onclick="closeEvent()">Close</div>'}
             `
-        },
-        test() {
-            const random = Math.floor(Math.random() * 3)
-            if (random === 2) {
-                player.driverLicense = true
-                eventBody.innerHTML = `<p>Congratulations, you approved the driver test</p>
-                    <div class="option" onclick="closeEvent()">Close</div>
-                    `
-                textContainer.innerHTML += `<p>I approved the driver test succesfully</p>`
-            } else {
-                eventBody.innerHTML = `<p>You failed the driver test, good luck the next time</p>
-                    <div class="option" onclick="closeEvent()">Close</div>
-                    `
-                textContainer.innerHTML += `<p>I failed the driver test</p>`
-            }
-        },
-
     },
-    prison: {
-        display() {
-            modalBackground.style.display = 'flex'
-            eventTitle.innerText = 'Prison'
-            eventBody.innerHTML = `
+    test() {
+        const random = Math.floor(Math.random() * 3)
+        if (random === 2) {
+            player.driverLicense = true
+            eventBody.innerHTML = `<p>Congratulations, you approved the driver test</p>
+                    <div class="option" onclick="closeEvent()">Close</div>
+                    `
+            textContainer.innerHTML += `<p>I approved the driver test succesfully</p>`
+        } else {
+            eventBody.innerHTML = `<p>You failed the driver test, good luck the next time</p>
+                    <div class="option" onclick="closeEvent()">Close</div>
+                    `
+            textContainer.innerHTML += `<p>I failed the driver test</p>`
+        }
+    },
+
+},
+prison: {
+    display() {
+        modalBackground.style.display = 'flex'
+        eventTitle.innerText = 'Prison'
+        eventBody.innerHTML = `
                 <p><b>Years left: </b>${player.prison.yearsLeft} years</p>
                 <p><b>Sentence: </b>${player.prison.sentenceTime} years</p>
                 <div class="option" onclick="windows.prison.attempToEscape()">Attempt to escape</div>
                 <div class="option" onclick="windows.prison.lift()">Lift</div>
                 <div class="option" onclick="closeEvent()">Close</div>
             `
-        },
-        attempToEscape() {
-            const random = Math.floor(Math.random() * 100);
-            if (random <= 10) {
-                player.prison.jailed = false;
-                player.criminalRecord.prisonEscapes++;
-                eventBody.innerHTML = `
+    },
+    attempToEscape() {
+        const random = Math.floor(Math.random() * 100);
+        if (random <= 10) {
+            player.prison.jailed = false;
+            player.criminalRecord.prisonEscapes++;
+            eventBody.innerHTML = `
                 <h3>You escaped from prison</h3>
                 `
-                textContainer.innerHTML += `
+            textContainer.innerHTML += `
                 <p>I escaped from prison</p>
                 `
 
-            } else {
-                player.prison.yearsLeft += 2;
-                player.prison.sentenceTime += 2
-                eventBody.innerHTML = `
+        } else {
+            player.prison.yearsLeft += 2;
+            player.prison.sentenceTime += 2
+            eventBody.innerHTML = `
                 <h3>Your escape attempt failed</h3>
                 <p>+2 years of prison</p>
                 <div class="option" onclick="closeEvent()">...</div>
                 `
-                textContainer.innerHTML += `
+            textContainer.innerHTML += `
                 <p>My escape attempt failed</p>
                 `
-            }
-        },
-        lift() {
-            player.stats.fitness += 5;
-            statsLimit(player);
+        }
+    },
+    lift() {
+        player.stats.fitness += 5;
+        statsLimit(player);
 
-            eventBody.innerHTML = `
+        eventBody.innerHTML = `
             <p>You lifted</p>
             <p>+5 fitness</p>
             <div class="option" onclick="closeEvent()">Close</div>
             `
-            textContainer.innerHTML += `
+        textContainer.innerHTML += `
             <p>I lifted</p>
             `
-        }
-    },
-    love: {
-        findLove() {
-            if (player.age < 14) return;
+    }
+},
+love: {
+    findLove() {
+        if (player.age < 14) return;
 
-            if (player.relationships.partner.length !== 0) {
-                modalBackground.style.display = 'flex'
-                eventTitle.innerText = 'Are you sure?'
-                eventBody.innerHTML = `
+        if (player.relationships.partner.length !== 0) {
+            modalBackground.style.display = 'flex'
+            eventTitle.innerText = 'Are you sure?'
+            eventBody.innerHTML = `
                 <p>This means breaking up with your current partner</p>
                 <div class="option" onclick="windows.relations.romance.break()">Break up</div>
                 <div class="option" onclick="closeEvent()">I changed my mind</div>
                 `
-                return
-            }
+            return
+        }
 
-            const targetGender = {
-                heterosexual: player.gender === 'male' ? 'female' : 'male',
-                homosexual: player.gender,
-                bisexual: undefined
-            }
+        const targetGender = {
+            heterosexual: player.gender === 'male' ? 'female' : 'male',
+            homosexual: player.gender,
+            bisexual: undefined
+        }
 
-            let possiblePartner = new Person(undefined, undefined, player.age, targetGender[player.sexuality])
-            if (possiblePartner.gender === player.gender)
-                possiblePartner.sexuality = 'homosexual'
-            if (possiblePartner.age >= 18)
-                jobAssigner(possiblePartner);
+        let possiblePartner = new Person(undefined, undefined, player.age, targetGender[player.sexuality])
+        if (possiblePartner.gender === player.gender)
+            possiblePartner.sexuality = 'homosexual'
+        if (possiblePartner.age >= 18)
+            jobAssigner(possiblePartner);
 
-            characters.push(possiblePartner)
+        characters.push(possiblePartner)
 
-            modalBackground.style.display = 'flex'
-            eventTitle.innerText = 'Find a partner';
-            eventBody.innerHTML = `
+        modalBackground.style.display = 'flex'
+        eventTitle.innerText = 'Find a partner';
+        eventBody.innerHTML = `
             <p><b>Name: </b>${possiblePartner.fullName}</p>
             <p><b>Gender: </b>${capitalize(possiblePartner.gender)}</p>
             <p><b>Age: </b>${possiblePartner.age}</p>
@@ -1409,72 +1452,72 @@ windows = {
             <div class="option" onclick="windows.love.tryPartner()">Try it</div>
             <div class="option" onclick="windows.love.dontTryPartner()">Close</div>
             `
-            statbarColorer()
-        },
-        tryPartner() {
-            let possiblePartner = characters.at(-1)
+        statbarColorer()
+    },
+    tryPartner() {
+        let possiblePartner = characters.at(-1)
 
-            const random = Math.floor(Math.random() * 100);
-            const appearance = player.stats.appearance;
+        const random = Math.floor(Math.random() * 100);
+        const appearance = player.stats.appearance;
 
-            const pronoun = possiblePartner.gender === 'male' ? 'He' : 'She';
+        const pronoun = possiblePartner.gender === 'male' ? 'He' : 'She';
 
-            if (random + appearance > 100) {
-                possiblePartner.stats.relationWithPlayer = 50 + Math.floor(Math.random() * 50)
-                possiblePartner.stats.loveToPartner = 25 + Math.floor(Math.random() * 25)
+        if (random + appearance > 100) {
+            possiblePartner.stats.relationWithPlayer = 50 + Math.floor(Math.random() * 50)
+            possiblePartner.stats.loveToPartner = 25 + Math.floor(Math.random() * 25)
 
-                possiblePartner.relationships.partner.push(player)
+            possiblePartner.relationships.partner.push(player)
 
-                player.relationships.partner.push(possiblePartner)
-                eventBody.innerHTML = `
+            player.relationships.partner.push(possiblePartner)
+            eventBody.innerHTML = `
                     <p>${pronoun} is your partner now</p>
                     <div class="option" onclick="closeEvent()">Close</div>
                     `
-            } else {
-                eventBody.innerHTML = `
+        } else {
+            eventBody.innerHTML = `
                     <p>${pronoun} has rejected you</p>
                     <div class="option" onclick="closeEvent()">Close</div>
                     `
-                characters.pop()
-            }
-        },
-        dontTryPartner() {
-            closeEvent()
             characters.pop()
-        },
+        }
     },
-    university: {
-        display() {
-            if (player.age < 17) return
+    dontTryPartner() {
+        closeEvent()
+        characters.pop()
+    },
+},
+university: {
+    display() {
+        if (player.age < 17) return
 
-            if (player.currentEducation === 'university') {
-                modalBackground.style.display = 'flex'
-                eventTitle.innerText = 'University'
-                return eventBody.innerHTML = `
+        if (player.currentEducation === 'university') {
+            modalBackground.style.display = 'flex'
+            eventTitle.innerText = 'University'
+            return eventBody.innerHTML = `
                 <p>You are already studying in the university</p>
                 <div class="option" onclick="closeEvent()">Close</div>
                 `
-            }
+        }
 
-            const dad = player.relationships.parents[0];
-            const mom = player.relationships.parents[1];
+        const dad = player.relationships.parents[0];
+        const mom = player.relationships.parents[1];
 
-            modalBackground.style.display = 'flex'
-            eventTitle.innerText = 'Are you going to university?'
-            eventBody.innerHTML = `
+        modalBackground.style.display = 'flex'
+        eventTitle.innerText = 'Are you going to university?'
+        eventBody.innerHTML = `
             <div id="parents-pay-university" class="option ${!dad.alive && !mom.alive ? 'disabled' : ''}" onclick="windows.university.paidByParents()">Ask my parents to pay it</div>
             <div class="option" onclick="windows.university.loan()">Ask for a student loan</div>
             <div id="player-pay-university" class="option" onclick="windows.university.payByMyself()">Pay it by myself</div>
             <div class="option" onclick="windows.university.dontGo()">Nevermind</div>
             `
-        },
-        dontGo() {
-            closeEvent()
-            textContainer.innerHTML += `<p>Im not going to the university</p>`
-        },
-        chooseCareer(payer, paidBy) {
-            eventTitle.innerText = 'Choose your career';
-            eventBody.innerHTML = `
+    },
+    dontGo() {
+        closeEvent()
+        textContainer.innerHTML += `<p>Im not going to the university</p>`
+    },
+    chooseCareer(payer, paidBy) {
+        eventTitle.innerText = 'Choose your career';
+        eventBody.innerHTML = `
             <select id="career-selector">
                 <option value="medic">Medic</option>
                 <option value="computerScience">Computer Science</option>
@@ -1487,92 +1530,92 @@ windows = {
             <div class="option" data-label="yes">Study</div>
             <div class="option" data-label="no">I changed my mind</div>
             `
-            for (let option of document.getElementsByClassName('option')) {
-                option.addEventListener('click', e => {
-                    const decision = e.target.getAttribute('data-label')
-                    if (decision === 'yes') {
-                        const chosenCareer = document.getElementById('career-selector').value
-                        player.currentCareer = universityCareers[chosenCareer];
-                        player.currentCareer.paidBy = paidBy;
-                        player.currentEducation = 'university';
-                        if (payer === player)
-                            payer.money.expenses += 6000
-                        player.currentCareer.yearsStudied = 0;
-                        closeEvent();
-                    } else {
-                        closeEvent();
-                    }
-                })
-            }
-        },
-        payByMyself() {
-            if (player.money.income >= 6000 || player.money.total >= 6000 * 5) {
-                windows.university.chooseCareer(player, 'myself');
-            } else {
-                textContainer.innerHTML += `<p>I dont have enough money</p>`
-                let btn = document.getElementById('player-pay-university')
-                btn.remove()
-            }
-        },
-        paidByParents() {
-            const dad = player.relationships.parents[0];
-            const mom = player.relationships.parents[1];
+        for (let option of document.getElementsByClassName('option')) {
+            option.addEventListener('click', e => {
+                const decision = e.target.getAttribute('data-label')
+                if (decision === 'yes') {
+                    const chosenCareer = document.getElementById('career-selector').value
+                    player.currentCareer = universityCareers[chosenCareer];
+                    player.currentCareer.paidBy = paidBy;
+                    player.currentEducation = 'university';
+                    if (payer === player)
+                        payer.money.expenses += 6000
+                    player.currentCareer.yearsStudied = 0;
+                    closeEvent();
+                } else {
+                    closeEvent();
+                }
+            })
+        }
+    },
+    payByMyself() {
+        if (player.money.income >= 6000 || player.money.total >= 6000 * 5) {
+            windows.university.chooseCareer(player, 'myself');
+        } else {
+            textContainer.innerHTML += `<p>I dont have enough money</p>`
+            let btn = document.getElementById('player-pay-university')
+            btn.remove()
+        }
+    },
+    paidByParents() {
+        const dad = player.relationships.parents[0];
+        const mom = player.relationships.parents[1];
 
-            if (dad.alive || mom.alive)
-                textContainer.innerHTML += `<p>I asked my parents to pay </p>`
+        if (dad.alive || mom.alive)
+            textContainer.innerHTML += `<p>I asked my parents to pay </p>`
 
-            if (dad.alive && dad.money.income - dad.money.expenses >= 6000 ||
-                mom.alive && mom.money.income - mom.money.expenses >= 6000) {
-                textContainer.innerHTML += `<p>My parents accepted</p>`
-                windows.university.chooseCareer(undefined, 'parents');
-            } else {
-                textContainer.innerHTML += `<p>My parents rejected</p>`
-                let btn = document.getElementById('parents-pay-university')
-                btn.remove()
-            }
-
-        },
-        loan() {
-            textContainer.innerHTML += `<p>I applied for a loan</p>`
-            windows.university.chooseCareer(undefined, 'loan');
+        if (dad.alive && dad.money.income - dad.money.expenses >= 6000 ||
+            mom.alive && mom.money.income - mom.money.expenses >= 6000) {
+            textContainer.innerHTML += `<p>My parents accepted</p>`
+            windows.university.chooseCareer(undefined, 'parents');
+        } else {
+            textContainer.innerHTML += `<p>My parents rejected</p>`
+            let btn = document.getElementById('parents-pay-university')
+            btn.remove()
         }
 
     },
-    emigrate() {
-        const countryChoosen = document.getElementById('country-chooser').value
-        if (player.age >= 18) {
-            player.location = countryChoosen;
-            menuTemplate.style.display = 'none';
+    loan() {
+        textContainer.innerHTML += `<p>I applied for a loan</p>`
+        windows.university.chooseCareer(undefined, 'loan');
+    }
 
-            textContainer.innerHTML += `I emigrated to ${player.location}`;
+},
+emigrate() {
+    const countryChoosen = document.getElementById('country-chooser').value
+    if (player.age >= 18) {
+        player.location = countryChoosen;
+        menuTemplate.style.display = 'none';
 
-        } else if (player.age < 18) {
-            modalBackground.style.display = 'flex';
-            eventTitle.innerText = 'You cant emigrate!'
-            eventBody.innerHTML = `
+        textContainer.innerHTML += `I emigrated to ${player.location}`;
+
+    } else if (player.age < 18) {
+        modalBackground.style.display = 'flex';
+        eventTitle.innerText = 'You cant emigrate!'
+        eventBody.innerHTML = `
                 <div class="option" onclick="closeEvent()">Ok</div>
                 `;
-            textContainer.innerHTML += 'I cant emigrate'
-            menuTemplate.style.display = 'none';
-        }
-    },
-    job: {
-        jobWindow(e) {
-            modalBackground.style.display = 'flex';
-            if (player.job !== 'none') {
-                eventTitle.innerText = 'You already have a job'
-                return eventBody.innerHTML = `
+        textContainer.innerHTML += 'I cant emigrate'
+        menuTemplate.style.display = 'none';
+    }
+},
+job: {
+    jobWindow(e) {
+        modalBackground.style.display = 'flex';
+        if (player.job !== 'none') {
+            eventTitle.innerText = 'You already have a job'
+            return eventBody.innerHTML = `
                 <p>Will you quit?</p>
                 <div class="option" onclick="windows.job.leave()">Quit</div>
                 <div class="option" onclick="closeEvent()">Keep my job</div>
                 `
-            }
+        }
 
-            const index = e.getAttribute('data-index');
-            const job = jobs[index];
+        const index = e.getAttribute('data-index');
+        const job = jobs[index];
 
-            eventTitle.innerText = `Get a job as ${job.label}`;
-            eventBody.innerHTML = `
+        eventTitle.innerText = `Get a job as ${job.label}`;
+        eventBody.innerHTML = `
                 <p><b>Anual salary: </b>${moneyFormat(job.salary)}$</p><br>
                 <h3>Requirements:</h3>
                 <ul>
@@ -1582,105 +1625,105 @@ windows = {
                 <div class="option" onclick="windows.job.apply('${index}')">Apply</div>
                 <div class="option" onclick="closeEvent()">Uh, nevermind</div>
                 `
-        },
-        apply(index) {
-            const job = structuredClone(jobs[index]);
-            const requirements = job.requirements
-            let requirementsCompleted = 0;
-            for (let requirement of Object.entries(requirements)) {
-                const skillVerifier = (skill) => {
-                    if (requirement[0] === skill && player.skills[skill].level >= requirement[1])
-                        requirementsCompleted++;
-                }
-                console.log(requirement)
-                if (requirement[0] === 'education' && Object.entries(player.career).length > 0
-                    && player.career[requirement[1]] != undefined)
-                    if (player.career[requirement[1]].label === requirement[1]) requirementsCompleted++;
-
-                skillVerifier('programming')
-                skillVerifier('music')
-
-                if (requirement[0] === 'minAge' && player.age >= requirement[1])
-                    requirementsCompleted++
+    },
+    apply(index) {
+        const job = structuredClone(jobs[index]);
+        const requirements = job.requirements
+        let requirementsCompleted = 0;
+        for (let requirement of Object.entries(requirements)) {
+            const skillVerifier = (skill) => {
+                if (requirement[0] === skill && player.skills[skill].level >= requirement[1])
+                    requirementsCompleted++;
             }
+            console.log(requirement)
+            if (requirement[0] === 'education' && Object.entries(player.career).length > 0
+                && player.career[requirement[1]] != undefined)
+                if (player.career[requirement[1]].label === requirement[1]) requirementsCompleted++;
 
-            if (Object.entries(requirements).length === requirementsCompleted) {
-                player.money.income += job.salary;
-                player.job = job;
-                player.job.since = year;
-                player.job.performance = Math.floor(Math.random() * 50) + 25
-                eventTitle.innerText = 'Applied succesfuly!'
-                eventBody.innerHTML = `<div class="option" onclick="closeEvent()">Nice</div>`;
-                textContainer.innerHTML += `<p>I got a job as ${job.label}</p>`
-                menu.job()
-                moneyViewer()
-            } else {
-                eventTitle.innerText = 'You did not get an interview'
-                eventBody.innerHTML = `<div class="option" onclick="closeEvent()">...</div>`;
-            }
-        },
-        confirmLeave() {
-            eventBody.innerHTML = `
+            skillVerifier('programming')
+            skillVerifier('music')
+
+            if (requirement[0] === 'minAge' && player.age >= requirement[1])
+                requirementsCompleted++
+        }
+
+        if (Object.entries(requirements).length === requirementsCompleted) {
+            player.money.income += job.salary;
+            player.job = job;
+            player.job.since = year;
+            player.job.performance = Math.floor(Math.random() * 50) + 25
+            eventTitle.innerText = 'Applied succesfuly!'
+            eventBody.innerHTML = `<div class="option" onclick="closeEvent()">Nice</div>`;
+            textContainer.innerHTML += `<p>I got a job as ${job.label}</p>`
+            menu.job()
+            moneyViewer()
+        } else {
+            eventTitle.innerText = 'You did not get an interview'
+            eventBody.innerHTML = `<div class="option" onclick="closeEvent()">...</div>`;
+        }
+    },
+    confirmLeave() {
+        eventBody.innerHTML = `
             <p>Are you sure you want to leave?</p>
             <div class="option" onclick="windows.job.leave()">Yes</div>
             <div class="option" onclick="closeEvent()">No</div>
 
             `
-        },
-        leave() {
-            player.job.until = year;
-            player.cv.push(player.job);
-            player.job = 'none'
-            eventBody.innerHTML = `
+    },
+    leave() {
+        player.job.until = year;
+        player.cv.push(player.job);
+        player.job = 'none'
+        eventBody.innerHTML = `
             <p>You resigned succesfully</p>
             <div class="option" onclick="closeEvent()">Good</div>
             `
-            menu.job()
-        },
-        workHarder() {
-            closeEvent()
-            menuTemplate.style.display = 'none'
-            textContainer.innerHTML += `
+        menu.job()
+    },
+    workHarder() {
+        closeEvent()
+        menuTemplate.style.display = 'none'
+        textContainer.innerHTML += `
             <p>I worked harder at my job</p>
             `
-            player.job.performance += Math.floor(Math.random() * 10)
-            player.stats.happiness -= 5
-            player.stats.health -= 2
-            player.actions.workHarder++;
-            statsLimit(player)
-        },
-        askPromotion() {
-            player.actions.performance++
-            modalBackground.style.display = 'flex'
-            eventTitle.innerText = 'Promotion'
-            if (player.job.performance >= 70)
-                for (let job of jobs) {
-                    if (job.label === player.job.promotion) {
-                        player.job.until = year
-                        player.cv.push(player.job)
+        player.job.performance += Math.floor(Math.random() * 10)
+        player.stats.happiness -= 5
+        player.stats.health -= 2
+        player.actions.workHarder++;
+        statsLimit(player)
+    },
+    askPromotion() {
+        player.actions.performance++
+        modalBackground.style.display = 'flex'
+        eventTitle.innerText = 'Promotion'
+        if (player.job.performance >= 70)
+            for (let job of jobs) {
+                if (job.label === player.job.promotion) {
+                    player.job.until = year
+                    player.cv.push(player.job)
 
-                        player.job = structuredClone(job)
-                        player.job.since = year
+                    player.job = structuredClone(job)
+                    player.job.since = year
 
-                        eventBody.innerHTML = `
+                    eventBody.innerHTML = `
                         <p>Your promotion request has been accepted</p>
                         <div class="option" onclick="closeEvent()">Close</div>
                         `
-                        menu.job()
-                        break;
-                    }
+                    menu.job()
+                    break;
                 }
-            else {
-                eventBody.innerHTML = `
+            }
+        else {
+            eventBody.innerHTML = `
                 <p>Your promotion request has been rejected</p>
                 <div class="option" onclick="closeEvent()">Close</div>
                 `
-            }
-        },
-        currentJob() {
-            modalBackground.style.display = 'flex'
-            eventTitle.innerText = 'Current job';
-            eventBody.innerHTML = `
+        }
+    },
+    currentJob() {
+        modalBackground.style.display = 'flex'
+        eventTitle.innerText = 'Current job';
+        eventBody.innerHTML = `
             <p><b>Current job: </b>${player.job.label}</p>
             <p><b>Salary: </b>${moneyFormat(player.job.salary)} $</p>
             <p><b>Next position: </b>TO DO</p>
@@ -1701,233 +1744,233 @@ windows = {
             <div class="option" onclick="closeEvent()">Close</div>
             </ul>
             `
-        },
     },
-    freetime: {
-        handleSwitch(option) {
-            const notEnoughMoney = () => {
-                modalBackground.style.display = 'flex';
-                eventTitle.innerText = 'Freetime'
-                eventBody.innerHTML = `
+},
+freetime: {
+    handleSwitch(option) {
+        const notEnoughMoney = () => {
+            modalBackground.style.display = 'flex';
+            eventTitle.innerText = 'Freetime'
+            eventBody.innerHTML = `
                 <p>You do not have enough money</p>
                 <div class="option" onclick="closeEvent()">Close</div>
                 `
-            }
-            let freetime = player.freetime;
-            let button = document.getElementById(`freetime-${option}`)
-            switch (option) {
-                case 'reading':
-                    if (player.age < 8) return
-                    if (player.money.total < 200) return notEnoughMoney()
-                    freetime.isReading ? freetime.isReading = false : freetime.isReading = true;
-                    freetime.isReading ? button.style.float = 'right' : button.style.float = 'left'
-                    freetime.isReading ? player.money.expenses += 200 : player.money.expenses -= 200
-                    break;
-                case 'parties':
-                    if (player.age < 2) return
-                    if (player.money.total < 500) return notEnoughMoney()
-                    freetime.isAttendingParties ? freetime.isAttendingParties = false : freetime.isAttendingParties = true;
-                    freetime.isAttendingParties ? button.style.float = 'right' : button.style.float = 'left'
-                    freetime.isAttendingParties ? player.money.expenses += 500 : player.money.expenses -= 500
-                    break;
-                case 'musicLessons':
-                    if (player.age < 7) return
-                    if (player.money.total < 2000) return notEnoughMoney()
-                    freetime.isTakingMusicLessons ? freetime.isTakingMusicLessons = false : freetime.isTakingMusicLessons = true;
-                    freetime.isTakingMusicLessons ? button.style.float = 'right' : button.style.float = 'left'
-                    freetime.isTakingMusicLessons ? player.money.expenses += 2000 : player.money.expenses -= 2000
-                    break;
-                case 'gym':
-                    if (player.age < 16) return
-                    if (player.money.total < 1800) return notEnoughMoney()
-                    freetime.goesToGym ? freetime.goesToGym = false : freetime.goesToGym = true;
-                    freetime.goesToGym ? button.style.float = 'right' : button.style.float = 'left'
-                    freetime.goesToGym ? player.money.expenses += 1800 : player.money.expenses -= 1800
-                    break;
-                default:
-                    break;
-            }
-            moneyViewer()
-        },
-        cinema: {
-            display() {
-                if (player.age < 12) return
-                modalBackground.style.display = 'flex';
-                eventTitle.innerText = `Cinema`;
-                eventBody.innerHTML = `
+        }
+        let freetime = player.freetime;
+        let button = document.getElementById(`freetime-${option}`)
+        switch (option) {
+            case 'reading':
+                if (player.age < 8) return
+                if (player.money.total < 200) return notEnoughMoney()
+                freetime.isReading ? freetime.isReading = false : freetime.isReading = true;
+                freetime.isReading ? button.style.float = 'right' : button.style.float = 'left'
+                freetime.isReading ? player.money.expenses += 200 : player.money.expenses -= 200
+                break;
+            case 'parties':
+                if (player.age < 2) return
+                if (player.money.total < 500) return notEnoughMoney()
+                freetime.isAttendingParties ? freetime.isAttendingParties = false : freetime.isAttendingParties = true;
+                freetime.isAttendingParties ? button.style.float = 'right' : button.style.float = 'left'
+                freetime.isAttendingParties ? player.money.expenses += 500 : player.money.expenses -= 500
+                break;
+            case 'musicLessons':
+                if (player.age < 7) return
+                if (player.money.total < 2000) return notEnoughMoney()
+                freetime.isTakingMusicLessons ? freetime.isTakingMusicLessons = false : freetime.isTakingMusicLessons = true;
+                freetime.isTakingMusicLessons ? button.style.float = 'right' : button.style.float = 'left'
+                freetime.isTakingMusicLessons ? player.money.expenses += 2000 : player.money.expenses -= 2000
+                break;
+            case 'gym':
+                if (player.age < 16) return
+                if (player.money.total < 1800) return notEnoughMoney()
+                freetime.goesToGym ? freetime.goesToGym = false : freetime.goesToGym = true;
+                freetime.goesToGym ? button.style.float = 'right' : button.style.float = 'left'
+                freetime.goesToGym ? player.money.expenses += 1800 : player.money.expenses -= 1800
+                break;
+            default:
+                break;
+        }
+        moneyViewer()
+    },
+    cinema: {
+        display() {
+            if (player.age < 12) return
+            modalBackground.style.display = 'flex';
+            eventTitle.innerText = `Cinema`;
+            eventBody.innerHTML = `
                 <h3>Price: 400$</h3>
                 <div class="option" onclick="windows.freetime.cinema.pay(400)">Pay</div>
                 <div class="option" onclick="closeEvent()">Cancel</div>
                 `
-            },
-            pay(money) {
-                if (player.money.total >= money) {
-                    player.money.total -= money;
-                    player.stats.happiness += 3;
-                    eventTitle.innerText = 'Cinema';
-                    eventBody.innerHTML = `
+        },
+        pay(money) {
+            if (player.money.total >= money) {
+                player.money.total -= money;
+                player.stats.happiness += 3;
+                eventTitle.innerText = 'Cinema';
+                eventBody.innerHTML = `
                         <h3>You went to the cinema</h3>
                         <div class="option" onclick="closeEvent()">Nice</div>
                         `;
-                    textContainer.innerHTML += `<p>I watched a movie at a cinema</p>`
-                    moneyViewer()
-                } else {
-                    eventTitle.innerText = 'Cinema';
-                    eventBody.innerHTML = `
+                textContainer.innerHTML += `<p>I watched a movie at a cinema</p>`
+                moneyViewer()
+            } else {
+                eventTitle.innerText = 'Cinema';
+                eventBody.innerHTML = `
                         <h3>You do not have enough money</h3>
                         <div class="option" onclick="closeEvent()">...</div>
                         `;
-                }
-
             }
-        },
-        restaurant: {
-            display() {
-                if (player.age < 12) return
-                modalBackground.style.display = 'flex';
-                eventTitle.innerText = 'Restaurant';
-                eventBody.innerHTML = `
+
+        }
+    },
+    restaurant: {
+        display() {
+            if (player.age < 12) return
+            modalBackground.style.display = 'flex';
+            eventTitle.innerText = 'Restaurant';
+            eventBody.innerHTML = `
                     <h3>This would cost 250$</h3>
                     <div class="option" onclick="windows.freetime.restaurant.pay(400)">Pay</div>
                     <div class="option" onclick="closeEvent()">Leave</div>
                 `
-            },
-            pay(money) {
-                if (player.money.total >= money) {
-                    player.money.total -= money;
-                    player.stats.happiness += 3;
-                    eventTitle.innerText = 'Restaurant';
-                    eventBody.innerHTML = `
+        },
+        pay(money) {
+            if (player.money.total >= money) {
+                player.money.total -= money;
+                player.stats.happiness += 3;
+                eventTitle.innerText = 'Restaurant';
+                eventBody.innerHTML = `
                         <h3>You paid the restaurant</h3>
                         <div class="option" onclick="closeEvent()">Nice</div>
                         `;
-                    textContainer.innerHTML += `<p>I went to a restaurant</p>`
-                    moneyViewer()
-                } else {
-                    eventTitle.innerText = 'Restaurant';
-                    eventBody.innerHTML = `
+                textContainer.innerHTML += `<p>I went to a restaurant</p>`
+                moneyViewer()
+            } else {
+                eventTitle.innerText = 'Restaurant';
+                eventBody.innerHTML = `
                         <h3>You do not have enough money</h3>
                         <div class="option" onclick="closeEvent()">...</div>
                         `;
-                }
             }
-        },
-        goClubbing: {
-            display() {
-                if (player.age < 18) return
-    
-                modalBackground.style.display = 'flex'
-                eventTitle.innerText = 'Go clubbing'
-                const possibilities = Math.round(Math.random() * 3)
-    
-                player.stats.happiness += Math.floor(Math.random() * 5)
-                statsLimit(player)
-                textContainer.innerHTML += `
+        }
+    },
+    goClubbing: {
+        display() {
+            if (player.age < 18) return
+
+            modalBackground.style.display = 'flex'
+            eventTitle.innerText = 'Go clubbing'
+            const possibilities = Math.round(Math.random() * 3)
+
+            player.stats.happiness += Math.floor(Math.random() * 5)
+            statsLimit(player)
+            textContainer.innerHTML += `
                 <p>I went clubbing</p>
                 `
-                handleStatBars(player, true)
-                if (possibilities <= 1)
-                    eventBody.innerHTML = `
+            handleStatBars(player, true)
+            if (possibilities <= 1)
+                eventBody.innerHTML = `
                     <p>You had fun at the club</p>
                     <div class="option" onclick="closeEvent()">Close</div>
                     `
-                else if (possibilities === 2) {
-                    const drinks = items.alcoholic
-                    // const drinks = ['beer', 'wine', 'vodka']
-                    const random = Math.floor(Math.random() * drinks.length)
-                    const drink = drinks[random].label.toLowerCase()
-                    eventBody.innerHTML = `
+            else if (possibilities === 2) {
+                const drinks = items.alcoholic
+                // const drinks = ['beer', 'wine', 'vodka']
+                const random = Math.floor(Math.random() * drinks.length)
+                const drink = drinks[random].label.toLowerCase()
+                eventBody.innerHTML = `
                     <p>You have been offered a ${drinks[random]}</p>
                     <div class="option" onclick="windows.goClubbing.acceptDrink('${drinks[random]}')">Accept</div>
     
                     <div class="option" onclick="windows.goClubbing.decline()">Refuse</div>
                     `
-                    textContainer.innerHTML += `<p>I have been offered a ${drinks[random]}</p>`
-                }
-                else if (possibilities === 3) {
-                    const drugs = [
-                        {
-                            name: 'LSD',
-                            damage: 5
-                        },
-                        {
-                            name: 'weed',
-                            damage: 3
-                        },
-                        {
-                            name: 'heroin',
-                            damage: 12
-                        },
-                        {
-                            name: 'cocaine',
-                            damage: 10
-                        }
-                    ];
-                    const random = Math.floor(Math.random() * drugs.length)
-                    const drug = drugs[random]
-    
-                    textContainer.innerHTML += `<p>I have been offered ${drug.name}</p>`
-                    eventBody.innerHTML = `
+                textContainer.innerHTML += `<p>I have been offered a ${drinks[random]}</p>`
+            }
+            else if (possibilities === 3) {
+                const drugs = [
+                    {
+                        name: 'LSD',
+                        damage: 5
+                    },
+                    {
+                        name: 'weed',
+                        damage: 3
+                    },
+                    {
+                        name: 'heroin',
+                        damage: 12
+                    },
+                    {
+                        name: 'cocaine',
+                        damage: 10
+                    }
+                ];
+                const random = Math.floor(Math.random() * drugs.length)
+                const drug = drugs[random]
+
+                textContainer.innerHTML += `<p>I have been offered ${drug.name}</p>`
+                eventBody.innerHTML = `
                     <p>You have been offered ${drug.name}</p>
                     <div class="option" onclick="windows.goClubbing.acceptDrug(${drug.damage})">Accept</div>
                     <div class="option" onclick="windows.goClubbing.decline()">Refuse</div>
                     `
-                }
-            },
-            acceptDrink(drink) {
-                menuTemplate.style.display = 'none'
-                eventBody.innerHTML = `
+            }
+        },
+        acceptDrink(drink) {
+            menuTemplate.style.display = 'none'
+            eventBody.innerHTML = `
                 <p>You accepted the ${drink}</p>
                 <div class="option" onclick="closeEvent()">Close</div>
                 `
-                textContainer.innerHTML += `<p>I accepted the ${drink}</p>`
-                const random = Math.floor(Math.random() * 8)
-                player.stats.health -= random
-                statsLimit(player)
-                handleStatBars(player, true)
-            },
-            acceptDrug(damage) {
-                menuTemplate.style.display = 'none'
-                closeEvent()
-                player.stats.health -= damage
-                statsLimit(player)
-                textContainer.innerHTML += `<p>I accepted</p>`
-                handleStatBars(player, true)
-            },
-            decline() {
-                menuTemplate.style.display = 'none'
-                closeEvent()
-                textContainer.innerHTML += `
+            textContainer.innerHTML += `<p>I accepted the ${drink}</p>`
+            const random = Math.floor(Math.random() * 8)
+            player.stats.health -= random
+            statsLimit(player)
+            handleStatBars(player, true)
+        },
+        acceptDrug(damage) {
+            menuTemplate.style.display = 'none'
+            closeEvent()
+            player.stats.health -= damage
+            statsLimit(player)
+            textContainer.innerHTML += `<p>I accepted</p>`
+            handleStatBars(player, true)
+        },
+        decline() {
+            menuTemplate.style.display = 'none'
+            closeEvent()
+            textContainer.innerHTML += `
                 <p>I declined</p>
                 `
-            }
-        },
+        }
     },
-    handleRelationBars() {
-        let progressBars = document.getElementsByClassName('relation');
-        for (let element of Object.entries(progressBars)) {
-            let index = parseInt(element[1].id.split('-')[1])
-            let category = element[1].id.split('-')[0]
-            let opinion = player.relationships[category][index].stats.relationWithPlayer;
-            element[1].style.width = `${opinion}%`
-        }
+},
+handleRelationBars() {
+    let progressBars = document.getElementsByClassName('relation');
+    for (let element of Object.entries(progressBars)) {
+        let index = parseInt(element[1].id.split('-')[1])
+        let category = element[1].id.split('-')[0]
+        let opinion = player.relationships[category][index].stats.relationWithPlayer;
+        element[1].style.width = `${opinion}%`
+    }
 
-        for (let progressBar of progressBars) {
-            let percentage = parseInt(progressBar.style.width.split('%')[0]);
-            if (percentage > 55) progressBar.style.backgroundColor = 'rgb(47, 151, 73)'
-            else if (percentage > 25) progressBar.style.backgroundColor = 'rgb(196, 221, 105)'
-            else progressBar.style.backgroundColor = 'rgb(185, 61, 61)'
-        }
-    }, 
-    throwParty() {
-        player.stats.happiness += 10;
-        eventBody.innerHTML = `
+    for (let progressBar of progressBars) {
+        let percentage = parseInt(progressBar.style.width.split('%')[0]);
+        if (percentage > 55) progressBar.style.backgroundColor = 'rgb(47, 151, 73)'
+        else if (percentage > 25) progressBar.style.backgroundColor = 'rgb(196, 221, 105)'
+        else progressBar.style.backgroundColor = 'rgb(185, 61, 61)'
+    }
+},
+throwParty() {
+    player.stats.happiness += 10;
+    eventBody.innerHTML = `
             <p>You threw an amazing party</p>
             <br>
             <div class="option" onclick="closeEvent()">Close</div>
             `
-        textContainer.innerHTML += `<p>I organized a party at home</p>`
-        statsLimit(player)
-        menu.relationships()
-    },
+    textContainer.innerHTML += `<p>I organized a party at home</p>`
+    statsLimit(player)
+    menu.relationships()
+},
 }
