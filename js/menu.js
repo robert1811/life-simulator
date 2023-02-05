@@ -1106,8 +1106,16 @@ windows = {
             `
         },
         romanticOptions(data) {
+            const partner = player.relationships.partner[0]
+            const gayWeddings = countryQuery(player.location).laws.gay_weddings;
+            let canMarry = true
+            if(partner.gender == player.gender && !gayWeddings)
+                canMarry = false
+
             eventBody.innerHTML = `
-            <div class="option ${player.actions.romanticActions < 3 ? '' : 'disabled'}" onclick="windows.relations.romance.proposeMarriage()">Propose marriage</div>
+            ${canMarry ? `
+                <div class="option ${player.actions.romanticActions < 3 ? '' : 'disabled'}" onclick="windows.relations.romance.proposeMarriage()">Propose marriage</div>
+            ` : ''}
             <div class="option ${player.actions.romanticActions < 3 ? '' : 'disabled'}" onclick="windows.relations.romance.flirt()">Flirt</div>
             <div class="option ${player.actions.romanticActions < 3 ? '' : 'disabled'}" onclick="windows.relations.romance.cuddle()">Cuddle</div>
             <div class="option" onclick="windows.relations.romance.sex(true)">Sex with protection</div>
