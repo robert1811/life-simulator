@@ -15,3 +15,4 @@ Its not finished yet, I will be constantly updating this, bringing new content, 
 - Commercial properties
 - Social media
 - Laws and taxes
+- Writing career
