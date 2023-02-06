@@ -838,7 +838,7 @@ windows = {
                 eventTitle.innerText = object.label;
                 eventBody.innerHTML = `
                 ${player.actions.programming < 3 ? `
-                    <div class="option" data-item="${index}" onclick="windows.items.computer.practiceProgramming(this)">Practice programming</div>
+                <div class="option" data-item="${index}" onclick="windows.items.computer.practiceProgramming(this)">Practice programming</div>
                 ` : ''}
                 ${player.actions.writing < 3 ? `
                     <div class="option" data-item="${index}" onclick="windows.items.computer.practiceWriting(this)">Practice writing</div>
@@ -846,6 +846,15 @@ windows = {
                 <div class="option" data-item="${index}" onclick="windows.items.computer.playVideogames(this)">Play videogames</div>
                 <div class="option" data-item="${type}-${index}" onclick="windows.items.sell(this)">Sell</div>
                 <div class="option" data-item="${index}" onclick="closeEvent()">Do nothing</div>
+                `
+            }
+            else if (object.label === 'Smartphone'){
+                modalBackground.style.display = 'flex'
+                eventTitle.innerText = object.label
+                eventBody.innerHTML = `
+                <div class="option" onclick="windows.items.smartphone.watchVideo()">Watch video</div>
+                <div class="option" data-item="${type}-${index}" onclick="windows.items.sell(this)">Sell</div>
+                <div class="option" onclick="closeEvent()">Close</div>
                 `
             }
         },
@@ -1011,6 +1020,19 @@ windows = {
                 textContainer.innerHTML += `<p>I played ${gamePlayed}</p>`
             }
         },
+        smartphone: {
+            watchVideo(){
+                const randomIndex = Math.floor(Math.random() * youtubePopularUsers.length)
+                const randomUser = youtubePopularUsers[randomIndex].user
+                closeEvent()
+                menuTemplate.style.display = 'none'
+                textContainer.innerHTML += `
+                <p>I watched a video of ${randomUser}</p>
+                `
+                player.stats.happiness += Math.round(Math.random() * 10)
+                handleStatBars(player, true)
+            }
+        },
         ownedAssetWindow(data) {
             const type = data.getAttribute('data-type')
             const index = data.getAttribute('data-index');
@@ -1054,9 +1076,11 @@ windows = {
                 parents: person.gender === 'male' ? 'father' : 'mother',
                 partner: person.gender === 'male' ? 'boyfriend' : 'girlfriend',
                 siblings: person.gender === 'male' ? 'brother' : 'sister',
-                friends: 'friend'
+                friends: 'friend',
+                exPartner: `ex-${person.gender === 'male' ? 'boyfried' : 'girlfriend'}`
             }
             const relationship = possibleRelationships[personCategory]
+
             modalBackground.style.display = 'flex';
             eventTitle.innerText = `${person.fullName} ${!person.alive ? '(dead)' : ''}`
             eventBody.innerHTML = `

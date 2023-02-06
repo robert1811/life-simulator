@@ -1,202 +1,300 @@
 "use strict";
 
 const countriesData = [
-    { country: 'United States', nationality: 'american', language: 'english', laws: {
-        abort: true,
-        gay_weddings: true
-    } },
-    { country: 'Canada', nationality: 'canadian', language: 'english', laws: {
-        abort: true,
-        gay_weddings: true
-    } },
-    { country: 'Mexico', nationality: 'mexican', language: 'spanish', laws: {
-        abort: false,
-        gay_weddings: true
-    } },
-    { country: 'Guatemala', nationality: 'guatemalan', language: 'spanish', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'Belice', nationality: 'belizean', language: 'english', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'Honduras', nationality: 'honduran', language: 'spanish', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'Nicaragua', nationality: 'nicaraguan', language: 'spanish', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'Costa Rica', nationality: 'costa rican', language: 'spanish', laws: {
-        abort: false,
-        gay_weddings: true
-    } },
-    { country: 'Panama', nationality: 'panamanian', language: 'spanish', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'Colombia', nationality: 'colombian', language: 'spanish', laws: {
-        abort: true,
-        gay_weddings: true
-    } },
-    { country: 'Venezuela', nationality: 'venezuelan', language: 'spanish', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'Brazil', nationality: 'brazilian', language: 'portuguese', laws: {
-        abort: false,
-        gay_weddings: true
-    } },
-    { country: 'Ecuador', nationality: 'ecuadorian', language: 'spanish', laws: {
-        abort: false,
-        gay_weddings: true
-    } },
-    { country: 'Peru', nationality: 'peruvian', language: 'spanish', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'Chile', nationality: 'chilean', language: 'spanish', laws: {
-        abort: false,
-        gay_weddings: true
-    } },
-    { country: 'Bolivia', nationality: 'bolivian', language: 'spanish', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'Paraguay', nationality: 'paraguayan', language: 'spanish', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'Argentina', nationality: 'argentinean', language: 'spanish', laws: {
-        abort: true,
-        gay_weddings: true
-    } },
-    { country: 'Uruguay', nationality: 'uruguayan', language: 'spanish', laws: {
-        abort: true,
-        gay_weddings: true
-    } },
-    { country: 'Cuba', nationality: 'cuban', language: 'spanish', laws: {
-        abort: true,
-        gay_weddings: false
-    } },
-    { country: 'Portugal', nationality: 'portuguese', language: 'portuguese', laws: {
-        abort: true,
-        gay_weddings: false
-    } },
-    { country: 'Spain', nationality: 'spaniard', language: 'spanish', laws: {
-        abort: true,
-        gay_weddings: true
-    } },
-    { country: 'France', nationality: 'french', language: 'french', laws: {
-        abort: true,
-        gay_weddings: true
-    } },
-    { country: 'Germany', nationality: 'german', language: 'german', laws: {
-        abort: true,
-        gay_weddings: true
-    } },
-    { country: 'Italy', nationality: 'italian', language: 'italian', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'United Kingdom', nationality: 'british', language: 'english', laws: {
-        abort: false,
-        gay_weddings: true
-    } },
-    { country: 'Ireland', nationality: 'irish', language: 'irish', laws: {
-        abort: true,
-        gay_weddings: true
-    } },
-    { country: 'Ukraine', nationality: 'ukrainian', language: 'ukrainian', laws: {
-        abort: true,
-        gay_weddings: false
-    } },
-    { country: 'Russia', nationality: 'russian', language: 'russian', laws: {
-        abort: true,
-        gay_weddings: false
-    } },
-    { country: 'Sweeden', nationality: 'sweedish', language: 'sweedish', laws: {
-        abort: true,
-        gay_weddings: true
-    } },
-    { country: 'Finland', nationality: 'finnish', language: 'finnish', laws: {
-        abort: false,
-        gay_weddings: true
-    } },
-    { country: 'China', nationality: 'chinese', language: 'chinese', laws: {
-        abort: true,
-        gay_weddings: false
-    } },
-    { country: 'Taiwan', nationality: 'taiwanese', language: 'chinese', laws: {
-        abort: false,
-        gay_weddings: true
-    } },
-    { country: 'Japan', nationality: 'japanese', language: 'japanese', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'South Korea', nationality: 'south korean', language: 'korean', laws: {
-        abort: true,
-        gay_weddings: false
-    } },
-    { country: 'North Korea', nationality: 'north korean', language: 'korean', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'India', nationality: 'indian', language: 'hindi', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'Saudi Arabia', nationality: 'arab', language: 'arab', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'Syria', nationality: 'syrian', language: 'arab', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'Iraq', nationality: 'iraqi', language: 'arab', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'Israel', nationality: 'israeli', language: 'hebrew', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'Egypt', nationality: 'egyptian', language: 'arab', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'Libya', nationality: 'libyan', language: 'arab', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'Morocco', nationality: 'moroccan', language: 'arab', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'Algeria', nationality: 'algerian', language: 'arab', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'Turkey', nationality: 'turkish', language: 'turkish', laws: {
-        abort: true,
-        gay_weddings: false
-    } },
-    { country: 'Armenia', nationality: 'armenian', language: 'armenian', laws: {
-        abort: false,
-        gay_weddings: false
-    } },
-    { country: 'South Africa', nationality: 'south africam', language: 'english', laws: {
-        abort: true,
-        gay_weddings: true
-    } },
-    { country: 'Australia', nationality: 'australian', language: 'english', laws: {
-        abort: true,
-        gay_weddings: true
-    } }
+    {
+        country: 'United States', nationality: 'american', language: 'english', laws: {
+            abort: true,
+            gay_weddings: true
+        }
+    },
+    {
+        country: 'Canada', nationality: 'canadian', language: 'english', laws: {
+            abort: true,
+            gay_weddings: true
+        }
+    },
+    {
+        country: 'Mexico', nationality: 'mexican', language: 'spanish', laws: {
+            abort: false,
+            gay_weddings: true
+        }
+    },
+    {
+        country: 'Guatemala', nationality: 'guatemalan', language: 'spanish', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Belice', nationality: 'belizean', language: 'english', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Honduras', nationality: 'honduran', language: 'spanish', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Nicaragua', nationality: 'nicaraguan', language: 'spanish', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Costa Rica', nationality: 'costa rican', language: 'spanish', laws: {
+            abort: false,
+            gay_weddings: true
+        }
+    },
+    {
+        country: 'Panama', nationality: 'panamanian', language: 'spanish', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Colombia', nationality: 'colombian', language: 'spanish', laws: {
+            abort: true,
+            gay_weddings: true
+        }
+    },
+    {
+        country: 'Venezuela', nationality: 'venezuelan', language: 'spanish', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Brazil', nationality: 'brazilian', language: 'portuguese', laws: {
+            abort: false,
+            gay_weddings: true
+        }
+    },
+    {
+        country: 'Ecuador', nationality: 'ecuadorian', language: 'spanish', laws: {
+            abort: false,
+            gay_weddings: true
+        }
+    },
+    {
+        country: 'Peru', nationality: 'peruvian', language: 'spanish', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Chile', nationality: 'chilean', language: 'spanish', laws: {
+            abort: false,
+            gay_weddings: true
+        }
+    },
+    {
+        country: 'Bolivia', nationality: 'bolivian', language: 'spanish', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Paraguay', nationality: 'paraguayan', language: 'spanish', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Argentina', nationality: 'argentinean', language: 'spanish', laws: {
+            abort: true,
+            gay_weddings: true
+        }
+    },
+    {
+        country: 'Uruguay', nationality: 'uruguayan', language: 'spanish', laws: {
+            abort: true,
+            gay_weddings: true
+        }
+    },
+    {
+        country: 'Cuba', nationality: 'cuban', language: 'spanish', laws: {
+            abort: true,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Portugal', nationality: 'portuguese', language: 'portuguese', laws: {
+            abort: true,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Spain', nationality: 'spaniard', language: 'spanish', laws: {
+            abort: true,
+            gay_weddings: true
+        }
+    },
+    {
+        country: 'France', nationality: 'french', language: 'french', laws: {
+            abort: true,
+            gay_weddings: true
+        }
+    },
+    {
+        country: 'Germany', nationality: 'german', language: 'german', laws: {
+            abort: true,
+            gay_weddings: true
+        }
+    },
+    {
+        country: 'Italy', nationality: 'italian', language: 'italian', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'United Kingdom', nationality: 'british', language: 'english', laws: {
+            abort: false,
+            gay_weddings: true
+        }
+    },
+    {
+        country: 'Ireland', nationality: 'irish', language: 'irish', laws: {
+            abort: true,
+            gay_weddings: true
+        }
+    },
+    {
+        country: 'Ukraine', nationality: 'ukrainian', language: 'ukrainian', laws: {
+            abort: true,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Russia', nationality: 'russian', language: 'russian', laws: {
+            abort: true,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Sweeden', nationality: 'sweedish', language: 'sweedish', laws: {
+            abort: true,
+            gay_weddings: true
+        }
+    },
+    {
+        country: 'Finland', nationality: 'finnish', language: 'finnish', laws: {
+            abort: false,
+            gay_weddings: true
+        }
+    },
+    {
+        country: 'China', nationality: 'chinese', language: 'chinese', laws: {
+            abort: true,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Taiwan', nationality: 'taiwanese', language: 'chinese', laws: {
+            abort: false,
+            gay_weddings: true
+        }
+    },
+    {
+        country: 'Japan', nationality: 'japanese', language: 'japanese', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'South Korea', nationality: 'south korean', language: 'korean', laws: {
+            abort: true,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'North Korea', nationality: 'north korean', language: 'korean', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'India', nationality: 'indian', language: 'hindi', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Saudi Arabia', nationality: 'arab', language: 'arab', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Syria', nationality: 'syrian', language: 'arab', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Iraq', nationality: 'iraqi', language: 'arab', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Israel', nationality: 'israeli', language: 'hebrew', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Egypt', nationality: 'egyptian', language: 'arab', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Libya', nationality: 'libyan', language: 'arab', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Morocco', nationality: 'moroccan', language: 'arab', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Algeria', nationality: 'algerian', language: 'arab', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Turkey', nationality: 'turkish', language: 'turkish', laws: {
+            abort: true,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'Armenia', nationality: 'armenian', language: 'armenian', laws: {
+            abort: false,
+            gay_weddings: false
+        }
+    },
+    {
+        country: 'South Africa', nationality: 'south africam', language: 'english', laws: {
+            abort: true,
+            gay_weddings: true
+        }
+    },
+    {
+        country: 'Australia', nationality: 'australian', language: 'english', laws: {
+            abort: true,
+            gay_weddings: true
+        }
+    }
 ];
 
 const names = {
@@ -245,12 +343,12 @@ const names = {
         female: ['Erika', 'Frida', 'Annelies', 'Matilde']
     },
     italian: {
-        male: ['Giuseppe', 'Luigi', 'Victor', 'Mario', 'Roberto', 'Benito','Giorno'],
+        male: ['Giuseppe', 'Luigi', 'Victor', 'Mario', 'Roberto', 'Benito', 'Giorno'],
         female: ['Emma', 'Beatrice', 'Sofia', 'Alice']
     },
     russian: {
         male: ['Vladimir', 'Aleksander', 'Ivan', 'Igor', 'Pyotr'],
-        female: ['Natasha', 'Dasha', 'Irina','Tasya', 'Zaria', 'Karenina']
+        female: ['Natasha', 'Dasha', 'Irina', 'Tasya', 'Zaria', 'Karenina']
     },
     sweedish: {
         male: ['Acke', 'Aleksander'],
@@ -268,7 +366,7 @@ const names = {
         male: ['Davit', 'Narek', 'Tigran', 'Alex'],
         female: ['Maria', 'Yeva', 'Nare']
     },
-    ukrainian:{
+    ukrainian: {
         male: ['Volodimir', 'Bohdan', 'Anton', 'Anatoliy', 'Borys', 'Gleb', 'Georgiy', 'Ivan'],
         female: ['Nataliya', 'Natalka', 'Oleksandra', 'Mariya']
     },
@@ -296,5 +394,16 @@ const surnames = {
     finnish: ['Koskinen', 'Heikkinen', 'Korhonen'],
     irish: ['Murphy', 'McCarthy', 'Doyle'],
     armenian: ['Grigoryan', 'Sargsyan', 'Harutyunyan'],
-    ukrainian:['Bondarenko', 'Kovalenko', 'Boiko', 'Tkachenko', 'Kravchenko', 'Kovalchuk'],
+    ukrainian: ['Bondarenko', 'Kovalenko', 'Boiko', 'Tkachenko', 'Kravchenko', 'Kovalchuk'],
 }
+
+const youtubePopularUsers = [
+    { user: 'Sr Bestia', subscribers: 190000000 },
+    { user: 'Piudipai', subscribers: 111000000 },
+    { user: 'ORichMC', subscribers: 10000000 },
+    { user: 'BBE', subscribers: 92000000 },
+    { user: 'Piernafloo', subscribers: 52000000 },
+    { user: 'PlayGeorge', subscribers: 90000000 },
+    { user: 'Rincon de Jose', subscribers: 46000000 },
+    { user: 'Fast', subscribers: 58200000 }
+]
