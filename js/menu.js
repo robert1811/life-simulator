@@ -1611,6 +1611,11 @@ emigrate() {
     const countryChoosen = document.getElementById('country-chooser').value
     if (player.age >= 18) {
         player.location = countryChoosen;
+        player.job.until = year;
+        player.money.income -= player.job.salary;
+        moneyViewer()
+        player.cv.push(player.job)
+        player.job = 'none'
         menuTemplate.style.display = 'none';
 
         textContainer.innerHTML += `I emigrated to ${player.location}`;
