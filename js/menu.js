@@ -1674,17 +1674,32 @@ job: {
         const requirements = job.requirements
         let requirementsCompleted = 0;
         for (let requirement of Object.entries(requirements)) {
-            const skillVerifier = (skill) => {
-                if (requirement[0] === skill && player.skills[skill].level >= requirement[1])
-                    requirementsCompleted++;
+            const skillVerifier = () => {
+                const skills = ['programming', 'music', 'handiness', 'writing', 'art']
+                if (skills.includes(requirement[0]))
+                    if(player.skills[requirement[0]].level >= requirement[1])
+                        requirementsCompleted++;
             }
-            console.log(requirement)
+            const statVerifier = () => {
+                stats = ['health', 'happiness', 'smartness', 'fitness', 'appearance']
+                if(stats.includes(requirement[0]))
+                    if(player.stats[requirement[0]] >= requirement[1])
+                        requirementsCompleted++;
+            }
+            if(requirement[0] === 'criminalRecord'){
+                const values = Object.entries(player.criminalRecord)
+                let count = values.length
+                for(let value of values){
+                    if(value[1] === 0) count--
+                }
+                if(count === 0) requirementsCompleted++
+            }
             if (requirement[0] === 'education' && Object.entries(player.career).length > 0
                 && player.career[requirement[1]] != undefined)
                 if (player.career[requirement[1]].label === requirement[1]) requirementsCompleted++;
 
-            skillVerifier('programming')
-            skillVerifier('music')
+            skillVerifier()
+            statVerifier()
 
             if (requirement[0] === 'minAge' && player.age >= requirement[1])
                 requirementsCompleted++

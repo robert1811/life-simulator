@@ -211,5 +211,79 @@ const jobs = [
         },
         salary: 78000,
         promotion: 'none'
+    },
+    {
+        label: 'Apprentice carpenter',
+        requirements: {
+            minAge: 18,
+            handiness: 5,
+            fitness: 70
+        },
+        salary: 41000,
+        field: 'construction',
+        promotion: 'none'
+    },
+    {
+        label: 'Apprentice construction worker',
+        requirements: {
+            handiness: 5,
+            minAge: 18
+        },
+        salary: 30000,
+        field: 'construction',
+        promotion: 'Construction worker'
+    },
+    {
+        label: 'Construction worker',
+        requirements: {
+            handiness: 8,
+            minAge: 18
+        },
+        salary: 40000,
+        field: 'construction',
+        promotion: 'none'
+    },
+    {
+        label: 'Police officer',
+        requirements: {
+            fitness: 85,
+            minAge: 25,
+            criminalRecord: 'clean'
+        },
+        salary: 55000,
+        field: 'lawEnforcement',
+        promotion: 'none'
+    },
+    {
+        label: 'Barber',
+        requirements: {
+            handiness: 3,
+            minAge: 18,
+            criminalRecord: 'clean'
+        },
+        salary: 24000,
+        field: 'smallBussiness',
+        promotion: 'none'
+    },
+    {
+        label: 'Apprentice pediatrician',
+        requirements: {
+            education: 'medic',
+            minAge: 20,
+        },
+        salary: 50000,
+        field: 'medicine',
+        promotion: 'Pediatrician'
+    },
+    {
+        label:'Pediatrician',
+        requirements: {
+            education: 'medic',
+            minAge: 20,
+            handiness: 3
+        },
+        salary: 75000,
+        field: 'medicine',
+        promotion: 'none'
     }
 ];

@@ -25,8 +25,7 @@ class Person {
         happiness: randomStat(0, 100),
         smartness: randomStat(0, 100),
         fitness: randomStat(0, 35),
-        appearance: randomStat(0, 100),
-
+        appearance: randomStat(0, 100)
     }
 
     relationships = {
@@ -192,7 +191,7 @@ const jobAssigner = (characters) => {
         if (person.age > 17 && person.job === 'none' && person !== player)
             findJob(person)
     }
-    else {
+    else {  
         let person = characters;
         if (person.age > 17 && person.job && person.job === 'none')
             findJob(person)
