@@ -314,19 +314,19 @@ const createChild = (personIndex, gender) => {
     const name = document.getElementById('name-field').value;
     const surname = partner.surname
     const nationality = nationalityQuery(person.location)
-    const children = new Person(name, partner != undefined ? surname : person.surname, 0, gender, nationality)
-    children.stats.relationWithPlayer = 50 + Math.floor(Math.random() * 50)
+    const offspring = new Person(name, partner != undefined ? surname : person.surname, 0, gender, nationality)
+    offspring.stats.relationWithPlayer = 50 + Math.floor(Math.random() * 50)
 
-    characters.push(children)
-    person.relationships.children.push(children)
-    children.relationships.parents.push(person)
+    characters.push(offspring)
+    person.relationships.offspring.push(offspring)
+    offspring.relationships.parents.push(person)
     if(partner != undefined){
-        partner.relationships.children.push(children)
-        children.relationships.parents.push(partner)
+        partner.relationships.offspring.push(offspring)
+        offspring.relationships.parents.push(partner)
     }
 
     textContainer.innerHTML += `
-        <p>My ${gender === 'male' ? 'son' : 'daughter'} has born. ${gender === 'male' ? 'His' : 'Her'} name is ${children.name}</p>
+        <p>My ${gender === 'male' ? 'son' : 'daughter'} has born. ${gender === 'male' ? 'His' : 'Her'} name is ${offspring.name}</p>
     `
     closeEvent();
 }

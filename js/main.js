@@ -33,7 +33,7 @@ class Person {
         siblings: [],
         partner: [],
         friends: [],
-        children: []
+        offspring: []
     }
     alive = true;
     career = {};

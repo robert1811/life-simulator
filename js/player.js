@@ -251,13 +251,13 @@ const pregnancy = (person) => {
         return
     }
     const nationality = nationalityQuery(person.location)
-    const children = new Person(undefined, partner != undefined ? partner.surname : person.surname, 0, gender, nationality)
-    person.relationships.children.push(children)
-    children.relationships.parents.push(person)
+    const offspring = new Person(undefined, partner != undefined ? partner.surname : person.surname, 0, gender, nationality)
+    person.relationships.offspring.push(offspring)
+    offspring.relationships.parents.push(person)
     if(partner != undefined){
-        partner.relationships.children.push(children)
-        children.relationships.parents.push(partner)
+        partner.relationships.offspring.push(offspring)
+        offspring.relationships.parents.push(partner)
     }
 
-    characters.push(children)
+    characters.push(offspring)
 }

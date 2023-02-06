@@ -402,7 +402,7 @@ const menu = {
             ${relationShipListifier('friends')}
             ${relationShipListifier('partner')}
             ${player.relationships.exPartners != null ? relationShipListifier('exPartners') : ''}
-            ${relationShipListifier('children')}
+            ${relationShipListifier('offspring')}
         `
         windows.handleRelationBars()
     },
@@ -1049,11 +1049,18 @@ windows = {
             let personCategory = target.getAttribute('data-id').split('-')[0]
             const person = player.relationships[personCategory][parseInt(personID)];
             const characterIndex = person.characterIndex
-
+            const possibleRelationships = {
+                offspring: person.gender === 'male' ? 'son' : 'daughter',
+                parents: person.gender === 'male' ? 'father' : 'mother',
+                partner: person.gender === 'male' ? 'boyfriend' : 'girlfriend',
+                siblings: person.gender === 'male' ? 'brother' : 'sister',
+                friends: 'friend'
+            }
+            const relationship = possibleRelationships[personCategory]
             modalBackground.style.display = 'flex';
             eventTitle.innerText = `${person.fullName} ${!person.alive ? '(dead)' : ''}`
             eventBody.innerHTML = `
-            <p><b>Relationship:</b> ${personCategory}</p>
+            <p><b>Relationship:</b> ${relationship}</p>
             <p><b>Age:</b> ${person.age}</p>
             ${person.age >= 16 ? `
             <p><b>Occupation:</b> ${person.job !== 'none' ? person.job.label : 'unemployed'}</p>
