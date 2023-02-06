@@ -16,3 +16,4 @@ Its not finished yet, I will be constantly updating this, bringing new content, 
 - Social media
 - Laws and taxes
 - Writing career
+- More social interactions
