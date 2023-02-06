@@ -1618,7 +1618,10 @@ emigrate() {
         player.job = 'none'
         menuTemplate.style.display = 'none';
 
-        textContainer.innerHTML += `I emigrated to ${player.location}`;
+        textContainer.innerHTML += `
+        <p>I emigrated to ${player.location}</p>
+        <p>I quit my job</p>
+        `;
 
     } else if (player.age < 18) {
         modalBackground.style.display = 'flex';
