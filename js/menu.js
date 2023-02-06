@@ -853,7 +853,10 @@ windows = {
             let obj;
             if (objName === 'items') obj = items[property][index]
             else obj = assets[property][index];
+
+            if(property === 'houses') obj.location = player.location
             let newObj = structuredClone(obj);
+
             if (player.money.total >= newObj.price) {
                 player.money.total -= newObj.price;
                 try {
@@ -1012,6 +1015,7 @@ windows = {
             const type = data.getAttribute('data-type')
             const index = data.getAttribute('data-index');
             const asset = player.inventory[type][index]
+            const canThrowParty = asset.location === player.location ? true : false
 
             modalBackground.style.display = 'flex'
             eventTitle.innerText = asset.label
@@ -1020,8 +1024,12 @@ windows = {
                 <p><b>Age: </b>${asset.age}</p>
                 <p><b>Value: </b>${moneyFormat(asset.price)} $</p>
                 <p><b>Condition: </b>${asset.condition}</p>
+                <p><b>Location: </b>${asset.location}</p>
                 <br>
-                <div class="option" onclick="windows.throwParty()">Throw a party</div>
+
+                ${canThrowParty ? `
+                    <div class="option" onclick="windows.throwParty()">Throw a party</div>
+                ` : ''}
                 <div class="option" data-item="${type}-${index}" onclick="windows.items.sell(this)">Sell</div>
                 <div class="option" onclick="closeEvent()">Close</div>
             `
@@ -1608,9 +1616,14 @@ university: {
 
 },
 emigrate() {
-    const countryChoosen = document.getElementById('country-chooser').value
+    const chosenCountry = document.getElementById('country-chooser').value
     if (player.age >= 18) {
-        player.location = countryChoosen;
+        player.location = chosenCountry;
+        textContainer.innerHTML += `
+        <p>I emigrated to ${player.location}</p>
+        ${player.job !== 'none' ? `
+        <p>I quit my job</p>` : ''}
+        `;
         player.job.until = year;
         player.money.income -= player.job.salary;
         moneyViewer()
@@ -1618,10 +1631,6 @@ emigrate() {
         player.job = 'none'
         menuTemplate.style.display = 'none';
 
-        textContainer.innerHTML += `
-        <p>I emigrated to ${player.location}</p>
-        <p>I quit my job</p>
-        `;
 
     } else if (player.age < 18) {
         modalBackground.style.display = 'flex';
@@ -2005,6 +2014,7 @@ throwParty() {
             `
     textContainer.innerHTML += `<p>I organized a party at home</p>`
     statsLimit(player)
-    menu.relationships()
+    menuTemplate.style.display = 'none'
+    handleStatBars(player, true)
 },
 }
