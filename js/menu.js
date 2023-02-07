@@ -1022,6 +1022,15 @@ windows = {
         },
         smartphone: {
             watchVideo(){
+                const location = countryQuery(player.location)
+                if(location.laws.banned_youtube){
+                    return eventBody.innerHTML = `
+                    <p>Youtube is not available in your country</p>
+                    <div class="option" onclick="closeEvent()">Close</div>
+                    `
+                }
+                
+
                 const randomIndex = Math.floor(Math.random() * youtubePopularUsers.length)
                 const randomUser = youtubePopularUsers[randomIndex].user
                 closeEvent()
