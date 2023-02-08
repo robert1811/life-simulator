@@ -852,6 +852,7 @@ windows = {
                 modalBackground.style.display = 'flex'
                 eventTitle.innerText = object.label
                 eventBody.innerHTML = `
+                <div class="option" onclick="windows.socialMedia.display()">Social Media</div>
                 <div class="option" onclick="windows.items.smartphone.watchVideo()">Watch video</div>
                 <div class="option" data-item="${type}-${index}" onclick="windows.items.sell(this)">Sell</div>
                 <div class="option" onclick="closeEvent()">Close</div>
@@ -1031,8 +1032,8 @@ windows = {
                 }
                 
 
-                const randomIndex = Math.floor(Math.random() * youtubePopularUsers.length)
-                const randomUser = youtubePopularUsers[randomIndex].user
+                const randomIndex = Math.floor(Math.random() * popularYoutubers.length)
+                const randomUser = popularYoutubers[randomIndex].user
                 closeEvent()
                 menuTemplate.style.display = 'none'
                 textContainer.innerHTML += `
@@ -1040,7 +1041,7 @@ windows = {
                 `
                 player.stats.happiness += Math.round(Math.random() * 10)
                 handleStatBars(player, true)
-            }
+            },
         },
         ownedAssetWindow(data) {
             const type = data.getAttribute('data-type')
@@ -1073,6 +1074,127 @@ windows = {
                 <div class="option" onclick="closeEvent()">Close</div>
             `
         },
+    },
+    socialMedia: {
+        display(){
+            const laws = countryQuery(player.location).laws
+            
+            eventTitle.innerText = 'Social media'
+            eventBody.innerHTML = `
+            <div class="option ${laws.banned_youtube ? 'disabled' : ''}" onclick="windows.socialMedia.youtube.display()">Youtube</div>
+            `
+        },
+        youtube: {
+            display(){
+                const isBanned = countryQuery(player.location).laws.banned_youtube
+
+                if(isBanned)
+                    return eventBody.innerHTML = `
+                    <p>Youtube is banned in your country</p>
+                    <div class="option" onclick="closeEvent()">Close</div>
+                    `
+
+                if(!player.socialMedia.youtube.created){
+                    return eventBody.innerHTML = `
+                    <h3>You dont have an account yet</h3>
+                    <input type="text" placeholder="username" id="username-field">
+                    <div class="option" onclick="windows.socialMedia.youtube.createAccount()">Create account</div>
+                    <div class="option" onclick="closeEvent()">Close</div>
+                    `
+                }
+                const stats = player.socialMedia.youtube
+                eventBody.innerHTML = `
+                <p><b>Username: </b>${stats.username}</p>
+                <p><b>Subscribers: </b>${stats.subscribers}</p>
+                <p><b>Creation year: </b>${stats.created_at}</p>
+                <div class="option" onclick="windows.socialMedia.youtube.recordVideo.display()">Record a video</div>
+                <div class="option" onclick="windows.socialMedia.youtube.browseVideos()">Browse my videos</div>
+                <div class="option" onclick="alert('Not implemented yet')">Ranking</div>
+                <div class="option" onclick="closeEvent()">Close</div>
+                `
+            },
+            recordVideo:{
+                display(){
+                    modalBackground.style.display = 'flex'
+                    eventBody.innerHTML = `
+                    <p>Thematic: </p>
+                    <select id="thematic-selector">
+                        <option value="gameplay">Gameplay</option>
+                        <option value="review">Review</option>
+                        <option value="vlog">Vlog</option>
+                        <option value="documental">Documental</option>
+                    </select>
+                    <p style="margin-top: 6px">Title:</p>
+                    <input type="text" placeholder="Title" id="title-field">
+                    <div class="option" onclick="windows.socialMedia.youtube.recordVideo.record()">Select</div>
+                    <div class="option" onclick="windows.socialMedia.youtube.display()()">Cancel</div>
+                    `
+
+                },
+                record(){
+                    const title = document.getElementById('title-field').value.trim()
+                    const thematic = document.getElementById('thematic-selector').value
+
+                    if(title === '') return windows.socialMedia.youtube.recordVideo.display();
+                    const subscribers = player.socialMedia.youtube.subscribers
+                    const views = Math.floor(Math.random() * (subscribers / 5) + 5 + subscribers)
+                    const likes = Math.floor(Math.random() * (views / 5))
+                    const newSubs = Math.floor(views / 4)
+
+                    player.socialMedia.youtube.subscribers += newSubs
+                    player.socialMedia.youtube.videos.push({
+                        title,
+                        thematic,
+                        views,
+                        likes
+                    })
+                    eventBody.innerHTML = `
+                    <h3>Video uploaded</h3>
+                    <p><b>Views: </b>${views}</p>
+                    <p><b>Likes: </b>${likes}</p>
+                    <p><b>New subscribers: </b>${newSubs}</p>
+                    <div class="option" onclick="windows.socialMedia.youtube.display()">Close</div>
+                    `
+
+                }
+            },
+            browseVideos(){
+                const videos = player.socialMedia.youtube.videos;
+                let list = ''
+                if(videos.length !== 0)
+                    for(let video of videos){
+                        list = list.concat(`
+                        <div style="margin-top: 5px">
+                            <h4>${video.title}</h4>
+                            <p><b>Thematic: </b>${video.thematic}</p>
+                            <p><b>Views: </b>${video.views}</p>
+                            <p><b>Likes: </b>${video.likes}</p>
+                        </div>
+                        `)
+                    }
+                else list = '<h3>No videos yet</h3>'
+
+                eventBody.innerHTML = `
+                    ${list}
+                    <div class="option" onclick="windows.socialMedia.youtube.display()">Close</div>
+                `
+            },
+            ranking(){
+
+            },
+            createAccount(){
+                const username = document.getElementById('username-field').value.trim()
+                player.socialMedia.youtube.created = true;
+                player.socialMedia.youtube.username = username;
+                player.socialMedia.youtube.created_at = year
+
+                textContainer.innerHTML += `
+                <p>I created a youtube account called ${username}</p>
+                `
+                closeEvent()
+                menuTemplate.style.display = 'none'
+            }
+        }
     },
     relations: {
         display(target) {

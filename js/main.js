@@ -115,6 +115,23 @@ class Person {
         romanticActions: 0,
         askPromotion: 0
     }
+
+    socialMedia = {
+        youtube: {
+            created: false,
+            created_at: null,
+            username: null,
+            videos: [],
+            subscribers: 0
+        },
+        instagram: {
+            created: false,
+            created_at: null,
+            username: null,
+            posts: [],
+            followers: 0
+        }
+    }
 }
 
 const createFamily = (player) => {

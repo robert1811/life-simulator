@@ -280,7 +280,7 @@ const requirementsFiller = (obj, person) =>{
     }
 }
 
-const moneyAbbreviation = (money) => {
+const numAbbreviation = (money) => {
     const array = moneyFormat(money).split('.')
     const size = array.length
     const handler = (letter) => {
@@ -301,9 +301,9 @@ const moneyViewer = () => {
     
     const balance = document.getElementById('balance');
     if(player.money.income - player.money.expenses > 0)
-        balance.innerHTML = `<span class="green">+${moneyAbbreviation(player.money.income - player.money.expenses)} $</span>`
+        balance.innerHTML = `<span class="green">+${numAbbreviation(player.money.income - player.money.expenses)} $</span>`
     else if(player.money.income - player.money.expenses < 0)
-        balance.innerHTML = `<span class="red">${moneyAbbreviation(player.money.income - player.money.expenses)} $</span>`
+        balance.innerHTML = `<span class="red">${numAbbreviation(player.money.income - player.money.expenses)} $</span>`
     else if(player.money.income - player.money.expenses === 0)
         balance.innerText = ''
 }

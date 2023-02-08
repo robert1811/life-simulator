@@ -495,7 +495,7 @@ const surnames = {
     ukrainian: ['Bondarenko', 'Kovalenko', 'Boiko', 'Tkachenko', 'Kravchenko', 'Kovalchuk'],
 }
 
-const youtubePopularUsers = [
+const popularYoutubers = [
     { user: 'Sr Bestia', subscribers: 190000000 },
     { user: 'Piudipai', subscribers: 111000000 },
     { user: 'ORichMC', subscribers: 10000000 },
