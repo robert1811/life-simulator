@@ -1076,30 +1076,36 @@ windows = {
         },
     },
     socialMedia: {
+        createAccount(socialMedia){
+            const username = document.getElementById('username-field').value.trim()
+            player.socialMedia[socialMedia].created = true;
+            player.socialMedia[socialMedia].username = username;
+            player.socialMedia[socialMedia].created_at = year
+
+            textContainer.innerHTML += `
+            <p>I created a ${socialMedia} account called ${username}</p>
+            `
+            closeEvent()
+            menuTemplate.style.display = 'none'
+        },
         display(){
             const laws = countryQuery(player.location).laws
             
             eventTitle.innerText = 'Social media'
             eventBody.innerHTML = `
             <div class="option ${laws.banned_youtube ? 'disabled' : ''}" onclick="windows.socialMedia.youtube.display()">Youtube</div>
+            <div class="option ${laws.banned_instagram ? 'disabled' : ''}" onclick="windows.socialMedia.instagram.display()">Instagram</div>
+            <div class="option" onclick="closeEvent()">Close</div>
             `
         },
         youtube: {
             display(){
-                const isBanned = countryQuery(player.location).laws.banned_youtube
-
-                if(isBanned)
-                    return eventBody.innerHTML = `
-                    <p>Youtube is banned in your country</p>
-                    <div class="option" onclick="closeEvent()">Close</div>
-                    `
-
                 if(!player.socialMedia.youtube.created){
                     return eventBody.innerHTML = `
                     <h3>You dont have an account yet</h3>
                     <input type="text" placeholder="username" id="username-field">
-                    <div class="option" onclick="windows.socialMedia.youtube.createAccount()">Create account</div>
-                    <div class="option" onclick="closeEvent()">Close</div>
+                    <div class="option" onclick="windows.socialMedia.createAccount('youtube')">Create account</div>
+                    <div class="option" onclick="windows.socialMedia.display()">Close</div>
                     `
                 }
                 const stats = player.socialMedia.youtube
@@ -1110,7 +1116,7 @@ windows = {
                 <div class="option" onclick="windows.socialMedia.youtube.recordVideo.display()">Record a video</div>
                 <div class="option" onclick="windows.socialMedia.youtube.browseVideos()">Browse my videos</div>
                 <div class="option" onclick="alert('Not implemented yet')">Ranking</div>
-                <div class="option" onclick="closeEvent()">Close</div>
+                <div class="option" onclick="windows.socialMedia.display()">Close</div>
                 `
             },
             recordVideo:{
@@ -1146,7 +1152,8 @@ windows = {
                         title,
                         thematic,
                         views,
-                        likes
+                        likes,
+                        id: player.socialMedia.youtube.videos.length
                     })
                     eventBody.innerHTML = `
                     <h3>Video uploaded</h3>
@@ -1166,6 +1173,7 @@ windows = {
                         list = list.concat(`
                         <div style="margin-top: 5px">
                             <h4>${video.title}</h4>
+                            <p><b>ID: </b>${video.id}</p>
                             <p><b>Thematic: </b>${video.thematic}</p>
                             <p><b>Views: </b>${video.views}</p>
                             <p><b>Likes: </b>${video.likes}</p>
@@ -1182,17 +1190,76 @@ windows = {
             ranking(){
 
             },
-            createAccount(){
-                const username = document.getElementById('username-field').value.trim()
-                player.socialMedia.youtube.created = true;
-                player.socialMedia.youtube.username = username;
-                player.socialMedia.youtube.created_at = year
+            
+        },
+        instagram: {
+            display(){
+                const isBanned = countryQuery(player.location).laws.banned_instagram
 
-                textContainer.innerHTML += `
-                <p>I created a youtube account called ${username}</p>
+                if(isBanned)
+                    return eventBody.innerHTML = `
+                    <p>Youtube is banned in your country</p>
+                    <div class="option" onclick="closeEvent()">Close</div>
+                    `
+                if(!player.socialMedia.instagram.created){
+                    return eventBody.innerHTML = `
+                        <h3>You dont have an account yet</h3>
+                        <input type="text" placeholder="username" id="username-field">
+                        <div class="option" onclick="windows.socialMedia.createAccount('instagram')">Create account</div>
+                        <div class="option" onclick="windows.socialMedia.display()">Close</div>
+                    `
+                }
+
+                const stats = player.socialMedia.instagram
+                eventBody.innerHTML = `
+                <p><b>Username: </b>${stats.username}</p>
+                <p><b>Followers: </b>${stats.followers}</p>
+                <p><b>Creation year: </b>${stats.created_at}</p>
+                <div class="option" onclick="windows.socialMedia.instagram.photo.display()">Post a photo</div>
+                <div class="option" onclick="windows.socialMedia.instagram.browsePosts()">Browse posts</div>
+                <div class="option" onclick="alert('Soon')">Ranking</div>
+                <div class="option" onclick="windows.socialMedia.display()">Close</div>
                 `
-                closeEvent()
-                menuTemplate.style.display = 'none'
+            },
+            photo: {
+                display(){
+                    eventBody.innerHTML = `
+                    <p>Title</p>
+                    <input type="text" placeholder="description" id="description-field" style="margin-bottom: 5px">
+                    <div class="option" onclick="windows.socialMedia.instagram.photo.upload()">Upload</div>
+                    <div class="option" onclick="windows.socialMedia.display()">Close</div>
+                    `
+                },
+                upload(){
+                    const description = document.getElementById('description-field').value.trim()
+                    
+                    const followers = player.socialMedia.instagram.followers
+                    const newFollowers = Math.round(Math.random() * 3 / followers != 0 ? followers : 2 ) + player.stats.appearance
+                    const likes = Math.round(Math.random() * (followers * (player.stats.appearance / 100)))
+
+                    player.socialMedia.instagram.posts.push({
+                        description,
+                        likes,
+                        id: player.socialMedia.instagram.posts.length
+                    })
+                    player.socialMedia.instagram.followers += newFollowers
+                    windows.socialMedia.instagram.display()
+                }
+            },
+            browsePosts(){
+                let str = ''
+                const posts = player.socialMedia.instagram.posts
+                posts.map(e => str = str.concat(`
+                <p>${e.description}</p>
+                <p><b>ID: ${e.id}</b></p>
+                <p style="margin-bottom: 5px">${e.likes} likes</p>
+                `))
+                if(str === '') str = '<h3>No posts yet</h3>'
+
+                eventBody.innerHTML = `
+                ${str}
+                <div class="option" onclick="windows.socialMedia.instagram.display()">Close</div>
+                `
             }
         }
     },

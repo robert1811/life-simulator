@@ -45,12 +45,12 @@ const displayCustomization = () => {
     //these two "prevent" typing white spaces in the inputs
     const inputName = document.getElementById('name');
     inputName.addEventListener('input', e => {
-        e.target.value = e.target.value.trim()
+        e.target.value = e.target.value = e.target.value.replace(/(\s|,|\.|\?|\!|-|_|\d)/, '')
     })
 
     const inputSurname = document.getElementById('surname');
     inputSurname.addEventListener('input', e => {
-        e.target.value = e.target.value.trim()
+        e.target.value = e.target.value = e.target.value.replace(/(\s|,|\.|\?|\!|-|_|\d)/, '')
     })
 }
 
