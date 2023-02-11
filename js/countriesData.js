@@ -421,8 +421,8 @@ const names = {
         female: ['Ada', 'Ana', 'Daniela', 'Ariel']
     },
     japanese: {
-        male: ['Akira', 'Kuta', 'Hiroshi', 'Kousei'],
-        female: ['Aiko', 'Aoi', 'Hana', 'Akira', 'Tsubaki']
+        male: ['Akira', 'Kuta', 'Hiroshi', 'Kousei', 'Tenma'],
+        female: ['Aiko', 'Aoi', 'Hana', 'Akira', 'Tsubaki', 'Chihiro']
     },
     korean: {
         male: ['Kim', 'Yejun', 'SeoJoon', 'Jiho'],
@@ -437,8 +437,8 @@ const names = {
         female: ['Uma', 'Denali', 'Indira']
     },
     german: {
-        male: ['Hans', 'Heinrich', 'Joseph', 'Adolf', 'Erich', 'Paul', 'Ernst', 'Gunter', 'Friedrich', 'Arthur', 'Otto'],
-        female: ['Erika', 'Frida', 'Annelies', 'Matilde']
+        male: ['Hans', 'Heinrich', 'Joseph', 'Adolf', 'Erich', 'Paul', 'Ernst', 'Gunter', 'Friedrich', 'Arthur', 'Otto', 'Johan', ''],
+        female: ['Erika', 'Frida', 'Annelies', 'Matilde', 'Anna', 'Nina', 'Berta', 'Emilia']
     },
     italian: {
         male: ['Giuseppe', 'Luigi', 'Victor', 'Mario', 'Roberto', 'Benito', 'Giorno'],
