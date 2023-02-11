@@ -35,14 +35,14 @@ const menu = {
                 <img src="images/options/love.png" style="width: 35px; height: 35px"> Love
             </li>
             <li onclick="windows.plasticSurgeries.display()" class="option activity-option ${player.age < 18 ? 'disabled' : ''}">
-                Plastic surgeries
+                <img src="images/options/plasticSurgery.png"> Plastic surgeries
             </li>
             <li onclick="windows.university.display()" class="option activity-option ${player.age < 18 ? 'disabled' : ''}">
                 <img src="images/options/university.png
                 ">University
             </li>
             <li class="option activity-option ${player.age < 14 ? 'disabled' : ''}" onclick="menu.criminal()">
-                Criminal
+                <img src="images/options/criminal.png"> Criminal
             </li>
         </ul>
         `
