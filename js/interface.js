@@ -42,15 +42,15 @@ const displayCustomization = () => {
         <button onclick="customCharacter()" class="create-btn">Create</button>
     </div>
     `
-    //these two "prevent" typing white spaces in the inputs
+    //these two prevent typing white spaces in the inputs
     const inputName = document.getElementById('name');
     inputName.addEventListener('input', e => {
-        e.target.value = e.target.value = e.target.value.replace(/(\s|,|\.|\?|\!|-|_|\d)/, '')
+        e.target.value = e.target.value = e.target.value.replace(/\W|\d/, '')
     })
 
     const inputSurname = document.getElementById('surname');
     inputSurname.addEventListener('input', e => {
-        e.target.value = e.target.value = e.target.value.replace(/(\s|,|\.|\?|\!|-|_|\d)/, '')
+        e.target.value = e.target.value = e.target.value.replace(/\W|\d/, '')
     })
 }
 
