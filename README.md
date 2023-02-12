@@ -6,7 +6,7 @@ Its not finished yet, I will be constantly updating this, bringing new content, 
 
 ![alt text](https://github.com/robert1811/life-simulator/blob/main/preview.jpg?raw=true)
 
-##To add
+## To add
 - Military career
 - Continue as child after dying
 - More shops, jobs, university careers, properties and cars
