@@ -13,7 +13,7 @@ Its not finished yet, I will be constantly updating this, bringing new content, 
 - Diseases
 - More prison actions
 - Commercial properties
-- Social media
-- Laws and taxes
+- More laws
+- Taxes
 - Writing career
 - More social interactions
