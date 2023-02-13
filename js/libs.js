@@ -127,7 +127,7 @@ const relationShipListifier = (category) => {
         string = string.concat(`
         <div onclick="windows.relations.display(this)" class="relationship-container"
         data-id="${category}-${index}">
-            <h4>${relation.fullName} ${!relation.alive ? '(Dead)' : ''}</h4>
+            <h4>${relation.fullName} <i class="fa-solid fa-${relation.gender === 'male' ? 'mars' : 'venus'}"></i> ${!relation.alive ? '(Dead)' : ''}</h4>
             <div class="opinion-data-wrapper">
                 <div class="bar-container">Opinion about you <div class="relation-background"><div class="relation" id="${category}-${index}"></div></div></div>
                 ${category === 'partner' ? `
