@@ -186,7 +186,15 @@ const interfaceLoading = () => {
     moneyViewer()
     jobAssigner(characters)
     firstMessage()
-    document.getElementById('create-character-screen').style.display = 'none'
+    const menu = document.getElementById('create-character-screen')
+    menu.style.display = 'none'
+    menu.innerHTML = `
+        <h1>Choose how will you create your character</h1>
+        <div id="buttons-container">
+            <button class="create-btn" onclick="randomCharacter()">Random</button>
+            <button class="create-btn" onclick="displayCustomization()">Custom</button>
+        </div>
+    `
     const bars = document.getElementsByClassName('bar-progress');
     for (let bar of bars) {
         bar.style.animationName = 'animation-bar';

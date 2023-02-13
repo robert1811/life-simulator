@@ -73,6 +73,11 @@ const closeEvent = () => {
 
 //im gonna move this somewhere else
 const deathScreen = () => {
+    const ageBtnContainer = document.getElementById('age-btn-container');
+    ageBtnContainer.innerHTML = `
+    <button id="age-btn" onclick="annualChanges()">Age</button>
+    `
+
     const obituaryContainer = document.getElementById('obituary-container');
 
     const siblingLength = player.relationships.siblings.length;
@@ -171,9 +176,6 @@ const annualChanges = () => {
     randomizeHouseStats()
     prisonHandler(player)
 }
-
-
-ageButton.addEventListener('click', () => annualChanges())
 
 const closeMenu = document.getElementById('close-menu');
 closeMenu.addEventListener('click', e => {
