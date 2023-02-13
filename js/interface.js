@@ -120,15 +120,7 @@ const annualChanges = () => {
 
     //death possibility
     for (let person of characters) {
-        death(person)
-    }
-
-    // adds the death button
-    if (!player.alive) {
-        const ageBtnContainer = document.getElementById('age-btn-container');
-        ageBtnContainer.innerHTML = `
-        <button id="dead-button" class="rectangular-btn" onclick="deathScreen()">Dead</button>
-        `
+        randomDeath(person)
     }
 
     // shows if player is in the stage of childhood, adulthood or elderhood

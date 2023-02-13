@@ -44,6 +44,9 @@ const menu = {
             <li class="option activity-option ${player.age < 14 ? 'disabled' : ''}" onclick="menu.criminal()">
                 <img src="images/options/criminal.png"> Criminal
             </li>
+            <li class="option activity-option ${player.age < 5 ? 'disabled' : ''}" onclick="windows.suicide.display()">
+                Suicide
+            </li>
         </ul>
         `
     },
@@ -444,6 +447,24 @@ const menu = {
 
 
 windows = {
+    suicide: {
+        display(){
+            if(player.age < 5) return
+
+            modalBackground.style.display = 'flex'
+            eventTitle.innerText = 'Suicide'
+            eventBody.innerHTML = `
+            <p>Are you sure you want to do this</p>
+            <div class="option" onclick="windows.suicide.confirmation()">Yes</div>
+            <div class="option" onclick="closeEvent()">No</div>
+            `
+        },
+        confirmation(){
+            closeEvent()
+            death(player, 'commited suicide')
+            menuTemplate.style.display = 'none'
+        }
+    },
     criminal: {
         stealCar: {
             display() {
@@ -1093,8 +1114,8 @@ windows = {
             
             eventTitle.innerText = 'Social media'
             eventBody.innerHTML = `
-            <div class="option ${laws.banned_youtube ? 'disabled' : ''}" onclick="windows.socialMedia.youtube.display()">Youtube</div>
-            <div class="option ${laws.banned_instagram ? 'disabled' : ''}" onclick="windows.socialMedia.instagram.display()">Instagram</div>
+            <div class="option ${laws.banned_youtube ? 'disabled' : ''}" onclick="windows.socialMedia.youtube.display()"><i class="fa-brands fa-youtube" style="margin-right: 8px"></i> Youtube</div>
+            <div class="option ${laws.banned_instagram ? 'disabled' : ''}" onclick="windows.socialMedia.instagram.display()"><i class="fa-brands fa-instagram" style="margin-right: 8px"></i> Instagram</div>
             <div class="option" onclick="closeEvent()">Close</div>
             `
         },

@@ -152,22 +152,33 @@ const skillLeveler = () => {
     } 
 }
 
- const death = (person) => {
+ const randomDeath = (person) => {
     const randomNum = Math.floor(Math.random() * person.age)
+    const deathCause = [`has died while ${person.gender == 'male' ? 'he' : 'she'} was sleeping`]
+    const randomReason = deathCause[Math.floor(Math.random() * deathCause.length)]
     
     if(person.age > 70 && person.stats.health < randomNum && person.alive){
-        const deathCause = [`while ${person.gender == 'male' ? 'he' : 'she'} was sleeping`]
-        const randomReason = deathCause[Math.floor(Math.random() * deathCause.length)]
-        person.alive = false;
-        textContainer.innerHTML += `<p>${person.fullName} has died ${randomReason} at age of ${person.age}</p>`
+        death(person, randomReason)    
+    }
+ }
 
-        person.deathCause = deathCause;
+ const death = (person, reason) => {
+    person.alive = false;
+    textContainer.innerHTML += `<p>${person.fullName} ${reason} at age of ${person.age}</p>`
 
-        if(person.job !== 'none'){
-            person.job.until = year;
-            person.cv.push(person.job)
-            person.job = 'none'
-        }
+    person.deathCause = reason;
+
+    if(person.job !== 'none'){
+        person.job.until = year;
+        person.cv.push(person.job)
+        person.job = 'none'
+    }
+
+    if(person === player){
+        const ageBtnContainer = document.getElementById('age-btn-container');
+        ageBtnContainer.innerHTML = `
+        <button id="dead-button" class="rectangular-btn" onclick="deathScreen()">Dead</button>
+        `
     }
  }
 
