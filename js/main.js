@@ -211,9 +211,9 @@ const jobAssigner = (characters) => {
         person.money.income = job.salary
         requirementsFiller(job, person)
     }
-    if (characters === player) return
+    if (characters.characterIndex === player.characterIndex) return
     if (Array.isArray(characters)) for (let person of characters) {
-        if (person.age > 17 && person.job === 'none' && person !== player)
+        if (person.age > 17 && person.job === 'none' && person.characterIndex !== player.characterIndex)
             findJob(person)
     }
     else {  

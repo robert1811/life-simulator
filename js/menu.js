@@ -1357,7 +1357,7 @@ windows = {
             <div class="option ${player.actions.meanActions < 3 ? '' : 'disabled'}" onclick="windows.relations.mean.yell(this)" data-index="${index}">Yell</div>
             ${player.age > 14 ? `<div class="option" onclick="windows.mean.relations.assault(this)" data-index="${index}">Assault</div>`
                     : ''}
-            ${person.relationships.partner[0] === player ? `
+            ${person.relationships.partner[0].characterIndex === player.characterIndex ? `
             <div class="option ${player.actions.meanActions < 3 ? '' : 'disabled'}" onclick="windows.relations.romance.break()">${person.married ? 'Divorce' : 'Break up'}</div>
             ` : ''}
             <div class="option" onclick="closeEvent()">Close</div>
@@ -1407,7 +1407,7 @@ windows = {
                 player.actions.meanActions++
                 const index = data.getAttribute('data-index');
                 let person = characters[index]
-                const isPartner = person.relationships.partner[0] === player ? true : false;
+                const isPartner = person.relationships.partner[0].characterIndex === player.characterIndex ? true : false;
 
                 person.stats.relationWithPlayer -= 10
 
@@ -1432,7 +1432,7 @@ windows = {
                 player.actions.meanActions++
                 const index = data.getAttribute('data-index');
                 let person = characters[index]
-                const isPartner = person.relationships.partner[0] === player ? true : false;
+                const isPartner = person.relationships.partner[0].characterIndex === player.characterIndex ? true : false;
 
                 person.stats.relationWithPlayer -= 8
 
@@ -1822,7 +1822,7 @@ university: {
                     player.currentCareer = universityCareers[chosenCareer];
                     player.currentCareer.paidBy = paidBy;
                     player.currentEducation = 'university';
-                    if (payer === player)
+                    if (payer.characterIndex === player.characterIndex)
                         payer.money.expenses += 6000
                     player.currentCareer.yearsStudied = 0;
                     closeEvent();

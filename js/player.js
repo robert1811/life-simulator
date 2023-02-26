@@ -174,7 +174,7 @@ const skillLeveler = () => {
         person.job = 'none'
     }
 
-    if(person === player){
+    if(person.characterIndex === player.characterIndex){
         const ageBtnContainer = document.getElementById('age-btn-container');
         ageBtnContainer.innerHTML = `
         <button id="dead-button" class="rectangular-btn" onclick="deathScreen()">Dead</button>
@@ -249,7 +249,7 @@ const pregnancy = (person) => {
     const possibleGenders = ['male', 'female']
     const gender = possibleGenders[Math.round(Math.random())]
     
-    if(person == player || person == player.relationships.partner[0]){
+    if(person.characterIndex == player.characterIndex || person.characterIndex == player.characterIndex.relationships.partner[0]){
         const pronoun = gender === 'male' ? 'him' : 'her'
         modalBackground.style.display = 'flex'
         eventTitle.innerText = `Its a ${gender == 'male' ? 'boy' : 'girl'}`
