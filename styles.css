@@ -3,7 +3,8 @@
     --yellow-text: #fcd34d;
     --gray-line:  rgb(68, 65, 87);
     --background-color: rgb(41, 41, 41);
-    --option-background: rgb(71, 71, 71);
+    --option-background: rgb(87, 87, 87);
+    --disabled-option-background: rgb(70, 70, 70);
 }
 
 .clear{
@@ -439,8 +440,8 @@ li{
 }
 
 .disabled{
-    background-color: #3d1d49;
-    color: #868686 !important;
+    background-color: var(--disabled-option-background);
+    color: #969696 !important;
     cursor: not-allowed;
 }
 

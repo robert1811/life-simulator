@@ -138,9 +138,9 @@ const annualChanges = () => {
     if (Math.floor(Math.random() * 10) === 5)
         textContainer.innerHTML += `<p>${worldEventsMethodArr[Math.floor(Math.random() * worldEventsAmount)][1]()}</p>`
 
-
-    //stat changes
     player.money.total += player.money.income - player.money.expenses
+
+    // job related stats
     if (player.job !== 'none') {
         const random = Math.round(Math.random())
         if (random === 0)
@@ -152,12 +152,16 @@ const annualChanges = () => {
     // for university
     studyingProcess(textContainer)
 
+
+    //stat changes
     if (Math.floor(Math.random() * 2) === 1) {
-        player.stats.happiness += Math.floor(Math.random() * 10)
-        player.stats.appearance += Math.floor(Math.random() * 10)
+        player.stats.happiness += Math.floor(Math.random() * 10);
+        player.stats.appearance += Math.floor(Math.random() * 10);
+        player.stats.smartness += Math.floor(Math.random() * 10)
     } else {
         player.stats.happiness -= Math.floor(Math.random() * 10);
-        player.stats.appearance -= Math.floor(Math.random() * 10)
+        player.stats.appearance -= Math.floor(Math.random() * 10);
+        player.stats.smartness -= Math.floor(Math.random() * 10)
     }
 
     statsBuffer()
