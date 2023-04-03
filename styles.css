@@ -3,6 +3,7 @@
     --yellow-text: #fcd34d;
     --gray-line:  rgb(68, 65, 87);
     --background-color: rgb(41, 41, 41);
+    --option-background: rgb(71, 71, 71);
 }
 
 .clear{
@@ -19,6 +20,10 @@
 body{
     background-color: var(--background-color);
     color: white;
+}
+
+hr {
+    border-color: #696969;
 }
 
 #modal-background{
@@ -74,8 +79,8 @@ body{
     cursor: pointer;
     font-size: 1.2em;
     padding: 5px;
-    border: 2px solid #340947;
-    background-color: rgb(84, 72, 155);
+    border: 2px solid var(--gray-line);
+    background-color: var(--option-background);
     border-radius: 5px;
     width: 170px;
     height: 40px;
@@ -216,6 +221,15 @@ body{
     overflow-y: auto;
     height: calc(100vh - 500px);
     padding: 15px;
+}
+
+#text-container::-webkit-scrollbar {
+    background-color: #303030;
+}
+
+#text-container::-webkit-scrollbar-thumb {
+    background-color: #505050;
+    border-radius: 15px;
 }
 
 #head-container{
