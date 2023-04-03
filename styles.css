@@ -224,11 +224,12 @@ hr {
     padding: 15px;
 }
 
-#text-container::-webkit-scrollbar {
+*::-webkit-scrollbar {
     background-color: #303030;
+    width: 15px;
 }
 
-#text-container::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
     background-color: #505050;
     border-radius: 15px;
 }
