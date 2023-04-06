@@ -241,7 +241,7 @@ const arrestByStealingCar = (person) => {
     arrest(1, 3, person)
 }
 
-const pregnancy = (person) => {
+const pregnancyHandler = (person) => {
     if(!person.pregnant) return 
 
     person.pregnant = false;

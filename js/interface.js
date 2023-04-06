@@ -64,13 +64,6 @@ const newLife = () => {
     characterScreen.style.display = 'block'
 }
 
-const closeEvent = () => {
-    eventTitle.innerText = '';
-    eventBody.innerHTML = '';
-    modalBackground.style.display = 'none';
-}
-
-
 //im gonna move this somewhere else
 const deathScreen = () => {
     const ageBtnContainer = document.getElementById('age-btn-container');
@@ -116,7 +109,7 @@ const annualChanges = () => {
     year++;
     for (let person of characters) {
         if (person.alive) person.age++;
-        pregnancy(person)
+        pregnancyHandler(person)
     }
 
     textContainer.innerHTML += `
@@ -151,7 +144,6 @@ const annualChanges = () => {
 
     // for university
     studyingProcess(textContainer)
-
 
     //stat changes
     if (Math.floor(Math.random() * 2) === 1) {

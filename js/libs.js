@@ -338,3 +338,15 @@ const randomNameForChildren = (personIndex) => {
     const random = Math.floor(Math.random() * array.length)
     document.getElementById('name-field').value = array[random]
 }
+
+const closeEvent = () => {
+    eventTitle.innerText = '';
+    eventBody.innerHTML = '';
+    modalBackground.style.display = 'none';
+}
+
+const showEvent = ({title, body}) => {
+    modalBackground.style.display = 'flex'
+    eventTitle.innerText = title
+    eventBody.innerHTML = body
+}
