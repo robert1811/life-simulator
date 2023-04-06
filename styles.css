@@ -304,6 +304,7 @@ main{
 
 .menu-header h2 {
     margin: 0 auto;
+    text-align: center;
 }
 
 .menu-header button {
@@ -430,6 +431,10 @@ li{
     animation-name: loading-hr;
     animation-duration: 0.5s;
     margin: 0 auto;
+}
+
+#event-container {
+    display: none;
 }
 
 @keyframes loading-hr{

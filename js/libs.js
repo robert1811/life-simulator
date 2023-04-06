@@ -348,10 +348,10 @@ const closeEvent = () => {
 }
 
 const showEvent = ({title, body}) => {
-    modalBackground.style.display = 'flex'
-    eventContainer.style.display = 'block'
     eventTitle.innerText = title
     eventBody.innerHTML = body
+    eventContainer.style.display = 'block'
+    modalBackground.style.display = 'flex'
 }
 
 const popupHandler = () => {
@@ -371,7 +371,7 @@ const createEvent = ({title, body}) => {
     const id = popupHandler()
     modalBackground.innerHTML += `
     <div class="event-container popup" id="popup-${id}" style="z-index: ${30 + id}">
-        <div class="event-header">
+        <div class="event-title">
             <h2>${title}</h2>
         </div>
         <div class="event-body">
@@ -383,5 +383,11 @@ const createEvent = ({title, body}) => {
 
 const closePopup = (id) => {
     document.getElementById(`popup-${id}`).remove()
-    modalBackground.style.display = 'none'
+
+    eventBody = document.getElementById('event-body')
+    eventTitle = document.getElementById('event-title')
+    eventContainer = document.getElementById('event-container')
+
+    const popupsAmount = document.getElementsByClassName('popup').length
+    if(popupsAmount === 0) modalBackground.style.display = 'none'
 }

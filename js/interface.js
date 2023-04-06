@@ -171,6 +171,7 @@ const annualChanges = () => {
 
     randomizeHouseStats()
     prisonHandler(player)
+    eventsHandler()
 }
 
 const closeMenu = document.getElementById('close-menu');
