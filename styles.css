@@ -42,7 +42,7 @@ hr {
     
 }
 
-#event-container{
+.event-container{
     background-color: #3b3b3b;
     color: white;
     width: 300px;
@@ -64,12 +64,12 @@ hr {
     }
 }
 
-#event-title{
+.event-title{
     text-align: center;
     padding: 10px;
 }
 
-#event-body{
+.event-body{
     padding: 15px;
     display: flex;
     flex-direction: column;
@@ -426,7 +426,7 @@ li{
     background-color: #303030;
 }
 
-#event-container hr{
+.event-container hr{
     animation-name: loading-hr;
     animation-duration: 0.5s;
     margin: 0 auto;
@@ -676,7 +676,7 @@ li{
     margin: 30px auto;
 }
 
-#create-character-screen input, #event-body input{
+#create-character-screen input, .event-body input{
     padding: 5px;
     border-radius: 5px;
     background-color: #303030;

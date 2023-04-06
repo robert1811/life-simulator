@@ -32,15 +32,6 @@ worldEvents.randomTerroristAttack = () => {
     return `Terrorist attack in ${countriesData[i].country}, ${casualties} deaths and ${injuried} injuried`
 }
 
-// worldEvents.breakingNews = () => {
-//     const news = []
-//     let i = Math.floor(Math.random() * news.length)
-
-//     return `
-//     <p>BREAKING NEWS: ${news[i]}</p>
-//     `
-// }
-
 const worldEventsMethodArr = Object.entries(worldEvents);
 const worldEventsAmount = worldEventsMethodArr.length;
 

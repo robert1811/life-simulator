@@ -3,6 +3,7 @@ let leftBtnContainer = document.getElementById('left-btn-container')
 let menuTemplate = document.getElementById('menu-template');
 let menuBody = document.getElementById('menu-body');
 let menuTitle = document.getElementById('menu-title');
+let eventContainer = document.getElementById('event-container')
 
 const randomStat = (min, max) => {
     return min + Math.floor(Math.random() * max);
@@ -342,11 +343,45 @@ const randomNameForChildren = (personIndex) => {
 const closeEvent = () => {
     eventTitle.innerText = '';
     eventBody.innerHTML = '';
+    eventContainer.style.display = 'none'
     modalBackground.style.display = 'none';
 }
 
 const showEvent = ({title, body}) => {
     modalBackground.style.display = 'flex'
+    eventContainer.style.display = 'block'
     eventTitle.innerText = title
     eventBody.innerHTML = body
+}
+
+const popupHandler = () => {
+    const popups = document.getElementsByClassName('popup')
+    let numbers = []
+    if(popups.length < 1) return 1
+
+    for(let popup of popups) {
+        numbers.push(parseInt(popup.id.replace('popup-', '')))
+    }
+    return numbers.sort()[0] + 1
+}
+
+// used for story events
+const createEvent = ({title, body}) => {
+    modalBackground.style.display = 'flex';
+    const id = popupHandler()
+    modalBackground.innerHTML += `
+    <div class="event-container popup" id="popup-${id}" style="z-index: ${30 + id}">
+        <div class="event-header">
+            <h2>${title}</h2>
+        </div>
+        <div class="event-body">
+            ${body(id)}
+        </div>
+    </div>
+    `
+}
+
+const closePopup = (id) => {
+    document.getElementById(`popup-${id}`).remove()
+    modalBackground.style.display = 'none'
 }

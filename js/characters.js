@@ -1,4 +1,4 @@
-//here I handle every stat change in the player
+//here I handle every stat change in the characters
 
 const studyingProcess = (textbox) => {
     let currentEducation = player.currentEducation;
