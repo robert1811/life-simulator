@@ -69,7 +69,25 @@ const childhoodEvents = [
 ]
 
 const adulthoodEvents = [
-
+    {
+        display(){
+            const places = ['a hospital', 'the zoo', 'a store']
+            const random = Math.floor(Math.random() * places.length)
+            const place = places[random]
+            createEvent({
+                title: 'Provide directions',
+                body(id) {
+                    return `
+                    <p>Someone asked you for the direction of ${place}.</p>
+                    <br>
+                    <div class="option" onclick="closePopup('${id}')">Correct directions</div>
+                    <div class="option" onclick="closePopup('${id}')">Incorrect directions</div>
+                    <div class="option" onclick="closePopup('${id}')">Ignore</div>
+                    `
+                }
+            })
+        }
+    }
 ]
 
 const elderhoodEvents = [
@@ -166,7 +184,6 @@ const eventsHandler = () => {
 
     const displayHandler = (events, probability) => {
         const random = Math.floor(Math.random() * 100)
-        console.log(random)
         const eventIndex = Math.floor(Math.random() * events.length)
         if (random + 5 <= probability) {
             events[eventIndex].display()
@@ -178,4 +195,6 @@ const eventsHandler = () => {
     if (player.job != 'none') displayHandler(jobEvents, 8)
 
     if(player.lifeStage === 'childhood') displayHandler(childhoodEvents, 20)
+
+    else if (player.lifeStage === 'adulthood') displayHandler(adulthoodEvents, 8)
 }

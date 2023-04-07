@@ -53,6 +53,10 @@ hr {
     animation-duration: 0.2s;
 }
 
+.event-container p {
+    line-height: 20px;
+}
+
 @keyframes event-popup {
     from {
         width: 0;
