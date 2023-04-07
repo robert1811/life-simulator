@@ -1,6 +1,71 @@
 //random events
 const childhoodEvents = [
-
+    {
+        display() {
+            createEvent({
+                title: 'Happy Birthday!',
+                body(id) {
+                    return `
+                    <div class="option" onclick="childhoodEvents[0].celebrate('${id}', 'friends')">Invite friends</div>
+                    <div class="option" onclick="childhoodEvents[0].celebrate('${id}', 'family')">Only family</div>
+                    <div class="option" onclick="closePopup('${id}')">Dont celebrate</div>
+                    `
+                }
+            })
+        },
+        celebrate(id, guests) {
+            player.stats.happiness += Math.floor(Math.random() * 10)
+            statsLimit(player)
+            closePopup(id)
+            textContainer.innerHTML += `
+            <p>I celebrated my birthday</p>
+            <p>I invited my ${guests}</p>
+            `
+        }
+    },
+    {
+        display() {
+            const person = new Person(undefined, undefined, player.age, player.gender == 'male' ? 'female' : 'male')
+            const appearance = person.stats.appearance
+            const {fullName, gender, age} = person
+            const pronoun = gender === 'male' ? 'him' : 'her'
+            createEvent({
+                title: 'Kiss',
+                body(id) {
+                    return `
+                    <p><b>Name: </b>${fullName}</p>
+                    <p><b>Gender: </b>${gender}</p>
+                    <p><b>Age: </b>${age}</p>
+                    <p><b>Appearance: </b></p>
+                    <div class="window-bar">
+                    <div style="height: 100%; width: ${appearance}%; background-color: ${barColor(appearance)}"></div>
+                    </div>
+                    <br>
+                    <p>You got the oportunity to kiss ${pronoun}. Would you like to do it?</p>
+                    <div class="option" onclick="childhoodEvents[1].kiss('${id}', '${pronoun}')">Kiss ${pronoun}</div>
+                    <div class="option" onclick="closePopup('${id}')">Close</div>
+                    `
+                }
+            })
+        },
+        kiss(id, pronoun) {
+            const enjoyment = Math.floor(Math.random() * player.stats.appearance)
+            
+            modifyEvent({
+                id,
+                title: 'Kiss',
+                body: `
+                <p>You kissed ${pronoun}.</p>
+                <p>${pronoun == 'him' ? 'His' : 'Her'} enjoyment.</p>
+                <div class="window-bar">
+                    <div style="width: ${enjoyment}%; background-color: ${barColor(enjoyment)}; height: 100%"></div>
+                </div>
+                <br>
+                <div class="option" onclick="closePopup('${id}')">Close</div>
+                `
+            })
+        }
+    }
 ]
 
 const adulthoodEvents = [
@@ -112,5 +177,5 @@ const eventsHandler = () => {
 
     if (player.job != 'none') displayHandler(jobEvents, 8)
 
-    // if(player.lifeStage === 'childhood') displayHandler(childhoodEvents, 20)
+    if(player.lifeStage === 'childhood') displayHandler(childhoodEvents, 20)
 }

@@ -374,11 +374,21 @@ const createEvent = ({title, body}) => {
         <div class="event-title">
             <h2>${title}</h2>
         </div>
+        <hr>
         <div class="event-body">
             ${body(id)}
         </div>
     </div>
     `
+}
+
+modifyEvent = ({title, body, id}) => {
+    const event = document.getElementById(`popup-${id}`)
+    const popupTitle = event.querySelector('.event-body')
+    const popupBody = event.querySelector('.event-body')
+
+    popupTitle.innerText = title
+    popupBody.innerHTML = body
 }
 
 const closePopup = (id) => {
@@ -390,4 +400,11 @@ const closePopup = (id) => {
 
     const popupsAmount = document.getElementsByClassName('popup').length
     if(popupsAmount === 0) modalBackground.style.display = 'none'
+}
+
+// this function will replace the statbarColorer
+const barColor = (percentage) => {
+    if(percentage > 55) return `rgb(47, 151, 73)`
+    else if (percentage > 25) return `rgb(196, 221, 105)`
+    else return `rgb(185, 61, 61)`
 }
