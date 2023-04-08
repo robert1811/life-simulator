@@ -408,3 +408,7 @@ const barColor = (percentage) => {
     else if (percentage > 25) return `rgb(196, 221, 105)`
     else return `rgb(185, 61, 61)`
 }
+
+const scrolldown = (element) => {
+    element.scrollTop = element.scrollHeight;
+}

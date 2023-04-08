@@ -6,8 +6,9 @@ const childhoodEvents = [
                 title: 'Happy Birthday!',
                 body(id) {
                     return `
+                    <p>What are you going to do?</p>
                     <div class="option" onclick="childhoodEvents[0].celebrate('${id}', 'friends')">Invite friends</div>
-                    <div class="option" onclick="childhoodEvents[0].celebrate('${id}', 'family')">Only family</div>
+                    <div class="option" onclick="childhoodEvents[0].celebrate('${id}', 'family')">Only invite family</div>
                     <div class="option" onclick="closePopup('${id}')">Dont celebrate</div>
                     `
                 }
@@ -21,6 +22,7 @@ const childhoodEvents = [
             <p>I celebrated my birthday</p>
             <p>I invited my ${guests}</p>
             `
+            scrolldown(textContainer)
         }
     },
     {
@@ -111,6 +113,7 @@ const prisonEvents = [
         },
         argue(id) {
             textContainer.innerHTML += `<p>I insulted them</p>`
+            scrolldown(textContainer)
 
             closePopup(id)
         }
@@ -123,6 +126,7 @@ const jobEvents = [
             textContainer.innerHTML += `
             <p>We have a job meeting</p>
             `
+            scrolldown(textContainer)
             createEvent({
                 title: 'Job Meeting',
                 body(id) {
@@ -134,25 +138,27 @@ const jobEvents = [
             })
         },
         dontSpeak(id) {
-            closePopup(id)
             textContainer.innerHTML += `
             <p>I said nothing in that meeting</p>
             `
+            closePopup(id)
+            scrolldown(textContainer)
         },
         proposeIdea(id) {
             const smartness = player.stats.smartness;
             const random = Math.floor(Math.random() * 50) + 50
-
+            
             if (random <= smartness) {
-                closePopup(id)
                 textContainer.innerHTML += `
                 <p>They congratulated me</p>
                 `
-            } else
                 closePopup(id)
+            } else
             textContainer.innerHTML += `
-                <p>They told me to shut up</p>
-                `
+            <p>They told me to shut up</p>
+            `
+            closePopup(id)
+            scrolldown(textContainer)
         }
     }
 ]

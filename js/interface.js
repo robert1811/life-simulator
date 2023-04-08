@@ -148,11 +148,11 @@ const annualChanges = () => {
     //stat changes
     if (Math.floor(Math.random() * 2) === 1) {
         player.stats.happiness += Math.floor(Math.random() * 10);
-        player.stats.appearance += Math.floor(Math.random() * 10);
+        player.stats.appearance += Math.floor(Math.random() * 2);
         player.stats.smartness += Math.floor(Math.random() * 10)
     } else {
         player.stats.happiness -= Math.floor(Math.random() * 10);
-        player.stats.appearance -= Math.floor(Math.random() * 10);
+        player.stats.appearance -= Math.floor(Math.random() * 2);
         player.stats.smartness -= Math.floor(Math.random() * 10)
     }
 
@@ -162,7 +162,7 @@ const annualChanges = () => {
     skillLeveler()
 
     //scroll handling
-    textContainer.scrollTop = textContainer.scrollHeight;
+    scrolldown(textContainer)
 
     //displaying flow of money
     moneyViewer()

@@ -639,7 +639,7 @@ windows = {
                 <p>You cant afford this</p>
                 <div class="option" onclick="closeEvent()">Close</div>
                 `
-            const buff = Math.floor(Math.random() * 12)
+            const buff = 12 + Math.floor(Math.random() * 12)
             player.stats.appearance += buff
             statsLimit(player)
             eventBody.innerHTML = `
