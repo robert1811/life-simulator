@@ -15,7 +15,7 @@ const childhoodEvents = [
             })
         },
         celebrate(id, guests) {
-            player.stats.happiness += Math.floor(Math.random() * 10)
+            player.stats.happiness += 5 + Math.floor(Math.random() * 10)
             statsLimit(player)
             closePopup(id)
             textContainer.innerHTML += `
@@ -51,7 +51,8 @@ const childhoodEvents = [
             })
         },
         kiss(id, pronoun) {
-            const enjoyment = Math.floor(Math.random() * player.stats.appearance)
+            const appearance = player.stats.appearance
+            const enjoyment = appearance + Math.floor(Math.random() * (100 - appearance))
             
             modifyEvent({
                 id,
