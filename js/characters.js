@@ -278,9 +278,9 @@ const statsChanges = () => {
     for(let stat of stats) {
         // if its true buffes the stat
         if(Math.floor(Math.random() * 2) === 1){
-            player.stats[stat[0]] += 2
+            player.stats[stat[0]] += Math.floor(Math.random() * 5)
         } else {
-            player.stats[stat[0]] -= 2
+            player.stats[stat[0]] -= Math.floor(Math.random() * 5)
         }
     }
 }
