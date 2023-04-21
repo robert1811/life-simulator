@@ -145,17 +145,7 @@ const annualChanges = () => {
     // for university
     studyingProcess(textContainer)
 
-    //stat changes
-    if (Math.floor(Math.random() * 2) === 1) {
-        player.stats.happiness += Math.floor(Math.random() * 10);
-        player.stats.appearance += Math.floor(Math.random() * 2);
-        player.stats.smartness += Math.floor(Math.random() * 10)
-    } else {
-        player.stats.happiness -= Math.floor(Math.random() * 10);
-        player.stats.appearance -= Math.floor(Math.random() * 2);
-        player.stats.smartness -= Math.floor(Math.random() * 10)
-    }
-
+    statsChanges()
     statsBuffer()
     statsLimit(player)
     handleStatBars(player, true);
