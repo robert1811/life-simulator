@@ -532,7 +532,7 @@ windows = {
                     title: 'Murder',
                     body: `
                     <p>${events[random].message}</p>
-                    <h3>Murder method:</h3>
+                    <h3 style="margin-top: 1px">Murder method:</h3>
                     <select id="method-selector">
                         <option value="strangulation">Strangle ${pronoun}</option>
                         <option value="stab">Stab ${pronoun}</option>

@@ -11,6 +11,10 @@
     clear: both;
 }
 
+#text-container p {
+    margin-top: 2px;
+}
+
 *{
     padding: 0;
     margin: 0;

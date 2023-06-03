@@ -102,12 +102,14 @@ const prisonEvents = [
         display() {
             const insults = ['baby', 'idiot', 'dumbass', 'faggot', 'retard', 'fatty']
             const insult = insults[Math.floor(Math.random() * insults.length)]
-
+            textContainer.innerHTML += '<p>I got insulted by inmates</p>'
+            
             createEvent({
                 title: `The inmates called you ${insult}`,
                 body(id) {
                     return `
                     <div class="option" onclick="prisonEvents[0].argue('${id}')">Argue</div>
+                    <div class="option" onclick="closeEvent()">Do nothing</div>
                     `
                 }
             })
@@ -180,7 +182,7 @@ const obligatoryEvents = {
         speak(words) {
             closeEvent()
             textContainer.innerHTML += `
-            <p>My first words were ${words}</p>
+            <p>My first words were "${words}"</p>
             `
         }
     }
