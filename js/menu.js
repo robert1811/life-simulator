@@ -1844,8 +1844,9 @@ windows = {
                         player.currentCareer = universityCareers[chosenCareer];
                         player.currentCareer.paidBy = paidBy;
                         player.currentEducation = 'university';
-                        if (payer.characterIndex === player.characterIndex)
+                        if (payer.characterIndex === player.characterIndex){
                             payer.money.expenses += 6000
+                        }
                         player.currentCareer.yearsStudied = 0;
                         closeEvent();
                     } else {
@@ -1873,7 +1874,7 @@ windows = {
             if (dad.alive && dad.money.income - dad.money.expenses >= 6000 ||
                 mom.alive && mom.money.income - mom.money.expenses >= 6000) {
                 textContainer.innerHTML += `<p>My parents accepted</p>`
-                windows.university.chooseCareer(undefined, 'parents');
+                windows.university.chooseCareer(dad.alive && dad.money.income - dad.money.expenses >= 6000 ? dad : mom, 'parents');
             } else {
                 textContainer.innerHTML += `<p>My parents rejected</p>`
                 let btn = document.getElementById('parents-pay-university')
