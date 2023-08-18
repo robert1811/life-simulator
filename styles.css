@@ -31,7 +31,7 @@ hr {
     border-color: #696969;
 }
 
-#modal-background{
+.modal{
     position: fixed;
     top: 0;
     left: 0;
@@ -44,6 +44,10 @@ hr {
     align-items: center;
     justify-content: center;
     
+}
+
+.flex {
+    display: flex !important;
 }
 
 .event-container{

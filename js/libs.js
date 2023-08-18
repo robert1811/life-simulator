@@ -354,52 +354,37 @@ const showEvent = ({title, body}) => {
     modalBackground.style.display = 'flex'
 }
 
-const popupHandler = () => {
-    const popups = document.getElementsByClassName('popup')
-    let numbers = []
-    if(popups.length < 1) return 1
-
-    for(let popup of popups) {
-        numbers.push(parseInt(popup.id.replace('popup-', '')))
-    }
-    return numbers.sort()[0] + 1
-}
-
 // used for story events
-const createEvent = ({title, body}) => {
-    modalBackground.style.display = 'flex';
-    const id = popupHandler()
-    modalBackground.innerHTML += `
-    <div class="event-container popup" id="popup-${id}" style="z-index: ${30 + id}">
-        <div class="event-title">
-            <h2>${title}</h2>
+const createStoryEvent = ({title, body}) => {
+    const eventsContainer = document.getElementById("events-container")
+    const index = eventsContainer.children.length
+    eventsContainer.innerHTML += `
+        <div id="event-${index}" class="modal flex" style:"z-index: ${22 + index};">
+            <div class="event-container">
+                <h2 class="event-title" id="event-${index}-title">
+                    ${title}
+                </h2>
+                <hr>
+                <div class="event-body" id="event-${index}-body">
+                    ${body(index)}
+                </div>
+            </div>
+
         </div>
-        <hr>
-        <div class="event-body">
-            ${body(id)}
-        </div>
-    </div>
     `
 }
 
-modifyEvent = ({title, body, id}) => {
-    const event = document.getElementById(`popup-${id}`)
-    const popupTitle = event.querySelector('.event-body')
-    const popupBody = event.querySelector('.event-body')
-
-    popupTitle.innerText = title
-    popupBody.innerHTML = body
+const modifyStoryEvent = ({title, body, id}) => {
+    const event = document.getElementById(`event-${id}`)
+    const eventTitle = event.getElementById(`event-${id}-title`)
+    const eventBody = event.getElementById(`event-${id}-body`)
+    
+    eventTitle.innerText = title
+    eventBody.innerHTML = body(id)
 }
 
-const closePopup = (id) => {
-    document.getElementById(`popup-${id}`).remove()
-
-    eventBody = document.getElementById('event-body')
-    eventTitle = document.getElementById('event-title')
-    eventContainer = document.getElementById('event-container')
-
-    const popupsAmount = document.getElementsByClassName('popup').length
-    if(popupsAmount === 0) modalBackground.style.display = 'none'
+const closeStoryEvent = (id) => {
+    document.getElementById(`event-${id}`).remove()
 }
 
 // this function will replace the statbarColorer

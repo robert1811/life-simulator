@@ -2,14 +2,14 @@
 const childhoodEvents = [
     {
         display() {
-            createEvent({
+            createStoryEvent({
                 title: 'Happy Birthday!',
                 body(id) {
                     return `
                     <p>What are you going to do?</p>
                     <div class="option" onclick="childhoodEvents[0].celebrate('${id}', 'friends')">Invite friends</div>
                     <div class="option" onclick="childhoodEvents[0].celebrate('${id}', 'family')">Only invite family</div>
-                    <div class="option" onclick="closePopup('${id}')">Dont celebrate</div>
+                    <div class="option" onclick="closeStoryEvent('${id}')">Dont celebrate</div>
                     `
                 }
             })
@@ -17,7 +17,7 @@ const childhoodEvents = [
         celebrate(id, guests) {
             player.stats.happiness += 5 + Math.floor(Math.random() * 10)
             statsLimit(player)
-            closePopup(id)
+            closeStoryEvent(id)
             textContainer.innerHTML += `
             <p>I celebrated my birthday</p>
             <p>I invited my ${guests}</p>
@@ -29,9 +29,9 @@ const childhoodEvents = [
         display() {
             const person = new Person(undefined, undefined, player.age, player.gender == 'male' ? 'female' : 'male')
             const appearance = person.stats.appearance
-            const {fullName, gender, age} = person
+            const { fullName, gender, age } = person
             const pronoun = gender === 'male' ? 'him' : 'her'
-            createEvent({
+            createStoryEvent({
                 title: 'Kiss',
                 body(id) {
                     return `
@@ -45,7 +45,7 @@ const childhoodEvents = [
                     <br>
                     <p>You got the oportunity to kiss ${pronoun}. Would you like to do it?</p>
                     <div class="option" onclick="childhoodEvents[1].kiss('${id}', '${pronoun}')">Kiss ${pronoun}</div>
-                    <div class="option" onclick="closePopup('${id}')">Close</div>
+                    <div class="option" onclick="closeStoryEvent('${id}')">Close</div>
                     `
                 }
             })
@@ -53,8 +53,8 @@ const childhoodEvents = [
         kiss(id, pronoun) {
             const appearance = player.stats.appearance
             const enjoyment = appearance + Math.floor(Math.random() * (100 - appearance))
-            
-            modifyEvent({
+
+            modifyStoryEvent({
                 id,
                 title: 'Kiss',
                 body: `
@@ -64,7 +64,7 @@ const childhoodEvents = [
                     <div style="width: ${enjoyment}%; background-color: ${barColor(enjoyment)}; height: 100%"></div>
                 </div>
                 <br>
-                <div class="option" onclick="closePopup('${id}')">Close</div>
+                <div class="option" onclick="closeStoryEvent('${id}')">Close</div>
                 `
             })
         }
@@ -73,19 +73,19 @@ const childhoodEvents = [
 
 const adulthoodEvents = [
     {
-        display(){
+        display() {
             const places = ['a hospital', 'the zoo', 'a store']
             const random = Math.floor(Math.random() * places.length)
             const place = places[random]
-            createEvent({
+            createStoryEvent({
                 title: 'Provide directions',
                 body(id) {
                     return `
                     <p>Someone asked you for the direction of ${place}.</p>
                     <br>
-                    <div class="option" onclick="closePopup('${id}')">Correct directions</div>
-                    <div class="option" onclick="closePopup('${id}')">Incorrect directions</div>
-                    <div class="option" onclick="closePopup('${id}')">Ignore</div>
+                    <div class="option" onclick="closeStoryEvent('${id}')">Correct directions</div>
+                    <div class="option" onclick="closeStoryEvent('${id}')">Incorrect directions</div>
+                    <div class="option" onclick="closeStoryEvent('${id}')">Ignore</div>
                     `
                 }
             })
@@ -103,13 +103,13 @@ const prisonEvents = [
             const insults = ['baby', 'idiot', 'dumbass', 'faggot', 'retard', 'fatty']
             const insult = insults[Math.floor(Math.random() * insults.length)]
             textContainer.innerHTML += '<p>I got insulted by inmates</p>'
-            
-            createEvent({
+
+            createStoryEvent({
                 title: `The inmates called you ${insult}`,
                 body(id) {
                     return `
                     <div class="option" onclick="prisonEvents[0].argue('${id}')">Argue</div>
-                    <div class="option" onclick="closeEvent()">Do nothing</div>
+                    <div class="option" onclick="closeStoryEvent('${id}')">Do nothing</div>
                     `
                 }
             })
@@ -118,7 +118,7 @@ const prisonEvents = [
             textContainer.innerHTML += `<p>I insulted them</p>`
             scrolldown(textContainer)
 
-            closePopup(id)
+            closeStoryEvent(id)
         }
     }
 ]
@@ -130,7 +130,7 @@ const jobEvents = [
             <p>We have a job meeting</p>
             `
             scrolldown(textContainer)
-            createEvent({
+            createStoryEvent({
                 title: 'Job Meeting',
                 body(id) {
                     return `
@@ -144,23 +144,23 @@ const jobEvents = [
             textContainer.innerHTML += `
             <p>I said nothing in that meeting</p>
             `
-            closePopup(id)
+            closeStoryEvent(id)
             scrolldown(textContainer)
         },
         proposeIdea(id) {
             const smartness = player.stats.smartness;
             const random = Math.floor(Math.random() * 50) + 50
-            
+
             if (random <= smartness) {
                 textContainer.innerHTML += `
                 <p>They congratulated me</p>
                 `
-                closePopup(id)
+                closeStoryEvent(id)
             } else
-            textContainer.innerHTML += `
+                textContainer.innerHTML += `
             <p>They told me to shut up</p>
             `
-            closePopup(id)
+            closeStoryEvent(id)
             scrolldown(textContainer)
         }
     }
@@ -169,18 +169,20 @@ const jobEvents = [
 const obligatoryEvents = {
     firstWords: {
         display() {
-            showEvent({
+            createStoryEvent({
                 title: 'Your first words',
-                body: `
-                <div class="option" onclick="obligatoryEvents.firstWords.speak('hungry')">Hungry</div>
-                <div class="option" onclick="obligatoryEvents.firstWords.speak('water')">Water</div>
-                <div class="option" onclick="obligatoryEvents.firstWords.speak('mom')">Mom</div>
-                <div class="option" onclick="obligatoryEvents.firstWords.speak('dad')">Dad</div>    
+                body(id) {
+                    return `
+                <div class="option" onclick="obligatoryEvents.firstWords.speak('hungry', '${id}')">Hungry</div>
+                <div class="option" onclick="obligatoryEvents.firstWords.speak('water, '${id}'')">Water</div>
+                <div class="option" onclick="obligatoryEvents.firstWords.speak('mom', '${id}')">Mom</div>
+                <div class="option" onclick="obligatoryEvents.firstWords.speak('dad', '${id}')">Dad</div>    
                 `
+                }
             })
         },
-        speak(words) {
-            closeEvent()
+        speak(words, id) {
+            closeStoryEvent(id)
             textContainer.innerHTML += `
             <p>My first words were "${words}"</p>
             `
@@ -203,7 +205,7 @@ const eventsHandler = () => {
 
     if (player.job != 'none') displayHandler(jobEvents, 8)
 
-    if(player.lifeStage === 'childhood') displayHandler(childhoodEvents, 20)
+    if (player.lifeStage === 'childhood') displayHandler(childhoodEvents, 20)
 
     else if (player.lifeStage === 'adulthood') displayHandler(adulthoodEvents, 8)
 }
