@@ -57,7 +57,7 @@ const childhoodEvents = [
             modifyStoryEvent({
                 id,
                 title: 'Kiss',
-                body: `
+                body(id){ return `
                 <p>You kissed ${pronoun}.</p>
                 <p>${pronoun == 'him' ? 'His' : 'Her'} enjoyment.</p>
                 <div class="window-bar">
@@ -66,6 +66,7 @@ const childhoodEvents = [
                 <br>
                 <div class="option" onclick="closeStoryEvent('${id}')">Close</div>
                 `
+                }
             })
         }
     }
@@ -174,7 +175,7 @@ const obligatoryEvents = {
                 body(id) {
                     return `
                 <div class="option" onclick="obligatoryEvents.firstWords.speak('hungry', '${id}')">Hungry</div>
-                <div class="option" onclick="obligatoryEvents.firstWords.speak('water, '${id}'')">Water</div>
+                <div class="option" onclick="obligatoryEvents.firstWords.speak('water', '${id}')">Water</div>
                 <div class="option" onclick="obligatoryEvents.firstWords.speak('mom', '${id}')">Mom</div>
                 <div class="option" onclick="obligatoryEvents.firstWords.speak('dad', '${id}')">Dad</div>    
                 `

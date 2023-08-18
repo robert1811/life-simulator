@@ -375,9 +375,8 @@ const createStoryEvent = ({title, body}) => {
 }
 
 const modifyStoryEvent = ({title, body, id}) => {
-    const event = document.getElementById(`event-${id}`)
-    const eventTitle = event.getElementById(`event-${id}-title`)
-    const eventBody = event.getElementById(`event-${id}-body`)
+    const eventTitle = document.getElementById(`event-${id}-title`)
+    const eventBody = document.getElementById(`event-${id}-body`)
     
     eventTitle.innerText = title
     eventBody.innerHTML = body(id)
