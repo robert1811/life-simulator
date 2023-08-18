@@ -1844,6 +1844,11 @@ windows = {
                         player.currentCareer = universityCareers[chosenCareer];
                         player.currentCareer.paidBy = paidBy;
                         player.currentEducation = 'university';
+                        player.currentCareer.yearsStudied = 0
+                        if(!payer) {
+                            // add loan later
+                            return closeEvent()
+                        }
                         if (payer.characterIndex === player.characterIndex){
                             payer.money.expenses += 6000
                         }
