@@ -37,6 +37,7 @@ class Person {
     }
     alive = true;
     career = {};
+    currentCareer = {studying: false}
 
     skills = {
         programming: {

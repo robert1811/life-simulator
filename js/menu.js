@@ -1841,7 +1841,7 @@ windows = {
                     const decision = e.target.getAttribute('data-label')
                     if (decision === 'yes') {
                         const chosenCareer = document.getElementById('career-selector').value
-                        player.currentCareer = universityCareers[chosenCareer];
+                        player.currentCareer = Object.assign({studying: true}, universityCareers[chosenCareer]);
                         player.currentCareer.paidBy = paidBy;
                         player.currentEducation = 'university';
                         player.currentCareer.yearsStudied = 0

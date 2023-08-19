@@ -145,6 +145,7 @@ const annualChanges = () => {
     // for university
     studyingProcess(textContainer)
     if(player.job != 'none') player.job.buff(player)
+    if(player.currentCareer.studying) player.currentCareer.buff(player);
     statsChanges()
     statsBuffer()
     statsLimit(player)

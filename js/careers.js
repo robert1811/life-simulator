@@ -14,37 +14,59 @@ const universityCareers = {
     medic: {
         label: 'medic',
         name: 'Medic',
-        duration: 4
+        duration: 4,
+        buff(player) {
+            player.stats.smartness += Math.floor(Math.random() * 5)
+        }
     },
     computerScience: {
         label: 'computerScience',
         name: 'Computer science',
-        duration: 4
+        duration: 4,
+        buff(player) {
+            player.stats.smartness += Math.floor(Math.random() * 5)
+            player.skills.programming.xp += 50 + Math.floor(Math.random() * 20)
+        }
     },
     biology: {
         label: 'biology',
         name: 'Biology',
-        duration: 4
+        duration: 4,
+        buff(player) {
+            player.stats.smartness += Math.floor(Math.random() * 5)
+        }
     },
     chemistry: {
         label: 'chemistry',
         name: 'Chemistry',
-        duration: 4
+        duration: 4,
+        buff(player) {
+            player.stats.smartness += Math.floor(Math.random() * 5)
+        }
     },
     history : {
         label: 'history',
         name: 'History',
-        duration: 4
+        duration: 4,
+        buff(player) {
+            player.stats.smartness += Math.floor(Math.random() * 5)
+        }
     },
     politicalScience: {
         label: 'politicalScience',
         name: 'Political science',
-        duration: 4
+        duration: 4,
+        buff(player) {
+            player.stats.smartness += Math.floor(Math.random() * 5)
+        }
     },
     math: {
         label: 'math',
         name: 'Math',
-        duration: 4
+        duration: 4,
+        buff(player) {
+            player.stats.smartness += Math.floor(Math.random() * 5)
+        }
     },
 
 

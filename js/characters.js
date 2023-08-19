@@ -16,7 +16,7 @@ const studyingProcess = (textbox) => {
     } else if(currentCareer && currentEducation === 'university' && yearsStudied === duration){
         player.career[player.currentCareer.label] = player.currentCareer;
         if(player.currentCareer.paidBy === 'myself') player.money.expenses -= 6000
-        player.currentCareer = {};
+        player.currentCareer = {studying: false};
         player.currentEducation = 'none';
         textbox.innerHTML += `<p>I finished my career</p>`
     }
