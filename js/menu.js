@@ -1952,7 +1952,7 @@ windows = {
             })
         },
         apply(index) {
-            const job = structuredClone(jobs[index]);
+            const job = Object.assign({}, jobs[index]);
             const requirements = job.requirements
             let requirementsCompleted = 0;
             for (let requirement of Object.entries(requirements)) {

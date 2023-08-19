@@ -53,12 +53,16 @@ const nameRandomizer = (languaje, gender) => {
 }
 
 const surnameRandomizer = (languaje) => {
-    const nameEntries = Object.entries(surnames);
+    const nameEntries =  Object.entries(surnames);
     let matchingList;
     for(let list of nameEntries){
-        if(list[0] === languaje) matchingList = list[1];
+        if(list[0] === languaje) {
+            matchingList = list[1];
+        } 
     }
-    return matchingList[Math.floor(Math.random() * matchingList.length  )]
+    const surname = matchingList[Math.floor(Math.random() * matchingList.length  )]
+    console.log(surname)
+    return surname
 }
 
 const countriesList = () => {

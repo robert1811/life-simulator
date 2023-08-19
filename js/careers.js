@@ -59,7 +59,10 @@ const jobs = [
         },
         salary: 55000,
         field: 'technology',
-        promotion: 'App Developer'
+        promotion: 'App Developer',
+        buff(player){
+            player.skills.programming.xp += 5 + Math.floor(Math.random() * 20);
+        }
     }, {
         label: 'App Developer',
         requirements: {
@@ -68,7 +71,10 @@ const jobs = [
         },
         salary: 75000,
         field: 'technology',
-        promotion: 'Sr App Developer'
+        promotion: 'Sr App Developer',
+        buff(player){
+            player.skills.programming.xp += 5 + Math.floor(Math.random() * 20);
+        }
     }, {
         label: 'Sr App Developer',
         requirements: {
@@ -77,7 +83,10 @@ const jobs = [
         },
         salary: 100000,
         field: 'technology',
-        promotion: 'none'
+        promotion: 'none',
+        buff(player){
+            player.skills.programming.xp += 5 + Math.floor(Math.random() * 20);
+        }
     }, {
         label: 'Supermarket cashier',
         requirements: {
@@ -85,7 +94,10 @@ const jobs = [
         },
         salary: 25000,
         field: '',
-        promotion: 'none'
+        promotion: 'none',
+        buff(player){
+            return
+        }
     },{
         label: 'Janitor',
         requirements: {
@@ -93,7 +105,10 @@ const jobs = [
         },
         salary: 18000,
         field: '',
-        promotion: 'none'
+        promotion: 'none',
+        buff(player){
+            player.skills.handiness.xp += 5 + Math.floor(Math.random() * 20);
+        }
     }, {
         label: 'History teacher',
         requirements: {
@@ -102,7 +117,10 @@ const jobs = [
         },
         salary: 50000,
         field: 'history',
-        promotion: 'none'
+        promotion: 'none',
+        buff(player){
+            return
+        }
     },{
         label: 'Math teacher',
         requirements: {
@@ -111,7 +129,10 @@ const jobs = [
         },
         salary: 50000,
         field: 'math',
-        promotion: 'none'
+        promotion: 'none',
+        buff(player){
+            return
+        }
     },{
         label: 'Gym trainer',
         requirements: {
@@ -120,7 +141,10 @@ const jobs = [
         },
         salary: 36000,
         field: 'fitness',
-        promotion: 'none'
+        promotion: 'none',
+        buff(player){
+            return
+        }
     }, {
         label: 'Chemistry teacher',
         requirements: {
@@ -129,7 +153,10 @@ const jobs = [
         },
         salary: 50000,
         field: 'chemistry',
-        promotion: 'none'
+        promotion: 'none',
+        buff(player){
+            return
+        }
     }, {
         label: 'Biology teacher',
         requirements: {
@@ -138,7 +165,10 @@ const jobs = [
         },
         salary: 50000,
         field: 'biology',
-        promotion: 'none'
+        promotion: 'none',
+        buff(player){
+            return
+        }
     }, {
         label: 'Jr Web developer',
         requirements: {
@@ -148,7 +178,10 @@ const jobs = [
         },
         salary: 52000,
         field: 'technology',
-        promotion: 'Web developer'
+        promotion: 'Web developer',
+        buff(player){
+            player.skills.programming.xp += 5 + Math.floor(Math.random() * 20);
+        }
     }, {
         label: 'Web developer',
         requirements: {
@@ -157,7 +190,10 @@ const jobs = [
         },
         salary: 65000,
         field: 'technology',
-        promotion: 'Sr Web developer'
+        promotion: 'Sr Web developer',
+        buff(player){
+            player.skills.programming.xp += 5 + Math.floor(Math.random() * 20);
+        }
     }, {
         label: 'Sr Web developer',
         requirements: {
@@ -166,7 +202,10 @@ const jobs = [
         },
         salary: 80000,
         field: 'technology',
-        promotion: 'none'
+        promotion: 'none',
+        buff(player){
+            player.skills.programming.xp += 5 + Math.floor(Math.random() * 20);
+        }
     }, {
         label: 'Truck driver',
         requirements: {
@@ -174,7 +213,10 @@ const jobs = [
         },
         salary: 40000,
         field: 'transport',
-        promotion: 'none'
+        promotion: 'none',
+        buff(player){
+            return
+        }
     }, {
         label: 'Taxi driver',
         requirements: {
@@ -182,7 +224,10 @@ const jobs = [
         },
         salary: 48000,
         field: 'transport',
-        promotion: 'none'
+        promotion: 'none',
+        buff(player){
+            return
+        }
     }, {
         label: 'Music teacher',
         requirements: {
@@ -191,7 +236,10 @@ const jobs = [
         },
         salary: 50000,
         field: 'music',
-        promotion: 'none'
+        promotion: 'none',
+        buff(player){
+            player.skills.music.xp += 5 + Math.floor(Math.random() * 20);
+        }
     }, {
         label: 'Pianist',
         requirements: {
@@ -200,7 +248,10 @@ const jobs = [
         },
         salary: 55000,
         field: 'music',
-        promotion: 'none'
+        promotion: 'none',
+        buff(player){
+            player.skills.music.xp += 5 + Math.floor(Math.random() * 20);
+        }
     }, {
         label: 'Guru',
         requirements: {
@@ -210,7 +261,10 @@ const jobs = [
             criminalRecord: 'clean'
         },
         salary: 78000,
-        promotion: 'none'
+        promotion: 'none',
+        buff(player){
+            return
+        }
     },
     {
         label: 'Apprentice carpenter',
@@ -221,7 +275,10 @@ const jobs = [
         },
         salary: 41000,
         field: 'construction',
-        promotion: 'none'
+        promotion: 'none',
+        buff(player){
+            player.skills.handiness.xp += 5 + Math.floor(Math.random() * 20);
+        }
     },
     {
         label: 'Apprentice construction worker',
@@ -231,7 +288,10 @@ const jobs = [
         },
         salary: 30000,
         field: 'construction',
-        promotion: 'Construction worker'
+        promotion: 'Construction worker',
+        buff(player){
+            player.skills.handiness.xp += 5 + Math.floor(Math.random() * 20);
+        }
     },
     {
         label: 'Construction worker',
@@ -241,7 +301,10 @@ const jobs = [
         },
         salary: 40000,
         field: 'construction',
-        promotion: 'none'
+        promotion: 'none',
+        buff(player){
+            player.skills.handiness.xp += 5 + Math.floor(Math.random() * 20);
+        }
     },
     {
         label: 'Police officer',
@@ -252,7 +315,10 @@ const jobs = [
         },
         salary: 55000,
         field: 'lawEnforcement',
-        promotion: 'none'
+        promotion: 'none',
+        buff(player){
+            return
+        }
     },
     {
         label: 'Barber',
@@ -263,7 +329,10 @@ const jobs = [
         },
         salary: 24000,
         field: 'smallBussiness',
-        promotion: 'none'
+        promotion: 'none',
+        buff(player){
+            return
+        }
     },
     {
         label: 'Apprentice pediatrician',
@@ -273,7 +342,10 @@ const jobs = [
         },
         salary: 50000,
         field: 'medicine',
-        promotion: 'Pediatrician'
+        promotion: 'Pediatrician',
+        buff(player){
+            return
+        }
     },
     {
         label:'Pediatrician',
@@ -284,6 +356,9 @@ const jobs = [
         },
         salary: 75000,
         field: 'medicine',
-        promotion: 'none'
+        promotion: 'none',
+        buff(player){
+            return
+        }
     }
 ];
