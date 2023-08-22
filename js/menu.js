@@ -446,7 +446,7 @@ const menu = {
 
 
 
-windows = {
+const windows = {
     suicide: {
         display() {
             if (player.age < 5) return
@@ -1796,7 +1796,7 @@ windows = {
 
             if (player.currentEducation === 'university') {
                 return showEvent({
-                    title: 'University', 
+                    title: 'University',
                     body: `
                     <p>You are already studying in the university</p>
                     <div class="option" onclick="closeEvent()">Close</div>
@@ -1841,15 +1841,15 @@ windows = {
                     const decision = e.target.getAttribute('data-label')
                     if (decision === 'yes') {
                         const chosenCareer = document.getElementById('career-selector').value
-                        player.currentCareer = Object.assign({studying: true}, universityCareers[chosenCareer]);
+                        player.currentCareer = Object.assign({ studying: true }, universityCareers[chosenCareer]);
                         player.currentCareer.paidBy = paidBy;
                         player.currentEducation = 'university';
                         player.currentCareer.yearsStudied = 0
-                        if(!payer) {
+                        if (!payer) {
                             // add loan later
                             return closeEvent()
                         }
-                        if (payer.characterIndex === player.characterIndex){
+                        if (payer.characterIndex === player.characterIndex) {
                             payer.money.expenses += 6000
                         }
                         player.currentCareer.yearsStudied = 0;
@@ -2137,7 +2137,7 @@ windows = {
         cinema: {
             display() {
                 if (player.age < 12) return
-                
+
                 showEvent({
                     title: 'Cinema',
                     body: `
@@ -2170,7 +2170,7 @@ windows = {
         restaurant: {
             display() {
                 if (player.age < 12) return
-                
+
                 showEvent({
                     title: 'Restaurant',
                     body: `
@@ -2184,19 +2184,23 @@ windows = {
                 if (player.money.total >= money) {
                     player.money.total -= money;
                     player.stats.happiness += 3;
-                    eventTitle.innerText = 'Restaurant';
-                    eventBody.innerHTML = `
+                    showEvent({
+                        title: "Restaurant",
+                        body: `
                         <h3>You paid the restaurant</h3>
                         <div class="option" onclick="closeEvent()">Nice</div>
-                        `;
+                        `
+                    })
                     textContainer.innerHTML += `<p>I went to a restaurant</p>`
                     moneyViewer()
                 } else {
-                    eventTitle.innerText = 'Restaurant';
-                    eventBody.innerHTML = `
+                    showEvent({
+                        title: "Restaurant",
+                        body: `
                         <h3>You do not have enough money</h3>
                         <div class="option" onclick="closeEvent()">...</div>
-                        `;
+                        `
+                    })
                 }
             }
         },
@@ -2215,22 +2219,28 @@ windows = {
                 `
                 handleStatBars(player, true)
                 if (possibilities <= 1)
-                    eventBody.innerHTML = `
-                    <p>You had fun at the club</p>
-                    <div class="option" onclick="closeEvent()">Close</div>
-                    `
+                    showEvent({
+                        title: "Go clubbing",
+                        body: `
+                        <p>You had fun at the club</p>
+                        <div class="option" onclick="closeEvent()">Close</div>
+                        `
+                    })
                 else if (possibilities === 2) {
                     const drinks = items.alcoholic
                     // const drinks = ['beer', 'wine', 'vodka']
                     const random = Math.floor(Math.random() * drinks.length)
                     const drink = drinks[random].label.toLowerCase()
-                    eventBody.innerHTML = `
-                    <p>You have been offered a ${drinks[random]}</p>
-                    <div class="option" onclick="windows.goClubbing.acceptDrink('${drinks[random]}')">Accept</div>
+                    showEvent({
+                        title: "Go clubbing",
+                        body: `
+                        <p>You have been offered a ${drink}</p>
+                        <div class="option" onclick="windows.freetime.goClubbing.acceptDrink('${drink}')">Accept</div>
     
-                    <div class="option" onclick="windows.goClubbing.decline()">Refuse</div>
+                        <div class="option" onclick="windows.freetime.goClubbing.decline()">Refuse</div>
                     `
-                    textContainer.innerHTML += `<p>I have been offered a ${drinks[random]}</p>`
+                    })
+                    textContainer.innerHTML += `<p>I have been offered a ${drink}</p>`
                 }
                 else if (possibilities === 3) {
                     const drugs = [
@@ -2255,11 +2265,14 @@ windows = {
                     const drug = drugs[random]
 
                     textContainer.innerHTML += `<p>I have been offered ${drug.name}</p>`
-                    eventBody.innerHTML = `
-                    <p>You have been offered ${drug.name}</p>
-                    <div class="option" onclick="windows.goClubbing.acceptDrug(${drug.damage})">Accept</div>
-                    <div class="option" onclick="windows.goClubbing.decline()">Refuse</div>
-                    `
+                    showEvent({
+                        title: "Go clubbing",
+                        body: `
+                        <p>You have been offered ${drug.name}</p>
+                        <div class="option" onclick="windows.freetime.goClubbing.acceptDrug(${drug.damage})">Accept</div>
+                        <div class="option" onclick="windows.freetime.goClubbing.decline()">Refuse</div>
+                        `
+                    })
                 }
             },
             acceptDrink(drink) {
