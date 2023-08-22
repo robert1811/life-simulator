@@ -82,7 +82,8 @@ class Person {
 
     money = {
         expenses: 0,
-        income: 0
+        income: 0,
+        total: 0
     }
 
     get fullName() {

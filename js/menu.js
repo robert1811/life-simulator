@@ -696,7 +696,9 @@ const windows = {
                 title: 'Money',
                 body: `
                 <p><b>Total money: </b>${moneyFormat(player.money.total)} $</p>
-                <p><b>Income: </b>${moneyFormat(player.money.income - player.money.expenses)} $</p>
+                <p><b>Income: </b>${moneyFormat(player.money.income)} $</p>
+                <p><b>Expenses: </b>${moneyFormat(player.money.expenses)} $</p>
+                <p><b>Balance: </b>${moneyFormat(player.money.income - player.money.expenses)} $</p>
                 <div class="option" onclick="closeEvent()">Close</div>
                 `
             })
